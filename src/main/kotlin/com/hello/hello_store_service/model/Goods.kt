@@ -23,6 +23,7 @@ data class Goods(
     val soldNum: Int,
     val isPutOnSale: Int,
     val categoryIds: List<String>,
+    val groupIdList: List<String>,
     val specList: List<Spec>,
     val skuList: List<Sku>,
     val spuTagList: List<SpuTag>,
