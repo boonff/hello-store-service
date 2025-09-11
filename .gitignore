@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Person Ignore ###
+application-bromine.properties
