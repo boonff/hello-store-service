@@ -14,7 +14,7 @@ data class Goods(
     val primaryImage: String,
     val images: List<String>,
     val video: String? = null,
-    val available: Int,
+    val available: Int? = null,
     val minSalePrice: Int,
     val minLinePrice: Int,
     val maxSalePrice: Int,
@@ -22,12 +22,12 @@ data class Goods(
     val spuStockQuantity: Int,
     val soldNum: Int,
     val isPutOnSale: Int,
-    val categoryIds: List<String>,
-    val groupIdList: List<String>,
+    val categoryIds: List<String>?=emptyList(),
+    val groupIdList: List<String>? = emptyList(),
     val specList: List<Spec>,
     val skuList: List<Sku>,
     val spuTagList: List<SpuTag>,
-    val limitInfo: List<LimitInfo>,
+    val limitInfo: List<LimitInfo>?=null,
     val desc: List<String>,
     val etitle: String
 )
@@ -48,11 +48,11 @@ data class SpecValue(
 
 data class Sku(
     val skuId: String,
-    val skuImage: String,
+    val skuImage: String? = null,
     val specInfo: List<SpecInfo>,
     val priceInfo: List<PriceInfo>,
     val stockInfo: StockInfo,
-    val weight: Weight,
+    val weight: Weight? = null,
     val volume: Any? = null,
     val profitPrice: Int? = null
 )
@@ -82,7 +82,7 @@ data class Weight(
 )
 
 data class SpuTag(
-    val id: String,
+    val id: String? = null,
     val title: String,
     val image: String? = null
 )
