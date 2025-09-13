@@ -14,4 +14,5 @@ interface GoodsRepository : MongoRepository<Goods, String>, GoodsRepositoryCusto
 
 interface GoodsRepositoryCustom{
     fun updateGoods(spuId: String, goods: Goods):Goods
+    fun findByRange(pageIndex:Int, pageSize:Int):List<Goods>
 }

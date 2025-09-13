@@ -28,6 +28,15 @@ class GoodsController(
         return goodsService.findAllGoods()
     }
 
+    // 查询区间内的商品
+    @GetMapping("/range")
+    fun getRangeGoods(
+        @RequestParam("pageIndex") pageIndex:Int,
+        @RequestParam("pageSize") pageSize:Int
+    ):List<Goods>{
+        return goodsService.findByRange(pageIndex, pageSize)
+    }
+
     // 根据关键字搜索商品
     @GetMapping("/search")
     fun searchGoods(@RequestParam keyword: String): List<Goods> {

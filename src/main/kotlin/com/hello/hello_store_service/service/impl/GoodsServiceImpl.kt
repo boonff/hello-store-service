@@ -17,6 +17,10 @@ class GoodsServiceImpl(
         return goodsRepository.findAll()
     }
 
+    override fun findByRange(pageIndex: Int, pageSize: Int): List<Goods> {
+        return goodsRepository.findByRange(pageIndex, pageSize)
+    }
+
     override fun findBySpuId(supId: String): Goods? {
         return goodsRepository.findBySpuId(supId)
     }

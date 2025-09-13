@@ -26,4 +26,14 @@ class GoodsRepositoryCustomImpl() : GoodsRepositoryCustom {
         return mongoTemplate.findOne(query, Goods::class.java)!!
     }
 
+    override fun findByRange(
+        pageIndex: Int,
+        pageSize: Int
+    ): List<Goods> {
+        val query = Query()
+        query.skip((pageIndex * pageSize).toLong())
+        query.limit(pageSize)
+        return mongoTemplate.find(query, Goods::class.java)
+    }
+
 }
