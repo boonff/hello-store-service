@@ -28,12 +28,22 @@ class CommentsServiceImpl(private val commentsRepository: CommentsRepository) : 
         return commentsRepository.findByRange(spuId, pageIndex, pageSize)
     }
 
+    override fun findDetail(
+        spuId: String,
+        pageIndex: Int,
+        pageSize: Int,
+        hasImage: Boolean,
+        commentLevel: Int
+    ): List<Comments> {
+        return commentsRepository.findDetail(spuId, pageIndex, pageSize, hasImage, commentLevel)
+    }
+
     override fun findRandomTop(
         spuId: String,
         randomSize: Int,
         selectSize: Int
     ): List<Comments> {
-        return commentsRepository.findRandomTopComments(spuId, randomSize, selectSize)
+        return commentsRepository.findRandomTop(spuId, randomSize, selectSize)
     }
 
     override fun getCommentsCount(spuId: String): CommentCount {
@@ -45,7 +55,7 @@ class CommentsServiceImpl(private val commentsRepository: CommentsRepository) : 
         val middleCount = comments.count { it.commentScore == 3 }
         val badCount = comments.count { it.commentScore <= 2 }
         val hasImageCount = comments.count { it.commentResources.isNotEmpty() }
-        val uidCount = comments.map { it.uid }.distinct().size
+        val uidCount = comments.map { it.uid }.distinct().size //TODO 改为当前用户自己的评论数量
 
         val goodRate = if (commentCount > 0) {
             goodCount * 100.0 / commentCount

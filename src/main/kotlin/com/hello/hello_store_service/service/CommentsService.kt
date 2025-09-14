@@ -7,6 +7,7 @@ interface CommentsService {
     fun findAll(): List<Comments>
     fun findBySpuId(spuId: String): List<Comments>
     fun findByRange(spuId: String, pageIndex: Int, pageSize: Int): List<Comments>
+    fun findDetail(spuId: String, pageIndex: Int, pageSize: Int, hasImage: Boolean, commentLevel: Int): List<Comments>
     fun findRandomTop(spuId: String, randomSize: Int, selectSize: Int): List<Comments>
-    fun getCommentsCount(spuId:String): CommentCount
+    fun getCommentsCount(spuId: String): CommentCount
 }

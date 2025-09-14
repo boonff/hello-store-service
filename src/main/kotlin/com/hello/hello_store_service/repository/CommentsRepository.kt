@@ -11,5 +11,6 @@ interface CommentsRepository : MongoRepository<Comments, String>, CommentsReposi
 
 interface CommentsRepositoryCustom {
     fun findByRange(spuId: String, pageIndex: Int, pageSize: Int): List<Comments>
-    fun findRandomTopComments(spuId: String, randomSize: Int, selectSize: Int): List<Comments>
+    fun findDetail(spuId: String, pageIndex: Int, pageSize: Int, hasImage: Boolean, commentLevel: Int): List<Comments>
+    fun findRandomTop(spuId: String, randomSize: Int, selectSize: Int): List<Comments>
 }
