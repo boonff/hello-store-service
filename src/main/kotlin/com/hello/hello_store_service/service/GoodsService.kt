@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service
 
-import com.hello.hello_store_service.model.Goods
+import com.hello.hello_store_service.model.entity.Goods
 
 interface GoodsService {
     fun searchGoods(keyword: String): List<Goods>

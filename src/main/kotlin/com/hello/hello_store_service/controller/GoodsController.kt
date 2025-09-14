@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.controller
 
-import com.hello.hello_store_service.model.Goods
+import com.hello.hello_store_service.model.entity.Goods
 import com.hello.hello_store_service.service.FileService
 import com.hello.hello_store_service.service.GoodsService
 import org.springframework.web.bind.annotation.DeleteMapping

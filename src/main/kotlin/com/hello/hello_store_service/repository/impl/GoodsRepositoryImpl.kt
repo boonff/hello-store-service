@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.repository.impl
 
-import com.hello.hello_store_service.model.Goods
+import com.hello.hello_store_service.model.entity.Goods
 import com.hello.hello_store_service.repository.GoodsRepositoryCustom
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate

@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service.impl
 
-import com.hello.hello_store_service.model.Goods
+import com.hello.hello_store_service.model.entity.Goods
 import com.hello.hello_store_service.repository.GoodsRepository
 import com.hello.hello_store_service.service.GoodsService
 import org.springframework.stereotype.Service
