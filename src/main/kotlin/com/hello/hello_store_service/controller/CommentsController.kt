@@ -26,6 +26,17 @@ class CommentsController(
         return commentsService.findBySpuId(spuId)
     }
 
+    @GetMapping("/detail")
+    fun getRangeComments(
+        @RequestParam("spuId") spuId: String,
+        @RequestParam("pageIndex") pageIndex: Int,
+        @RequestParam("pageSize") pageSize: Int,
+        @RequestParam("hasImage") hasImage: Boolean,
+        @RequestParam("commentLevel") commentLevel: Int
+    ): List<Comments> {
+        return commentsService.findDetail(spuId, pageIndex, pageSize, hasImage, commentLevel)
+    }
+
     @GetMapping("/range")
     fun getRangeComments(
         @RequestParam("spuId") spuId: String,
