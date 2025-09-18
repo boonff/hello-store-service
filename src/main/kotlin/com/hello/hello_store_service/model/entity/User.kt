@@ -12,6 +12,7 @@ data class User(
     @Id
     val id: String? = null,
 
+    val username: String,
     val nickName: String,
     val avatarUrl: String,
     val phoneNumber: String,
@@ -31,7 +32,7 @@ data class User(
 )
 
 enum class UserType {
-    NORMAL,
+    ADMIN,
     MERCHANT,
     SELLER
 }

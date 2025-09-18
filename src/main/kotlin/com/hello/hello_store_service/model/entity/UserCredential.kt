@@ -7,7 +7,7 @@ import java.time.Instant
 @Document(collection = "user_credentials")
 data class UserCredential(
     @Id
-    val id: String? = null,
+    val userId: String? = null,
     val passwordHash: String,
     val salt: String? = null,
     val createdAt: Instant = Instant.now(),
