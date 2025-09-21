@@ -6,7 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "app_config")
 data class AppConfig(
     @Id
-    val id: String = "appConfig",
+    val id: String? = null,
+    val configId: String = "appConfig",
     val customerService: CustomerService
 )
 

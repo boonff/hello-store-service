@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AppConfigRepository : MongoRepository<AppConfig, String>
+interface AppConfigRepository : MongoRepository<AppConfig, String> {
+    fun findByConfigId(configId: String): AppConfig?
+}
