@@ -21,9 +21,9 @@ data class User(
 
     val merchantInfo: MerchantInfo? = null, // 只有商家/卖家才有
 
-    val counts: List<Count> = emptyList(),
+    val countData: List<CountData> = emptyList(),
 
-    val orderStats: List<OrderStat> = emptyList(),
+    val orderTagInfo: List<OrderTagInfo> = emptyList(),
 
     val customerService: CustomerService? = null,
 
@@ -43,12 +43,13 @@ data class MerchantInfo(
     val licenseNumber: String
 )
 
-data class Count(
-    val type: String, // point / coupon
+data class CountData(
+    val type: String,
+    val name: String,
     val num: Int
 )
 
-data class OrderStat(
+data class OrderTagInfo(
     val tabType: Int,
     val orderNum: Int
 )

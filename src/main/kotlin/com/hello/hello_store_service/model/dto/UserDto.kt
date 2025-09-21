@@ -11,9 +11,8 @@ data class UserDto(
     val gender: Int,
     val userType: UserType,
     val merchantInfo: MerchantInfoDto? = null,
-    val counts: List<CountDto> = emptyList(),
-    val orderStats: List<OrderStatDto> = emptyList(),
-    val customerService: CustomerServiceDto? = null,
+    val countData: List<CountDataDto> = emptyList(),
+    val orderTagInfo: List<OrderTagInfoDto> = emptyList(),
     val createdAt: Long,
     val updatedAt: Long
 ) {
@@ -28,9 +27,8 @@ data class UserDto(
                 gender = user.gender,
                 userType = user.userType,
                 merchantInfo = user.merchantInfo?.let { MerchantInfoDto.from(it) },
-                counts = user.counts.map { CountDto.from(it) },
-                orderStats = user.orderStats.map { OrderStatDto.from(it) },
-                customerService = user.customerService?.let { CustomerServiceDto.from(it) },
+                countData = user.countData.map { CountDataDto.from(it) },
+                orderTagInfo = user.orderTagInfo.map { OrderTagInfoDto.from(it) },
                 createdAt = user.createdAt.toEpochMilli(),
                 updatedAt = user.updatedAt.toEpochMilli()
             )
@@ -52,32 +50,21 @@ data class MerchantInfoDto(
     }
 }
 
-data class CountDto(
+data class CountDataDto(
     val type: String,
+    val name: String,
     val num: Int
 ) {
     companion object {
-        fun from(count: Count) = CountDto(type = count.type, num = count.num)
+        fun from(countData: CountData) = CountDataDto(type = countData.type, name = countData.name, num = countData.num)
     }
 }
 
-data class OrderStatDto(
+data class OrderTagInfoDto(
     val tabType: Int,
     val orderNum: Int
 ) {
     companion object {
-        fun from(stat: OrderStat) = OrderStatDto(tabType = stat.tabType, orderNum = stat.orderNum)
-    }
-}
-
-data class CustomerServiceDto(
-    val servicePhone: String,
-    val serviceTimeDuration: String
-) {
-    companion object {
-        fun from(service: CustomerService) = CustomerServiceDto(
-            servicePhone = service.servicePhone,
-            serviceTimeDuration = service.serviceTimeDuration
-        )
+        fun from(stat: OrderTagInfo) = OrderTagInfoDto(tabType = stat.tabType, orderNum = stat.orderNum)
     }
 }
