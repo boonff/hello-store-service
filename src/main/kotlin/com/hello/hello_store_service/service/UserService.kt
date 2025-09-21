@@ -1,17 +1,64 @@
 package com.hello.hello_store_service.service
 
 import com.hello.hello_store_service.model.entity.User
+import com.hello.hello_store_service.model.entity.UserCredential
 import com.hello.hello_store_service.model.entity.UserType
+import com.hello.hello_store_service.repository.UserCredentialRepository
+import com.hello.hello_store_service.repository.UserRepository
+import org.springframework.security.crypto.bcrypt.BCrypt
+import org.springframework.stereotype.Service
 
-interface UserService {
-    fun findByUsername(username: String): User?
-    fun register(
+@Service
+class UserService(
+    private val userRepository: UserRepository,
+    private val userCredentialRepository: UserCredentialRepository
+)  {
+     fun findByUsername(username: String): User? {
+        return userRepository.findByUsername(username)
+    }
+
+    // 注册用户
+     fun register(
         phoneNumber: String,
         username: String,
         nickName: String,
         password: String,
         userType: UserType
-    ): User
+    ): User {
+        if (userRepository.findByUsername(username) != null) {
+            throw IllegalArgumentException("用户名已存在")
+        }
 
-    fun validateLogin(username: String, password: String): Boolean
+        // 先创建用户基础信息
+        val user = User(
+            phoneNumber = phoneNumber,
+            username = username,
+            nickName = nickName,
+            gender = 0,
+            avatarUrl = "",
+            userType = userType,
+        )
+        val savedUser = userRepository.save(user)
+
+        // 创建用户凭证
+        val salt = BCrypt.gensalt()
+        val passwordHash = BCrypt.hashpw(password, salt)
+
+        val credential = UserCredential(
+            userId = savedUser.id!!,   // 使用用户 ID 作为关联
+            passwordHash = passwordHash,
+            salt = salt
+        )
+        userCredentialRepository.save(credential)
+
+        return savedUser
+    }
+
+     fun validateLogin(username: String, password: String): Boolean {
+        val user = userRepository.findByUsername(username) ?: return false
+
+        val credential = userCredentialRepository.findByUserId(user.id!!) ?: return false
+
+        return BCrypt.checkpw(password, credential.passwordHash)
+    }
 }
