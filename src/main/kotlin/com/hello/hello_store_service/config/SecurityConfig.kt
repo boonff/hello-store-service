@@ -15,7 +15,7 @@ class SecurityConfig {
         http
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
-                auth.requestMatchers("/auth/**", "/goods/**").permitAll() // 登录注册放行
+                auth.requestMatchers("/auth/**", "/goods/**", "/comments/**").permitAll() // 登录注册放行
                     .anyRequest().authenticated() // 其他接口需要认证
             }
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
