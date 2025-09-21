@@ -52,8 +52,3 @@ data class OrderStat(
     val tabType: Int,
     val orderNum: Int
 )
-
-data class CustomerService(
-    val servicePhone: String,
-    val serviceTimeDuration: String
-)
