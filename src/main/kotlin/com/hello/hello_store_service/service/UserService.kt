@@ -18,13 +18,13 @@ class UserService(
     private val userRepository: UserRepository,
     private val userCredentialRepository: UserCredentialRepository,
     private val mongoTemplate: MongoTemplate
-)  {
-     fun findByUsername(username: String): User? {
+) {
+    fun findByUsername(username: String): User? {
         return userRepository.findByUsername(username)
     }
 
     // 注册用户
-     fun register(
+    fun register(
         phoneNumber: String,
         username: String,
         nickName: String,
@@ -60,7 +60,7 @@ class UserService(
         return savedUser
     }
 
-     fun validateLogin(username: String, password: String): Boolean {
+    fun validateLogin(username: String, password: String): Boolean {
         val user = userRepository.findByUsername(username) ?: return false
 
         val credential = userCredentialRepository.findByUserId(user.id!!) ?: return false
@@ -80,6 +80,15 @@ class UserService(
         val query = Query(Criteria.where("username").`is`(username))
         val update = Update()
             .set("nickName", newNickName)
+            .set("updatedAt", Instant.now())
+        mongoTemplate.updateFirst(query, update, User::class.java)
+    }
+
+    fun updateGender(username: String, newGender: Int) {
+        val query = Query(Criteria.where("username").`is`(username))
+
+        val update = Update()
+            .set("gender", newGender)
             .set("updatedAt", Instant.now())
         mongoTemplate.updateFirst(query, update, User::class.java)
     }

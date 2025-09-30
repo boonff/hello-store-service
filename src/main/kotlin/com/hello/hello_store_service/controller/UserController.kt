@@ -5,6 +5,7 @@ import com.hello.hello_store_service.model.dto.UserDto
 import com.hello.hello_store_service.security.JwtService
 import com.hello.hello_store_service.service.FileService
 import com.hello.hello_store_service.service.UserService
+import com.hello.hello_store_service.util.SecurityUtils
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/user")
 class UserController(
     private val userService: UserService,
-    private val jwtService: JwtService,
     private val fileService: FileService,
     private val minioProperties: MinioProperties
 ) {
@@ -36,15 +36,26 @@ class UserController(
     fun uploadAvatar(@RequestPart("file") file: MultipartFile): ResponseEntity<Map<String, String>> {
         val authentication = SecurityContextHolder.getContext().authentication
         val username = authentication.name
-        val user = userService.findByUsername(username)
-            ?: return ResponseEntity.notFound().build()
 
-        val objectName = "avatars/${file.originalFilename}"
         val avatarUrl = fileService.uploadFile(file, bucket = minioProperties.bucket)
-
 
         userService.updateAvatar(username, avatarUrl)
 
         return ResponseEntity.ok(mapOf("url" to avatarUrl))
+    }
+
+    //修改昵称
+    @PostMapping("/nickName")
+    fun updateNickName(@RequestBody nickName: String) {
+        val username = SecurityUtils.currentUsername()
+        userService.updateNickName(username, nickName)
+    }
+
+    //修改性别
+    data class GenderRequest(val gender: Int)
+    @PostMapping("/gender")
+    fun updateGender(@RequestBody request: GenderRequest) {
+        val username = SecurityUtils.currentUsername()
+        userService.updateGender(username, request.gender)
     }
 }
