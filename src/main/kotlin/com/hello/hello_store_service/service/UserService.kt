@@ -5,13 +5,19 @@ import com.hello.hello_store_service.model.entity.UserCredential
 import com.hello.hello_store_service.model.entity.UserType
 import com.hello.hello_store_service.repository.UserCredentialRepository
 import com.hello.hello_store_service.repository.UserRepository
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
+import org.springframework.data.mongodb.core.query.Update
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val userCredentialRepository: UserCredentialRepository
+    private val userCredentialRepository: UserCredentialRepository,
+    private val mongoTemplate: MongoTemplate
 )  {
      fun findByUsername(username: String): User? {
         return userRepository.findByUsername(username)
@@ -60,5 +66,21 @@ class UserService(
         val credential = userCredentialRepository.findByUserId(user.id!!) ?: return false
 
         return BCrypt.checkpw(password, credential.passwordHash)
+    }
+
+    fun updateAvatar(username: String, newAvatarUrl: String) {
+        val query = Query(Criteria.where("username").`is`(username))
+        val update = Update()
+            .set("avatarUrl", newAvatarUrl)
+            .set("updatedAt", Instant.now())
+        mongoTemplate.updateFirst(query, update, User::class.java)
+    }
+
+    fun updateNickName(username: String, newNickName: String) {
+        val query = Query(Criteria.where("username").`is`(username))
+        val update = Update()
+            .set("nickName", newNickName)
+            .set("updatedAt", Instant.now())
+        mongoTemplate.updateFirst(query, update, User::class.java)
     }
 }
