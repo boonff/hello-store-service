@@ -65,7 +65,6 @@ class GoodsService(
             spuTagList = spuTagList,
             categoryIds = categoryIds,
             groupIdList = groupIdList,
-            isPutOnSale = isPutOnSale
         )
 
         return goodsRepository.save(goods)
