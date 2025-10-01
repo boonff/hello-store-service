@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.controller
 
-import com.hello.hello_store_service.model.dto.CommentCount
-import com.hello.hello_store_service.model.entity.Comments
+import com.hello.hello_store_service.model.dto.comment.CommentCount
+import com.hello.hello_store_service.model.entity.comment.Comments
 import com.hello.hello_store_service.service.CommentsService
 import com.hello.hello_store_service.service.FileService
 import org.springframework.web.bind.annotation.GetMapping

@@ -1,10 +1,10 @@
 package com.hello.hello_store_service.service
 
-import com.hello.hello_store_service.model.entity.User
-import com.hello.hello_store_service.model.entity.UserCredential
-import com.hello.hello_store_service.model.entity.UserType
-import com.hello.hello_store_service.repository.UserCredentialRepository
-import com.hello.hello_store_service.repository.UserRepository
+import com.hello.hello_store_service.model.entity.user.User
+import com.hello.hello_store_service.model.entity.user.UserCredential
+import com.hello.hello_store_service.model.entity.user.UserType
+import com.hello.hello_store_service.repository.user.UserCredentialRepository
+import com.hello.hello_store_service.repository.user.UserRepository
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query

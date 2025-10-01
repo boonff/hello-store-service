@@ -1,8 +1,8 @@
 package com.hello.hello_store_service.service
 
-import com.hello.hello_store_service.model.dto.CommentCount
-import com.hello.hello_store_service.model.entity.Comments
-import com.hello.hello_store_service.repository.CommentsRepository
+import com.hello.hello_store_service.model.dto.comment.CommentCount
+import com.hello.hello_store_service.model.entity.comment.Comments
+import com.hello.hello_store_service.repository.comment.CommentsRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

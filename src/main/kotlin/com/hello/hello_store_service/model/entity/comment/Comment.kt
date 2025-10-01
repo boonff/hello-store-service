@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.model.entity
+package com.hello.hello_store_service.model.entity.comment
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document

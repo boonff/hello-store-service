@@ -1,6 +1,6 @@
-package com.hello.hello_store_service.model.dto
+package com.hello.hello_store_service.model.dto.user
 
-import com.hello.hello_store_service.model.entity.UserType
+import com.hello.hello_store_service.model.entity.user.UserType
 
 data class LoginRequest(
     val username: String,

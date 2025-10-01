@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.model.entity
+package com.hello.hello_store_service.model.entity.activity
 
 import com.hello.hello_store_service.model.common.ProductCondition
 import org.springframework.data.mongodb.core.mapping.Document

@@ -1,6 +1,10 @@
-package com.hello.hello_store_service.model.dto
+package com.hello.hello_store_service.model.dto.user
 
-import com.hello.hello_store_service.model.entity.*
+import com.hello.hello_store_service.model.entity.user.CountData
+import com.hello.hello_store_service.model.entity.user.MerchantInfo
+import com.hello.hello_store_service.model.entity.user.OrderTagInfo
+import com.hello.hello_store_service.model.entity.user.User
+import com.hello.hello_store_service.model.entity.user.UserType
 
 data class UserDto(
     val username: String,

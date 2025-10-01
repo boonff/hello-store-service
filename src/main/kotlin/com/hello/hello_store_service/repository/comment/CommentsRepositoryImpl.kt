@@ -1,7 +1,6 @@
-package com.hello.hello_store_service.repository.impl
+package com.hello.hello_store_service.repository.comment
 
-import com.hello.hello_store_service.model.entity.Comments
-import com.hello.hello_store_service.repository.CommentsRepositoryCustom
+import com.hello.hello_store_service.model.entity.comment.Comments
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
