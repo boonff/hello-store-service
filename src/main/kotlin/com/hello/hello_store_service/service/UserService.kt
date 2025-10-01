@@ -19,7 +19,7 @@ class UserService(
     private val userCredentialRepository: UserCredentialRepository,
     private val mongoTemplate: MongoTemplate
 ) {
-    fun findByUsername(username: String): User? {
+    fun getUser(username: String): User? {
         return userRepository.findByUsername(username)
     }
 

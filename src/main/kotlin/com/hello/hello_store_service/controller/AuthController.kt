@@ -2,7 +2,6 @@ package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.model.dto.LoginRequest
 import com.hello.hello_store_service.model.dto.RegisterRequest
-import com.hello.hello_store_service.model.dto.UserDto
 import com.hello.hello_store_service.security.JwtService
 import com.hello.hello_store_service.service.UserService
 import org.springframework.http.HttpStatus
@@ -21,7 +20,7 @@ class AuthController(
 
     @PostMapping("/login")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<Map<String, String>> {
-        val user = userService.findByUsername(request.username)
+        val user = userService.getUser(request.username)
         return if (user != null && userService.validateLogin(request.username, request.password)) {
             val token = jwtService.generateToken(user.username, listOf(user.userType.name))
 

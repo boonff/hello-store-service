@@ -2,7 +2,6 @@ package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.config.MinioProperties
 import com.hello.hello_store_service.model.dto.UserDto
-import com.hello.hello_store_service.security.JwtService
 import com.hello.hello_store_service.service.FileService
 import com.hello.hello_store_service.service.UserService
 import com.hello.hello_store_service.util.SecurityUtils
@@ -25,7 +24,7 @@ class UserController(
         val authentication = SecurityContextHolder.getContext().authentication
         val username = authentication.name
 
-        val user = userService.findByUsername(username)
+        val user = userService.getUser(username)
             ?: return ResponseEntity.notFound().build()
 
         return ResponseEntity.ok(UserDto.from(user))
