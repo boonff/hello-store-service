@@ -1,6 +1,6 @@
-package com.hello.hello_store_service.repository
+package com.hello.hello_store_service.repository.goods
 
-import com.hello.hello_store_service.model.entity.Goods
+import com.hello.hello_store_service.model.entity.goods.Goods
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
@@ -9,6 +9,7 @@ interface GoodsRepository : MongoRepository<Goods, String>, GoodsRepositoryCusto
     // 自定义查询方法（基于命名规则）
     fun findByTitleContaining(keyword: String): List<Goods>
     fun findBySpuId(spuId: String): Goods?
+    fun findBySaasIdAndSpuId(saasId: String, spuId: String): Goods?
     fun findByCategoryIdsContaining(categoryId: String): List<Goods>
     fun findAllBySpuIdIn(spuIds: List<String>): List<Goods>
 }

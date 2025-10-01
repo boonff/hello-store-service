@@ -1,6 +1,7 @@
 package com.hello.hello_store_service.controller
 
-import com.hello.hello_store_service.model.entity.Goods
+import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.service.FileService
 import com.hello.hello_store_service.service.GoodsService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -21,7 +22,6 @@ class GoodsController(
     private val goodsService: GoodsService,
     private val fileService: FileService,
 ) {
-
     // 查询所有商品
     @GetMapping
     fun getAllGoods(): List<Goods> {
@@ -31,9 +31,9 @@ class GoodsController(
     // 查询区间内的商品
     @GetMapping("/range")
     fun getRangeGoods(
-        @RequestParam("pageIndex") pageIndex:Int,
-        @RequestParam("pageSize") pageSize:Int
-    ):List<Goods>{
+        @RequestParam("pageIndex") pageIndex: Int,
+        @RequestParam("pageSize") pageSize: Int
+    ): List<Goods> {
         return goodsService.findByRange(pageIndex, pageSize)
     }
 
@@ -49,48 +49,33 @@ class GoodsController(
         return goodsService.findBySpuId(spuId)
     }
 
-    // 新增商品
     @PostMapping("/create")
     fun createGoods(
-        @RequestParam("title") title: String,
-        @RequestParam("primaryImage") primaryImage: MultipartFile,
-        @RequestParam("images") images: List<MultipartFile>,
-        @RequestParam("desc") desc: List<MultipartFile>
+        @RequestParam title: String,
+        @RequestParam etitle: String,
+        @RequestParam primaryImage: MultipartFile,
+        @RequestParam images: List<MultipartFile>,
+        @RequestParam desc: List<MultipartFile>,
+        @RequestParam(required = false) spuTagList: List<SpuTag> = emptyList(),
+        @RequestParam(required = false) categoryIds: List<String> = emptyList(),
+        @RequestParam(required = false) groupIdList: List<String> = emptyList(),
+        @RequestParam(required = false, defaultValue = "1") isPutOnSale: Int
     ): Goods {
-        // 上传主图
-        val primaryUrl = fileService.uploadFile(primaryImage)
-
-        // 上传轮播图
-        val imagesUrl = images.map { fileService.uploadFile(it) }
-
-        // 上传详情图
-        val descUrl = desc.map { fileService.uploadFile(it) }
-
-        val goods = Goods(
+        return goodsService.createGoods(
             saasId = "88888888",
             storeId = "1000",
-            spuId = "0",
             title = title,
-            primaryImage = primaryUrl,
-            images = imagesUrl,
-            video = null,
-            minSalePrice = 1000,
-            minLinePrice = 1200,
-            maxSalePrice = 2000,
-            maxLinePrice = 2200,
-            spuStockQuantity = 100,
-            soldNum = 0,
-            isPutOnSale = 1,
-            specList = emptyList(),
-            skuList = emptyList(),
-            spuTagList = emptyList(),
-            limitInfo = null,
-            desc = descUrl,
-            etitle = ""
+            etitle = etitle,
+            primaryImage = primaryImage,
+            images = images,
+            desc = desc,
+            spuTagList = spuTagList,
+            categoryIds = categoryIds,
+            groupIdList = groupIdList,
+            isPutOnSale = isPutOnSale
         )
-
-        return goodsService.createGoods(goods)
     }
+
 
     // 更新商品
     @PutMapping("/{spuId}")
