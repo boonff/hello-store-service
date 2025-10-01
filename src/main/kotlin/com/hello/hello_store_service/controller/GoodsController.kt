@@ -1,9 +1,11 @@
 package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.service.file.FileService
 import com.hello.hello_store_service.service.goods.GoodsService
+import com.hello.hello_store_service.service.goods.SkuService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/goods")
 class GoodsController(
     private val goodsService: GoodsService,
+    private val skuService: SkuService,
     private val fileService: FileService,
 ) {
     // 查询所有商品
@@ -74,6 +77,18 @@ class GoodsController(
             groupIdList = groupIdList,
             isPutOnSale = isPutOnSale
         )
+    }
+
+    // 根据supId获取sku
+    @GetMapping("/{spuId}/skus")
+    fun getSkusBySpuId(@PathVariable spuId: String): List<Sku> {
+        return skuService.getSkusBySpuId(spuId)
+    }
+
+    // 批量获取多个商品的 SKU
+    @GetMapping("/skus")
+    fun getSkusBySpuIds(@RequestParam spuIds: List<String>): List<Sku> {
+        return skuService.getSkusBySpuIds(spuIds)
     }
 
 

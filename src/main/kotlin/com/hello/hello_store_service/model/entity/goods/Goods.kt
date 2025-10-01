@@ -19,8 +19,10 @@ data class Goods(
     val groupIdList: List<String>? = emptyList(), // 分组
     val spuTagList: List<SpuTag> = emptyList(),   // 标签
     val desc: List<String> = emptyList(),         // 商品描述（图文详情）
-    val isPutOnSale: Int = 1,                // 是否上架
-    val available: Int? = null               // 是否可售
+    val available: Int? = null,               // 是否可售
+    val minSalePrice: Int? = null,            // 最低参考售价（分）
+    val maxSalePrice: Int? = null,             // 最高参考售价（分）
+    val maxLinePrice: Int? = null
 )
 
 data class SpuTag(
