@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.service
+package com.hello.hello_store_service.service.file
 
 import io.minio.MinioClient
 import io.minio.PutObjectArgs
@@ -6,7 +6,6 @@ import io.minio.RemoveObjectArgs
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
-
 
 @Service
 class FileService(private val minioClient: MinioClient) {

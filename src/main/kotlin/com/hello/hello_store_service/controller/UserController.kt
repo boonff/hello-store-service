@@ -2,8 +2,8 @@ package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.config.MinioProperties
 import com.hello.hello_store_service.model.dto.user.UserDto
-import com.hello.hello_store_service.service.FileService
-import com.hello.hello_store_service.service.UserService
+import com.hello.hello_store_service.service.file.FileService
+import com.hello.hello_store_service.service.user.UserService
 import com.hello.hello_store_service.util.SecurityUtils
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder

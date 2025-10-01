@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.service
+package com.hello.hello_store_service.service.goods
 
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.repository.goods.SkuRepository

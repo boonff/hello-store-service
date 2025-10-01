@@ -1,8 +1,9 @@
-package com.hello.hello_store_service.service
+package com.hello.hello_store_service.service.goods
 
 import com.hello.hello_store_service.model.entity.goods.Goods
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.repository.goods.GoodsRepository
+import com.hello.hello_store_service.service.file.FileService
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 

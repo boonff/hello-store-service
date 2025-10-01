@@ -1,10 +1,9 @@
-package com.hello.hello_store_service.service
+package com.hello.hello_store_service.service.config
 
-import com.hello.hello_store_service.model.entity.AppConfig
-import com.hello.hello_store_service.model.entity.CustomerService
+import com.hello.hello_store_service.model.entity.config.AppConfig
+import com.hello.hello_store_service.model.entity.config.CustomerService
 import com.hello.hello_store_service.repository.AppConfigRepository
 import org.springframework.stereotype.Service
-import java.util.logging.Logger
 
 @Service
 class AppConfigService(

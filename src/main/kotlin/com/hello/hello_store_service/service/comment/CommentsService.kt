@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.service
+package com.hello.hello_store_service.service.comment
 
 import com.hello.hello_store_service.model.dto.comment.CommentCount
 import com.hello.hello_store_service.model.entity.comment.Comments

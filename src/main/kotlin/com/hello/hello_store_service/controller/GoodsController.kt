@@ -2,8 +2,8 @@ package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.model.entity.goods.Goods
 import com.hello.hello_store_service.model.entity.goods.SpuTag
-import com.hello.hello_store_service.service.FileService
-import com.hello.hello_store_service.service.GoodsService
+import com.hello.hello_store_service.service.file.FileService
+import com.hello.hello_store_service.service.goods.GoodsService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

@@ -3,7 +3,7 @@ package com.hello.hello_store_service.controller
 import com.hello.hello_store_service.model.dto.user.LoginRequest
 import com.hello.hello_store_service.model.dto.user.RegisterRequest
 import com.hello.hello_store_service.security.JwtService
-import com.hello.hello_store_service.service.UserService
+import com.hello.hello_store_service.service.user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

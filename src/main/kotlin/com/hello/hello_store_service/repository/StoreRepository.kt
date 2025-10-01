@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.repository
 
-import com.hello.hello_store_service.model.entity.Store
+import com.hello.hello_store_service.model.entity.store.Store
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 

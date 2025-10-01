@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.service
+package com.hello.hello_store_service.service.user
 
 import com.hello.hello_store_service.model.entity.user.User
 import com.hello.hello_store_service.model.entity.user.UserCredential
