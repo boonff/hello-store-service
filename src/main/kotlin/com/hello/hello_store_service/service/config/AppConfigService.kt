@@ -2,7 +2,7 @@ package com.hello.hello_store_service.service.config
 
 import com.hello.hello_store_service.model.entity.config.AppConfig
 import com.hello.hello_store_service.model.entity.config.CustomerService
-import com.hello.hello_store_service.repository.AppConfigRepository
+import com.hello.hello_store_service.repository.config.AppConfigRepository
 import org.springframework.stereotype.Service
 
 @Service
