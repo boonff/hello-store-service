@@ -10,6 +10,7 @@ interface GoodsRepository : MongoRepository<Goods, String>, GoodsRepositoryCusto
     fun findByTitleContaining(keyword: String): List<Goods>
     fun findBySpuId(spuId: String): Goods?
     fun findByCategoryIdsContaining(categoryId: String): List<Goods>
+    fun findAllBySpuIdIn(spuIds: List<String>): List<Goods>
 }
 
 interface GoodsRepositoryCustom {

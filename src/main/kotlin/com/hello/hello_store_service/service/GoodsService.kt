@@ -11,6 +11,9 @@ class GoodsService(
     fun searchGoods(keyword: String): List<Goods> {
         return goodsRepository.findByTitleContaining(keyword)
     }
+    fun fetchGoodsBySpuIds(spuIds: List<String>): List<Goods> {
+        return goodsRepository.findAllBySpuIdIn(spuIds)
+    }
 
     fun findAllGoods(): List<Goods> {
         return goodsRepository.findAll()

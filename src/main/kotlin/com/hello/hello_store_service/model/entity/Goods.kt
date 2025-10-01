@@ -10,9 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class Goods(
     @Id
     val id: String? = null,                  // MongoDB 主键 ID（自动生成）
+    val spuId: String,                       // 商品 SPU ID（标准化产品单元）
     val saasId: String,                      // SaaS 平台 ID，用于区分租户
     val storeId: String,                     // 店铺 ID
-    val spuId: String,                       // 商品 SPU ID（标准化产品单元）
     val title: String,                       // 商品标题
     val primaryImage: String,                // 主图 URL
     val images: List<String>,                // 商品图片列表
@@ -36,7 +36,7 @@ data class Goods(
 )
 
 /**
- * 商品规格，例如 "颜色"、"尺码"
+ * 商品规格，例如 "颜色"
  */
 data class Spec(
     val specId: String,                      // 规格 ID
