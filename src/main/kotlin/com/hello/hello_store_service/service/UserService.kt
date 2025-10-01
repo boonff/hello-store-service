@@ -51,7 +51,7 @@ class UserService(
         val passwordHash = BCrypt.hashpw(password, salt)
 
         val credential = UserCredential(
-            userId = savedUser.id!!,   // 使用用户 ID 作为关联
+            username = savedUser.username,   // 使用用户名作为关联
             passwordHash = passwordHash,
             salt = salt
         )
@@ -63,7 +63,7 @@ class UserService(
     fun validateLogin(username: String, password: String): Boolean {
         val user = userRepository.findByUsername(username) ?: return false
 
-        val credential = userCredentialRepository.findByUserId(user.id!!) ?: return false
+        val credential = userCredentialRepository.findByUsername(user.username) ?: return false
 
         return BCrypt.checkpw(password, credential.passwordHash)
     }

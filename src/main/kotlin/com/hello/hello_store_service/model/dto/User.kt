@@ -3,7 +3,6 @@ package com.hello.hello_store_service.model.dto
 import com.hello.hello_store_service.model.entity.*
 
 data class UserDto(
-    val id: String?,
     val username: String,
     val nickName: String,
     val avatarUrl: String,
@@ -19,7 +18,6 @@ data class UserDto(
     companion object {
         fun from(user: User): UserDto {
             return UserDto(
-                id = user.id,
                 username = user.username,
                 nickName = user.nickName,
                 avatarUrl = user.avatarUrl,

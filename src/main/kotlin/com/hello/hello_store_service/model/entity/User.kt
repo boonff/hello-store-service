@@ -10,8 +10,6 @@ import java.time.Instant
 @Document(collection = "users")
 data class User(
     @Id
-    val id: String? = null,
-
     val username: String,
     val nickName: String,
     val avatarUrl: String,
