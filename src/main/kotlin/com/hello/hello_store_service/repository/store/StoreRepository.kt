@@ -6,19 +6,23 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StoreRepository : MongoRepository<Store, String> {
+    // 根据店铺名称查找
+    fun findByStoreName(storeName: String): List<Store>
 
-    // 根据店铺状态查询
+    fun findByStoreId(storeId: String): List<Store>
+
+    // 根据多个店铺ID查找
+    fun findByStoreIdIn(storeIds: List<String>): List<Store>
+
+    // 根据店铺状态查找
     fun findByStoreStatus(storeStatus: Int): List<Store>
 
-    // 根据店铺名字模糊查询
-    fun findByStoreNameContaining(storeName: String): List<Store>
+    // 根据类型查找
+    fun findByStoreType(storeType: String): List<Store>
 
-    // 根据店铺名字精确查询
-    fun findByStoreName(storeName: String): Store?
+    // 根据是否支持配送查找
+    fun findByDeliverySupported(deliverySupported: Boolean): List<Store>
 
-    // 根据店铺ID判断是否存在
-    fun existsByStoreId(storeId: String): Boolean
-
-    // 根据状态统计店铺数量
-    fun countByStoreStatus(storeStatus: Int): Long
+    // 根据评分大于某值查找
+    fun findByRatingGreaterThan(minRating: Double): List<Store>
 }
