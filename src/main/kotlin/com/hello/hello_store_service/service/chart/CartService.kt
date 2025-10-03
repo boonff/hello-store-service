@@ -1,20 +1,90 @@
 package com.hello.hello_store_service.service.chart
 
+import com.hello.hello_store_service.model.dto.cart.CartDTO
+import com.hello.hello_store_service.model.dto.cart.PromotionGoods
+import com.hello.hello_store_service.model.dto.cart.StoreGoods
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.cart.CartItem
+import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.repository.cart.CartRepository
-import com.hello.hello_store_service.repository.goods.GoodsRepository
+import com.hello.hello_store_service.service.activity.PromotionService
+import com.hello.hello_store_service.service.goods.GoodsService
+import com.hello.hello_store_service.service.goods.SkuService
+import com.hello.hello_store_service.service.store.StoreService
 import org.springframework.stereotype.Service
 
 @Service
 class CartService(
     private val cartRepository: CartRepository,
-    private val goodsRepository: GoodsRepository
+    private val goodsService: GoodsService,
+    private val skuService: SkuService,
+    private val storeService: StoreService,
+    private val promotionService: PromotionService
 ) {
 
     /** 获取用户所有购物车 */
-    fun getUserCart(username: String): List<Cart> =
-        cartRepository.findByUsername(username)
+    fun getUserCart(username: String): CartDTO?{
+        val cart = cartRepository.findByUsername(username).firstOrNull() ?: return null
+
+        val skuIds = cart.items.map { it.skuId }
+        val skuMap: Map<String, Sku> = skuService.getSkusBySpuIds(skuIds).associateBy { it.skuId }
+
+        val spuIds = skuMap.values.map { it.spuId }.distinct()
+        val goodsMap: Map<String, Goods> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
+
+        val storeIds = goodsMap.values.map { it.storeId }.distinct()
+        val storeMap = storeService.getStoreByIds(storeIds).associateBy { it.storeId }
+        val storeAll = storeService.getAllStores()
+
+        val promotionMap = promotionService.getPromotionsByStores(storeIds)
+            .groupBy { it.storeId }
+
+        val storeGoodsList = storeIds.mapNotNull { storeId ->
+            val store = storeMap[storeId] ?: return@mapNotNull null
+
+            val storeItems = cart.items.filter { goodsMap[it.spuId]?.storeId == storeId }
+
+            val promotionGoodsList = promotionMap[storeId]?.map { promo ->
+                val promoGoods = storeItems.mapNotNull { item ->
+                    skuMap[item.skuId]?.let { sku ->
+                        goodsMap[sku.spuId]
+                    }
+                }
+                PromotionGoods(
+                    title = promo.title,
+                    promotionCode = promo.rule.type.name,
+                    promotionSubCode = "", // 可根据业务逻辑填充
+                    promotionStatus = promo.status,
+                    type = promo.rule.type,
+                    description = promo.title,
+                    doorSillRemain = promo.rule.minAmount ?: 0L,
+                    isNeedAddOnShop = false, // 可根据业务逻辑填充
+                    goods = promoGoods
+                )
+            } ?: emptyList()
+
+            StoreGoods(
+                storeId = storeId,
+                storeName = store.storeName,
+                storeStatus = store.storeStatus,
+                totalDiscountSalePrice = storeItems.sumOf { (skuMap[it.skuId]?.minSalePrice ?: 0L).toLong() },
+                promotionGoodsList = promotionGoodsList
+            )
+        }
+
+        val result = CartDTO(
+            isAllSelected = true,
+            selectedGoodsCount = cart.items.size,
+            totalAmount = storeGoodsList.sumOf { it.totalDiscountSalePrice },
+            totalDiscountAmount = 0, // 可根据促销逻辑计算
+            storeGoods = storeGoodsList
+        )
+
+        return result
+
+    }
+
 
     /** 添加商品到购物车 */
     fun addCartItem(username: String, newItem: CartItem) {
