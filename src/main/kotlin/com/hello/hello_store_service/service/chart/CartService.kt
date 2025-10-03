@@ -117,6 +117,15 @@ class CartService(
         }
     }
 
+    /** 选择/取消选择单个商品 **/
+    fun selectCartItem(username: String, skuId: String, isSelected: Boolean){
+        val cart = cartRepository.findByUsername(username).firstOrNull() ?: return
+        val updateItem = cart.items.map{
+            if (it.skuId == skuId) it.copy(isSelected = !it.isSelected) else it
+        }
+        cartRepository.save(cart.copy(items = updateItem))
+    }
+
     /** 更新购物车中某个商品数量 */
     fun updateCartItem(username: String, skuId: String, count: Int) {
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return

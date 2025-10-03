@@ -17,6 +17,7 @@ data class CartItem(
     val storeId: String,
     val spuId: String,           // 商品 SPU ID
     val skuId: String,           // 商品 SKU ID（对应具体规格）
+    var isSelected: Boolean = true,
     val count: Int,              // 购买数量
     val price: Int? = null,      // 单价（缓存到购物车）
     val title: String? = null,   // 商品标题，方便前端显示

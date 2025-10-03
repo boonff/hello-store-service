@@ -13,6 +13,7 @@ data class CartGoodsDetail(
     val saasId: String,
     val storeId: String,
 
+    var isSelected: Boolean = true,          //是否选中
     val quantity: Int,                       //选购数量
     val title: String,
     val etitle: String,
@@ -51,13 +52,16 @@ data class CartGoodsDetail(
                 }
             }
 
-            val quantity = cart.items.find { it.skuId == sku.skuId }?.count ?: 0
+            val cartItem = cart.items.find { it.skuId == sku.skuId }
+            val quantity = cartItem?.count ?: 0
+            val isSelected = cartItem?.isSelected ?: true  // 可以设置默认值
 
             return CartGoodsDetail(
                 spuId = spu.spuId,
                 skuId = sku.skuId,
                 saasId = spu.saasId,
                 storeId = spu.storeId,
+                isSelected = isSelected,
                 quantity = quantity,
                 title = spu.title,
                 etitle = spu.etitle,

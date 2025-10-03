@@ -19,6 +19,16 @@ class CartController(
         return cartService.getUserCart(username)
     }
 
+    /** 选择/取消选择单个商品 **/
+    @PutMapping("/select/{skuId}")
+    fun selectCartItem(
+        @PathVariable skuId: String,
+        @RequestParam isSelected: Boolean
+    ) {
+        val username = SecurityUtils.currentUsername()
+        cartService.selectCartItem(username, skuId, isSelected)
+    }
+
     /** 添加商品到购物车 */
     @PostMapping("/add")
     fun addCartItem(@RequestBody newItem: CartItem) {
