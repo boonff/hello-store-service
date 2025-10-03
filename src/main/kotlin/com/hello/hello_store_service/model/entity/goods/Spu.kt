@@ -3,7 +3,7 @@ package com.hello.hello_store_service.model.entity.goods
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-@Document("spus")//TODO 应该改为SPU表。新增一个Goods DTO
+@Document("spus")
 data class Spu(
     @Id
     val id: String? = null,
@@ -20,9 +20,9 @@ data class Spu(
     val spuTagList: List<SpuTag> = emptyList(),   // 标签
     val desc: List<String> = emptyList(),         // 商品描述（图文详情）
     val available: Int? = null,               // 是否可售
-    val minSalePrice: Int? = null,            // 最低参考售价（分）
-    val maxSalePrice: Int? = null,             // 最高参考售价（分）
-    val maxLinePrice: Int? = null
+    val minSalePrice: Int? = null,            // 最低参考售价
+    val maxSalePrice: Int? = null,            // 最高参考售价
+    val maxLinePrice: Int? = null             // 划线价
 )
 
 data class SpuTag(

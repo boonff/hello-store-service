@@ -5,7 +5,7 @@ import com.hello.hello_store_service.model.entity.goods.*
 /**
  * 商品详情 DTO（以 SPU 为主体，包含 SKU 和规格信息）
  */
-data class GoodsDTO(
+data class Goods(
     val spuId: String,                       // 商品 ID
     val saasId: String,
     val storeId: String,
@@ -27,8 +27,6 @@ data class GoodsDTO(
     val maxSalePrice: Int?,                  // 最高价
     val maxLinePrice: Int?,                  // 划线价
 
-    // ---------------- 聚合部分 ----------------
-    val specs: List<SpecDTO>,                // 规格信息（可选值）
     val skus: List<SkuDTO>                   // 所有 SKU 信息
 )
 

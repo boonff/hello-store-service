@@ -1,5 +1,6 @@
 package com.hello.hello_store_service.model.entity.goods
 
+import com.hello.hello_store_service.model.common.PriceType
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -29,9 +30,8 @@ data class SpecRef(
 )
 
 data class PriceInfo(
-    val priceType: Int,                      // 1=销售价，2=划线价
+    val priceType: PriceType,
     val price: Int,                          // 金额（分）
-    val priceTypeName: String? = null
 )
 
 data class StockInfo(
