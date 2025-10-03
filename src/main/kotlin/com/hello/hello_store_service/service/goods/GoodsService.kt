@@ -12,22 +12,22 @@ class GoodsService(
     private val goodsRepository: GoodsRepository,
     private val fileService: FileService
 ) {
-    fun searchGoods(keyword: String): List<Goods> {
+    fun search(keyword: String): List<Goods> {
         return goodsRepository.findByTitleContaining(keyword)
     }
-    fun fetchGoodsBySpuIds(spuIds: List<String>): List<Goods> {
+    fun fetchBySpuIds(spuIds: List<String>): List<Goods> {
         return goodsRepository.findAllBySpuIdIn(spuIds)
     }
 
-    fun findAllGoods(): List<Goods> {
+    fun fetchAllGoods(): List<Goods> {
         return goodsRepository.findAll()
     }
 
-    fun findByRange(pageIndex: Int, pageSize: Int): List<Goods> {
+    fun fetchByRange(pageIndex: Int, pageSize: Int): List<Goods> {
         return goodsRepository.findByRange(pageIndex, pageSize)
     }
 
-    fun findBySpuId(supId: String): Goods? {
+    fun fetchBySpuId(supId: String): Goods? {
         return goodsRepository.findBySpuId(supId)
     }
 

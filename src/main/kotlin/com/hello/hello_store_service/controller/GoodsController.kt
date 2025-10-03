@@ -28,7 +28,7 @@ class GoodsController(
     // 查询所有商品
     @GetMapping
     fun getAllGoods(): List<Goods> {
-        return goodsService.findAllGoods()
+        return goodsService.fetchAllGoods()
     }
 
     // 查询区间内的商品
@@ -37,19 +37,19 @@ class GoodsController(
         @RequestParam("pageIndex") pageIndex: Int,
         @RequestParam("pageSize") pageSize: Int
     ): List<Goods> {
-        return goodsService.findByRange(pageIndex, pageSize)
+        return goodsService.fetchByRange(pageIndex, pageSize)
     }
 
     // 根据关键字搜索商品
     @GetMapping("/search")
     fun searchGoods(@RequestParam keyword: String): List<Goods> {
-        return goodsService.searchGoods(keyword)
+        return goodsService.search(keyword)
     }
 
     // 根据 spuId 获取单个商品
     @GetMapping("/{spuId}")
     fun getGoodsBySpuId(@PathVariable spuId: String): Goods? {
-        return goodsService.findBySpuId(spuId)
+        return goodsService.fetchBySpuId(spuId)
     }
 
     @PostMapping("/create")

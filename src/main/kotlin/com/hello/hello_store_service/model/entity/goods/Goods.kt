@@ -3,7 +3,7 @@ package com.hello.hello_store_service.model.entity.goods
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-@Document("goods")
+@Document("goods")//TODO 应该改为SPU表。新增一个Goods DTO
 data class Goods(
     @Id
     val id: String? = null,
