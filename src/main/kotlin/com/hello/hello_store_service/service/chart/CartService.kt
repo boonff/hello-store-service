@@ -3,14 +3,17 @@ package com.hello.hello_store_service.service.chart
 import com.hello.hello_store_service.model.dto.cart.CartDTO
 import com.hello.hello_store_service.model.dto.cart.PromotionGoods
 import com.hello.hello_store_service.model.dto.cart.StoreGoods
+import com.hello.hello_store_service.model.dto.goods.GoodsDetail
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.cart.CartItem
 import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
+import com.hello.hello_store_service.model.entity.goods.Spec
 import com.hello.hello_store_service.repository.cart.CartRepository
 import com.hello.hello_store_service.service.activity.PromotionService
 import com.hello.hello_store_service.service.goods.SpuService
 import com.hello.hello_store_service.service.goods.SkuService
+import com.hello.hello_store_service.service.goods.SpecService
 import com.hello.hello_store_service.service.store.StoreService
 import org.springframework.stereotype.Service
 
@@ -19,23 +22,23 @@ class CartService(
     private val cartRepository: CartRepository,
     private val goodsService: SpuService,
     private val skuService: SkuService,
+    private val specService: SpecService,
     private val storeService: StoreService,
     private val promotionService: PromotionService
 ) {
 
     /** 获取用户所有购物车 */
-    fun getUserCart(username: String): CartDTO?{
+    fun getUserCart(username: String): CartDTO? {
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return null
 
         val skuIds = cart.items.map { it.skuId }
         val skuMap: Map<String, Sku> = skuService.getSkusBySpuIds(skuIds).associateBy { it.skuId }
 
         val spuIds = skuMap.values.map { it.spuId }.distinct()
-        val goodsMap: Map<String, Spu> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
+        val spuMap: Map<String, Spu> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
 
-        val storeIds = goodsMap.values.map { it.storeId }.distinct()
+        val storeIds = spuMap.values.map { it.storeId }.distinct()
         val storeMap = storeService.getStoreByIds(storeIds).associateBy { it.storeId }
-        val storeAll = storeService.getAllStores()
 
         val promotionMap = promotionService.getPromotionsByStores(storeIds)
             .groupBy { it.storeId }
@@ -43,12 +46,16 @@ class CartService(
         val storeGoodsList = storeIds.mapNotNull { storeId ->
             val store = storeMap[storeId] ?: return@mapNotNull null
 
-            val storeItems = cart.items.filter { goodsMap[it.spuId]?.storeId == storeId }
+            val storeItems = cart.items.filter { spuMap[it.spuId]?.storeId == storeId }
 
             val promotionGoodsList = promotionMap[storeId]?.map { promo ->
                 val promoGoods = storeItems.mapNotNull { item ->
                     skuMap[item.skuId]?.let { sku ->
-                        goodsMap[sku.spuId]
+                        spuMap[sku.spuId]?.let { spu ->
+                            //获取
+                            val specMap = specService.getSpecsBySpuId(spu.spuId).associateBy { it.specId }
+                            GoodsDetail.from(spu, sku, specMap)
+                        }
                     }
                 }
                 PromotionGoods(

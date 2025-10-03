@@ -1,6 +1,5 @@
 package com.hello.hello_store_service.model.dto.goods
 
-import com.hello.hello_store_service.model.entity.goods.PriceInfo
 import com.hello.hello_store_service.model.entity.goods.SpecRef
 import com.hello.hello_store_service.model.entity.goods.StockInfo
 import com.hello.hello_store_service.model.entity.goods.Weight

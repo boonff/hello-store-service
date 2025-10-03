@@ -9,6 +9,7 @@ data class Spec(
     val id: String? = null,
     val specId: String,                      // 规格 ID
     val spuId: String,                       // 所属商品 ID
+
     val title: String,                       // 规格名称（如 "颜色"）
     val values: List<SpecValue>              // 可选值
 )

@@ -1,10 +1,14 @@
 package com.hello.hello_store_service.model.dto.goods
 
+import com.hello.hello_store_service.model.entity.goods.Sku
+import com.hello.hello_store_service.model.entity.goods.Spec
+import com.hello.hello_store_service.model.entity.goods.SpecRef
+import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 
 data class GoodsDetail(
     val spuId: String,                       // 商品 ID
-    val skuId:String,
+    val skuId: String,
     val saasId: String,
     val storeId: String,
 
@@ -20,6 +24,8 @@ data class GoodsDetail(
 
     val desc: List<String>,                  // 图文详情
 
+    val specInfo: List<SpecDTO>,
+
     val available: Int?,                     // 是否可售
     val minSalePrice: Int?,                  // 最低价
     val maxLinePrice: Int?,                  // 划线价
@@ -27,4 +33,45 @@ data class GoodsDetail(
     val stockQuantity: Int,                  // 库存
     val safeStockQuantity: Int,              // 安全库存
     val soldQuantity: Int                    // 已售
-)
+) {
+    companion object {
+        fun from(spu: Spu, sku: Sku, specMap: Map<String, Spec>): GoodsDetail {
+            val specInfo = sku.specInfo.groupBy { it.specId }.mapNotNull { (specId, specRefs) ->
+                specMap[specId]?.let { spec ->
+                    specRefs.firstOrNull()?.let { ref ->
+                        spec.values.find { it.specValueId == ref.specValueId }?.let { value ->
+                            SpecDTO(
+                                specTitle = spec.title,
+                                specValue = value.specValue,
+                                specValueId = value.specValueId
+                            )
+                        }
+
+                    }
+                }
+            }
+            return GoodsDetail(
+                spuId = spu.spuId,
+                skuId = sku.skuId,
+                saasId = spu.saasId,
+                storeId = spu.storeId,
+                title = spu.title,
+                etitle = spu.etitle,
+                primaryImage = spu.primaryImage,
+                images = spu.images,
+                video = spu.video,
+                categoryIds = spu.categoryIds,
+                groupIdList = spu.groupIdList,
+                spuTagList = spu.spuTagList,
+                desc = spu.desc,
+                specInfo = specInfo,
+                available = spu.available,
+                minSalePrice = sku.minSalePrice ?: spu.minSalePrice,
+                maxLinePrice = sku.maxLinePrice ?: spu.maxLinePrice,
+                stockQuantity = sku.stockInfo.stockQuantity,
+                safeStockQuantity = sku.stockInfo.safeStockQuantity,
+                soldQuantity = sku.stockInfo.soldQuantity
+            )
+        }
+    }
+}

@@ -1,6 +1,5 @@
 package com.hello.hello_store_service.model.entity.goods
 
-import com.hello.hello_store_service.model.common.PriceType
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -11,7 +10,6 @@ data class Sku(
     val skuId: String,                       // SKU ID
     val spuId: String,                       // 所属商品 ID
     val specInfo: List<SpecRef>,             // SKU 的规格组合
-    val priceInfo: List<PriceInfo>,          // 价格信息
     val stockInfo: StockInfo,                // 库存信息
     val skuImage: String? = null,            // SKU 图
     val weight: Weight? = null,              // 重量
@@ -27,11 +25,6 @@ data class Sku(
 data class SpecRef(
     val specId: String,
     val specValueId: String
-)
-
-data class PriceInfo(
-    val priceType: PriceType,
-    val price: Int,                          // 金额（分）
 )
 
 data class StockInfo(
