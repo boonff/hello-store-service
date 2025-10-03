@@ -3,12 +3,11 @@ package com.hello.hello_store_service.service.chart
 import com.hello.hello_store_service.model.dto.cart.CartDTO
 import com.hello.hello_store_service.model.dto.cart.PromotionGoods
 import com.hello.hello_store_service.model.dto.cart.StoreGoods
-import com.hello.hello_store_service.model.dto.goods.GoodsDetail
+import com.hello.hello_store_service.model.dto.cart.CartGoodsDetail
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.cart.CartItem
 import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
-import com.hello.hello_store_service.model.entity.goods.Spec
 import com.hello.hello_store_service.repository.cart.CartRepository
 import com.hello.hello_store_service.service.activity.PromotionService
 import com.hello.hello_store_service.service.goods.SpuService
@@ -54,7 +53,7 @@ class CartService(
                         spuMap[sku.spuId]?.let { spu ->
                             //获取
                             val specMap = specService.getSpecsBySpuId(spu.spuId).associateBy { it.specId }
-                            GoodsDetail.from(spu, sku, specMap)
+                            CartGoodsDetail.from(spu, sku, specMap, cart)
                         }
                     }
                 }
