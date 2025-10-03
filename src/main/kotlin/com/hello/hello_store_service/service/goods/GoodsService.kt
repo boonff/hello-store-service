@@ -1,33 +1,33 @@
 package com.hello.hello_store_service.service.goods
 
-import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.SpuTag
-import com.hello.hello_store_service.repository.goods.GoodsRepository
+import com.hello.hello_store_service.repository.goods.SpuRepository
 import com.hello.hello_store_service.service.file.FileService
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class GoodsService(
-    private val goodsRepository: GoodsRepository,
+    private val goodsRepository: SpuRepository,
     private val fileService: FileService
 ) {
-    fun search(keyword: String): List<Goods> {
+    fun search(keyword: String): List<Spu> {
         return goodsRepository.findByTitleContaining(keyword)
     }
-    fun fetchBySpuIds(spuIds: List<String>): List<Goods> {
+    fun fetchBySpuIds(spuIds: List<String>): List<Spu> {
         return goodsRepository.findAllBySpuIdIn(spuIds)
     }
 
-    fun fetchAllGoods(): List<Goods> {
+    fun fetchAllGoods(): List<Spu> {
         return goodsRepository.findAll()
     }
 
-    fun fetchByRange(pageIndex: Int, pageSize: Int): List<Goods> {
+    fun fetchByRange(pageIndex: Int, pageSize: Int): List<Spu> {
         return goodsRepository.findByRange(pageIndex, pageSize)
     }
 
-    fun fetchBySpuId(supId: String): Goods? {
+    fun fetchBySpuId(supId: String): Spu? {
         return goodsRepository.findBySpuId(supId)
     }
 
@@ -43,7 +43,7 @@ class GoodsService(
         categoryIds: List<String> = emptyList(),
         groupIdList: List<String> = emptyList(),
         isPutOnSale: Int = 1
-    ): Goods {
+    ): Spu {
         // 上传主图
         val primaryUrl = fileService.uploadFile(primaryImage)
 
@@ -53,7 +53,7 @@ class GoodsService(
         // 上传详情图
         val descUrl = desc.map { fileService.uploadFile(it) }
 
-        val goods = Goods(
+        val goods = Spu(
             saasId = saasId,
             storeId = storeId,
             spuId = "0", // 可在创建时生成唯一 ID
@@ -73,9 +73,9 @@ class GoodsService(
 
      fun updateGoods(
         spuId: String,
-        goods: Goods
-    ): Goods {
-        return goodsRepository.updateGoods(spuId, goods)
+        goods: Spu
+    ): Spu {
+        return goodsRepository.updateSpu(spuId, goods)
     }
 
      fun deleteGoods(spuId: String) {

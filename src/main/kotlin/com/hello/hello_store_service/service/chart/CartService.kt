@@ -5,7 +5,7 @@ import com.hello.hello_store_service.model.dto.cart.PromotionGoods
 import com.hello.hello_store_service.model.dto.cart.StoreGoods
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.cart.CartItem
-import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.repository.cart.CartRepository
 import com.hello.hello_store_service.service.activity.PromotionService
@@ -31,7 +31,7 @@ class CartService(
         val skuMap: Map<String, Sku> = skuService.getSkusBySpuIds(skuIds).associateBy { it.skuId }
 
         val spuIds = skuMap.values.map { it.spuId }.distinct()
-        val goodsMap: Map<String, Goods> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
+        val goodsMap: Map<String, Spu> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
 
         val storeIds = goodsMap.values.map { it.storeId }.distinct()
         val storeMap = storeService.getStoreByIds(storeIds).associateBy { it.storeId }

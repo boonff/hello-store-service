@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.repository.goods
 
-import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Spu
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -9,29 +9,29 @@ import org.springframework.data.mongodb.core.query.Update
 import org.springframework.stereotype.Repository
 
 @Repository
-class GoodsRepositoryCustomImpl() : GoodsRepositoryCustom {
+class SpuRepositoryCustomImpl() : SpuRepositoryCustom {
 
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
-    override fun updateGoods(
+    override fun updateSpu(
         spuId: String,
-        goods: Goods
-    ): Goods {
+        spu: Spu
+    ): Spu {
         val query = Query(Criteria.where("spuId").`is`(spuId))
         val update = Update()
-            .set("title", goods.title)
-        mongoTemplate.updateFirst(query, update, Goods::class.java)
-        return mongoTemplate.findOne(query, Goods::class.java)!!
+            .set("title", spu.title)
+        mongoTemplate.updateFirst(query, update, Spu::class.java)
+        return mongoTemplate.findOne(query, Spu::class.java)!!
     }
 
     override fun findByRange(
         pageIndex: Int,
         pageSize: Int
-    ): List<Goods> {
+    ): List<Spu> {
         val query = Query()
         query.skip((pageIndex * pageSize).toLong())
         query.limit(pageSize)
-        return mongoTemplate.find(query, Goods::class.java)
+        return mongoTemplate.find(query, Spu::class.java)
     }
 
 }

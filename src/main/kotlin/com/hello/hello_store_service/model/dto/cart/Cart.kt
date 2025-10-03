@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.model.dto.cart
 
 import com.hello.hello_store_service.model.entity.activity.PromotionStatus
-import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Spu
 
 data class CartDTO(
     val isAllSelected: Boolean = false,   // 是否全选
@@ -28,5 +28,5 @@ data class PromotionGoods(
     val description: String,
     val doorSillRemain: Long,
     val isNeedAddOnShop: Boolean,
-    val goods: List<Goods>//TODO 应该改为Goods DTO。因为前端需要spec和库存信息。
+    val goods: List<Spu>//TODO 应该改为Goods DTO。因为前端需要spec和库存信息。
 )

@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.controller
 
-import com.hello.hello_store_service.model.entity.goods.Goods
+import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.service.file.FileService
@@ -27,7 +27,7 @@ class GoodsController(
 ) {
     // 查询所有商品
     @GetMapping
-    fun getAllGoods(): List<Goods> {
+    fun getAllGoods(): List<Spu> {
         return goodsService.fetchAllGoods()
     }
 
@@ -36,19 +36,19 @@ class GoodsController(
     fun getRangeGoods(
         @RequestParam("pageIndex") pageIndex: Int,
         @RequestParam("pageSize") pageSize: Int
-    ): List<Goods> {
+    ): List<Spu> {
         return goodsService.fetchByRange(pageIndex, pageSize)
     }
 
     // 根据关键字搜索商品
     @GetMapping("/search")
-    fun searchGoods(@RequestParam keyword: String): List<Goods> {
+    fun searchGoods(@RequestParam keyword: String): List<Spu> {
         return goodsService.search(keyword)
     }
 
     // 根据 spuId 获取单个商品
     @GetMapping("/{spuId}")
-    fun getGoodsBySpuId(@PathVariable spuId: String): Goods? {
+    fun getGoodsBySpuId(@PathVariable spuId: String): Spu? {
         return goodsService.fetchBySpuId(spuId)
     }
 
@@ -63,7 +63,7 @@ class GoodsController(
         @RequestParam(required = false) categoryIds: List<String> = emptyList(),
         @RequestParam(required = false) groupIdList: List<String> = emptyList(),
         @RequestParam(required = false, defaultValue = "1") isPutOnSale: Int
-    ): Goods {
+    ): Spu {
         return goodsService.createGoods(
             saasId = "88888888",
             storeId = "1000",
@@ -94,7 +94,7 @@ class GoodsController(
 
     // 更新商品
     @PutMapping("/{spuId}")
-    fun updateGoods(@PathVariable spuId: String, @RequestBody goods: Goods): Goods {
+    fun updateGoods(@PathVariable spuId: String, @RequestBody goods: Spu): Spu {
         return goodsService.updateGoods(spuId, goods)
     }
 
