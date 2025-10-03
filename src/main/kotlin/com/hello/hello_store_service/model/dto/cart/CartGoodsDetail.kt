@@ -13,7 +13,7 @@ data class CartGoodsDetail(
     val saasId: String,
     val storeId: String,
 
-    val quantity: Int,
+    val quantity: Int,                       //选购数量
     val title: String,
     val etitle: String,
     val thumb: String,
