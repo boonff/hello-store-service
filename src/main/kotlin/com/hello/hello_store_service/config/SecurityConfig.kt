@@ -19,8 +19,8 @@ class SecurityConfig {
                     "/auth/**",
                     "/goods/**",
                     "/comments/**",
-                    "api/config/**",
-                    "api/config/customerService"
+                    "/api/config/**",
+                    "/api/config/customerService"
                 ).permitAll() // 登录注册放行
                     .anyRequest().authenticated() // 其他接口需要认证
             }
