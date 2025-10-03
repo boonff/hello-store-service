@@ -9,7 +9,7 @@ import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.repository.cart.CartRepository
 import com.hello.hello_store_service.service.activity.PromotionService
-import com.hello.hello_store_service.service.goods.GoodsService
+import com.hello.hello_store_service.service.goods.SpuService
 import com.hello.hello_store_service.service.goods.SkuService
 import com.hello.hello_store_service.service.store.StoreService
 import org.springframework.stereotype.Service
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service
 @Service
 class CartService(
     private val cartRepository: CartRepository,
-    private val goodsService: GoodsService,
+    private val goodsService: SpuService,
     private val skuService: SkuService,
     private val storeService: StoreService,
     private val promotionService: PromotionService

@@ -8,30 +8,30 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
-class GoodsService(
-    private val goodsRepository: SpuRepository,
+class SpuService(
+    private val spuRepository: SpuRepository,
     private val fileService: FileService
 ) {
     fun search(keyword: String): List<Spu> {
-        return goodsRepository.findByTitleContaining(keyword)
+        return spuRepository.findByTitleContaining(keyword)
     }
     fun fetchBySpuIds(spuIds: List<String>): List<Spu> {
-        return goodsRepository.findAllBySpuIdIn(spuIds)
+        return spuRepository.findAllBySpuIdIn(spuIds)
     }
 
-    fun fetchAllGoods(): List<Spu> {
-        return goodsRepository.findAll()
+    fun fetchAll(): List<Spu> {
+        return spuRepository.findAll()
     }
 
     fun fetchByRange(pageIndex: Int, pageSize: Int): List<Spu> {
-        return goodsRepository.findByRange(pageIndex, pageSize)
+        return spuRepository.findByRange(pageIndex, pageSize)
     }
 
     fun fetchBySpuId(supId: String): Spu? {
-        return goodsRepository.findBySpuId(supId)
+        return spuRepository.findBySpuId(supId)
     }
 
-    fun createGoods(
+    fun createSpu(
         saasId: String,
         storeId: String,
         title: String,
@@ -67,18 +67,18 @@ class GoodsService(
             groupIdList = groupIdList,
         )
 
-        return goodsRepository.save(goods)
+        return spuRepository.save(goods)
     }
 
 
-     fun updateGoods(
+     fun updateSpu(
         spuId: String,
         goods: Spu
     ): Spu {
-        return goodsRepository.updateSpu(spuId, goods)
+        return spuRepository.updateSpu(spuId, goods)
     }
 
-     fun deleteGoods(spuId: String) {
-        return goodsRepository.deleteById(spuId)
+     fun deleteById(spuId: String) {
+        return spuRepository.deleteById(spuId)
     }
 }

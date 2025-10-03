@@ -4,7 +4,7 @@ import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.service.file.FileService
-import com.hello.hello_store_service.service.goods.GoodsService
+import com.hello.hello_store_service.service.goods.SpuService
 import com.hello.hello_store_service.service.goods.SkuService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,14 +21,14 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/goods")
 class GoodsController(
-    private val goodsService: GoodsService,
+    private val goodsService: SpuService,
     private val skuService: SkuService,
     private val fileService: FileService,
 ) {
     // 查询所有商品
     @GetMapping
     fun getAllGoods(): List<Spu> {
-        return goodsService.fetchAllGoods()
+        return goodsService.fetchAll()
     }
 
     // 查询区间内的商品
@@ -64,7 +64,7 @@ class GoodsController(
         @RequestParam(required = false) groupIdList: List<String> = emptyList(),
         @RequestParam(required = false, defaultValue = "1") isPutOnSale: Int
     ): Spu {
-        return goodsService.createGoods(
+        return goodsService.createSpu(
             saasId = "88888888",
             storeId = "1000",
             title = title,
@@ -95,12 +95,12 @@ class GoodsController(
     // 更新商品
     @PutMapping("/{spuId}")
     fun updateGoods(@PathVariable spuId: String, @RequestBody goods: Spu): Spu {
-        return goodsService.updateGoods(spuId, goods)
+        return goodsService.updateSpu(spuId, goods)
     }
 
     // 删除商品
     @DeleteMapping("/{spuId}")
     fun deleteGoods(@PathVariable spuId: String) {
-        goodsService.deleteGoods(spuId)
+        goodsService.deleteById(spuId)
     }
 }
