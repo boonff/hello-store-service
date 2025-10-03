@@ -11,7 +11,7 @@ import com.hello.hello_store_service.model.entity.goods.Weight
 data class SkuDTO(
     val skuId: String,
     val spuId: String,
-    val specInfo: List<SpecRef>,             // 对应的规格组合
+    val specInfo: List<SpecDTO>,             // 对应的规格组合
     val stockInfo: StockInfo,
     val skuImage: String?,
     val weight: Weight?,
