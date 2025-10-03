@@ -1,10 +1,13 @@
 package com.hello.hello_store_service.model.entity.activity
 
 import com.hello.hello_store_service.model.common.ProductCondition
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("promotions")
 data class Promotion(
+    @Id
+    val id: String? = null,
     val storeId: String,
     val title: String,
     val status: Int = 1,

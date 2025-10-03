@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document("point_activities")
 data class PointActivity(
     @Id
+    val id: String? = null,
     val activityId: String? = null,
     val storeId: String,                  // 商铺ID
     val title: String,                     // 活动标题

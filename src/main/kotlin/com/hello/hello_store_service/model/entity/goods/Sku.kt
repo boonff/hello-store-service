@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document("skus")
 data class Sku(
     @Id
+    val id: String? = null,
     val skuId: String,                       // SKU ID
     val spuId: String,                       // 所属商品 ID
     val specInfo: List<SpecRef>,             // SKU 的规格组合

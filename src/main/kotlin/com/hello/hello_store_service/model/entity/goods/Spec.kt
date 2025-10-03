@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document("specs")
 data class Spec(
     @Id
+    val id: String? = null,
     val specId: String,                      // 规格 ID
     val spuId: String,                       // 所属商品 ID
     val title: String,                       // 规格名称（如 "颜色"）
