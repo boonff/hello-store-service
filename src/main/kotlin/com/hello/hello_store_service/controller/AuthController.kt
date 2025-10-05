@@ -6,6 +6,9 @@ import com.hello.hello_store_service.security.JwtService
 import com.hello.hello_store_service.service.user.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -45,4 +48,21 @@ class AuthController(
 
         return ResponseEntity.ok(mapOf("token" to token))
     }
+
+    @GetMapping("/verify")
+    fun verifyToken(): ResponseEntity<Boolean> {
+        val authentication = SecurityContextHolder.getContext().authentication
+
+        val isValid = authentication != null &&
+                authentication.isAuthenticated &&
+                authentication !is AnonymousAuthenticationToken
+
+        return if (isValid) {
+            ResponseEntity.ok(true)
+        } else {
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false)
+        }
+    }
+
+
 }
