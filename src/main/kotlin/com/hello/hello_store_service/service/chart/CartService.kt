@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service.chart
 
-import com.hello.hello_store_service.model.dto.cart.CartDTO
+import com.hello.hello_store_service.model.dto.cart.CartInfo
 import com.hello.hello_store_service.model.dto.cart.PromotionGoods
 import com.hello.hello_store_service.model.dto.cart.StoreGoods
 import com.hello.hello_store_service.model.dto.cart.CartGoodsDetail
@@ -27,7 +27,7 @@ class CartService(
 ) {
 
     /** 获取用户所有购物车 */
-    fun getUserCart(username: String): CartDTO? {
+    fun getUserCart(username: String): CartInfo? {
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return null
 
         val skuIds = cart.items.map { it.skuId }
@@ -79,7 +79,7 @@ class CartService(
             )
         }
 
-        val result = CartDTO(
+        val result = CartInfo(
             isAllSelected = cart.isAllSelected,
             selectedGoodsCount = cart.items.size,
             totalAmount = storeGoodsList.sumOf { it.totalDiscountSalePrice },

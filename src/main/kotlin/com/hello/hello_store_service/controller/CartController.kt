@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.controller
 
-import com.hello.hello_store_service.model.dto.cart.CartDTO
+import com.hello.hello_store_service.model.dto.cart.CartInfo
 import com.hello.hello_store_service.model.entity.cart.CartItem
 import com.hello.hello_store_service.service.chart.CartService
 import com.hello.hello_store_service.util.SecurityUtils
@@ -14,7 +14,7 @@ class CartController(
 
     /** 获取当前用户购物车 */
     @GetMapping
-    fun getCart(): CartDTO? {
+    fun getCart(): CartInfo? {
         val username = SecurityUtils.currentUsername()
         return cartService.getUserCart(username)
     }

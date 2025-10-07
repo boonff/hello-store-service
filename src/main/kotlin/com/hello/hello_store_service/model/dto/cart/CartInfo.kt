@@ -1,9 +1,8 @@
 package com.hello.hello_store_service.model.dto.cart
 
-import com.hello.hello_store_service.model.dto.cart.CartGoodsDetail
 import com.hello.hello_store_service.model.entity.activity.PromotionStatus
 
-data class CartDTO(
+data class CartInfo(
     val isAllSelected: Boolean = false,   // 是否全选
     val selectedGoodsCount: Int = 0,      // 已选择商品数量
     val totalAmount: Long = 0,            // 总金额（分）
