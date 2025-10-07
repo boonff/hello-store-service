@@ -1,7 +1,10 @@
 package com.hello.hello_store_service.service.goods
 
+import com.hello.hello_store_service.model.dto.goods.SpuDTO
 import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.SpuTag
+import com.hello.hello_store_service.repository.goods.SkuRepository
+import com.hello.hello_store_service.repository.goods.SpecRepository
 import com.hello.hello_store_service.repository.goods.SpuRepository
 import com.hello.hello_store_service.service.file.FileService
 import org.springframework.stereotype.Service
@@ -10,11 +13,14 @@ import org.springframework.web.multipart.MultipartFile
 @Service
 class SpuService(
     private val spuRepository: SpuRepository,
+    private val specRepository: SpecRepository,
+    private val skuRepository: SkuRepository,
     private val fileService: FileService
 ) {
     fun search(keyword: String): List<Spu> {
         return spuRepository.findByTitleContaining(keyword)
     }
+
     fun fetchBySpuIds(spuIds: List<String>): List<Spu> {
         return spuRepository.findAllBySpuIdIn(spuIds)
     }
@@ -27,8 +33,13 @@ class SpuService(
         return spuRepository.findByRange(pageIndex, pageSize)
     }
 
-    fun fetchBySpuId(supId: String): Spu? {
-        return spuRepository.findBySpuId(supId)
+    fun fetchBySpuId(supId: String): SpuDTO? {
+        spuRepository.findBySpuId(supId)?.let { spu ->
+            val specs = specRepository.findBySpuId(supId)
+            val skus = skuRepository.findBySpuId(supId)
+            return SpuDTO.from(spu, skus, specs)
+        }
+        return null
     }
 
     fun createSpu(
@@ -71,14 +82,14 @@ class SpuService(
     }
 
 
-     fun updateSpu(
+    fun updateSpu(
         spuId: String,
         goods: Spu
     ): Spu {
         return spuRepository.updateSpu(spuId, goods)
     }
 
-     fun deleteById(spuId: String) {
+    fun deleteById(spuId: String) {
         return spuRepository.deleteById(spuId)
     }
 }

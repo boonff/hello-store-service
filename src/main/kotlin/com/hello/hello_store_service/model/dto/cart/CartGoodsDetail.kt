@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.model.dto.cart
 
-import com.hello.hello_store_service.model.dto.goods.SpecDTO
+import com.hello.hello_store_service.model.dto.goods.SelectedSpec
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.model.entity.goods.Spec
@@ -25,7 +25,7 @@ data class CartGoodsDetail(
     val groupIdList: List<String>?,
     val spuTagList: List<SpuTag>,
 
-    val specInfo: List<SpecDTO>,
+    val specInfo: List<SelectedSpec>,
 
     val available: Int?,                     // 是否可售
     val price: Int?,
@@ -36,12 +36,14 @@ data class CartGoodsDetail(
     val soldQuantity: Int                    // 已售
 ) {
     companion object {
-        fun from(spu: Spu, sku: Sku, specMap: Map<String, Spec>, cart: Cart): CartGoodsDetail {
+        fun from(spu: Spu, sku: Sku, cart: Cart, specs: List<Spec>): CartGoodsDetail {
+            val specMap = specs.associateBy { it.specId }
             val specInfo = sku.specInfo.groupBy { it.specId }.mapNotNull { (specId, specRefs) ->
                 specMap[specId]?.let { spec ->
                     specRefs.firstOrNull()?.let { ref ->
                         spec.values.find { it.specValueId == ref.specValueId }?.let { value ->
-                            SpecDTO(
+                            SelectedSpec(
+                                specId = spec.specId,
                                 specTitle = spec.title,
                                 specValue = value.specValue,
                                 specValueId = value.specValueId

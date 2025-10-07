@@ -1,5 +1,6 @@
 package com.hello.hello_store_service.controller
 
+import com.hello.hello_store_service.model.dto.goods.SpuDTO
 import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.Sku
 import com.hello.hello_store_service.model.entity.goods.SpuTag
@@ -48,7 +49,7 @@ class GoodsController(
 
     // 根据 spuId 获取单个商品
     @GetMapping("/{spuId}")
-    fun getGoodsBySpuId(@PathVariable spuId: String): Spu? {
+    fun getGoodsBySpuId(@PathVariable spuId: String): SpuDTO? {
         return goodsService.fetchBySpuId(spuId)
     }
 
