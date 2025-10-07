@@ -9,6 +9,7 @@ data class Cart(
     val id: String? = null,
 
     val username: String,                   // 哪个用户的购物车
+    val isAllSelected: Boolean = false,
     val items: List<CartItem>,        // 购物车中的商品
 )
 

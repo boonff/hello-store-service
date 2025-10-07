@@ -52,8 +52,8 @@ class CartService(
                     skuMap[item.skuId]?.let { sku ->
                         spuMap[sku.spuId]?.let { spu ->
                             //获取
-                            val specMap = specService.getSpecsBySpuId(spu.spuId).associateBy { it.specId }
-                            CartGoodsDetail.from(spu, sku, specMap, cart)
+                            val specs = specService.getSpecsBySpuId(spu.spuId)
+                            CartGoodsDetail.from(spu, sku, cart, specs)
                         }
                     }
                 }
@@ -80,7 +80,7 @@ class CartService(
         }
 
         val result = CartDTO(
-            isAllSelected = true,
+            isAllSelected = cart.isAllSelected,
             selectedGoodsCount = cart.items.size,
             totalAmount = storeGoodsList.sumOf { it.totalDiscountSalePrice },
             totalDiscountAmount = 0, // 可根据促销逻辑计算
@@ -118,12 +118,26 @@ class CartService(
     }
 
     /** 选择/取消选择单个商品 **/
-    fun selectCartItem(username: String, skuId: String, isSelected: Boolean){
+    fun selectCartItem(username: String, skuId: String){
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return
         val updateItem = cart.items.map{
             if (it.skuId == skuId) it.copy(isSelected = !it.isSelected) else it
         }
         cartRepository.save(cart.copy(items = updateItem))
+    }
+    /** 全选/取消商店 **/
+    fun selectStoreCartItem(username: String, storeId:String, isSelected: Boolean){
+        val cart = cartRepository.findByUsername(username).firstOrNull() ?: return
+        val updateItem = cart.items.map{
+            if (it.storeId == storeId) it.copy(isSelected = isSelected) else it
+        }
+        cartRepository.save(cart.copy(items = updateItem))
+    }
+    /** 全选/取消全选购物车 **/
+    fun selectAllCartItems(username: String, isAllSelected:Boolean){
+        val cart = cartRepository.findByUsername(username).firstOrNull() ?: return
+
+        cartRepository.save(cart.copy(isAllSelected = isAllSelected))
     }
 
     /** 更新购物车中某个商品数量 */

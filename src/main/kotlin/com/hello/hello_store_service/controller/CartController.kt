@@ -23,11 +23,29 @@ class CartController(
     @PutMapping("/select/{skuId}")
     fun selectCartItem(
         @PathVariable skuId: String,
+    ) {
+        val username = SecurityUtils.currentUsername()
+        cartService.selectCartItem(username, skuId)
+    }
+    /** 全选/取消商店 **/
+    @PutMapping("/select/store/{storeId}")
+    fun selectStoreCartItem(
+        @PathVariable storeId: String,
         @RequestParam isSelected: Boolean
     ) {
         val username = SecurityUtils.currentUsername()
-        cartService.selectCartItem(username, skuId, isSelected)
+        cartService.selectStoreCartItem(username, storeId, isSelected)
     }
+    /** 全选/取消全选购物车 **/
+    @PutMapping("/select/all")
+    fun selectAllCartItems(
+        @RequestParam isSelected: Boolean
+    ) {
+        val username = SecurityUtils.currentUsername()
+        cartService.selectAllCartItems(username, isSelected)
+    }
+
+
 
     /** 添加商品到购物车 */
     @PostMapping("/add")
@@ -35,6 +53,8 @@ class CartController(
         val username = SecurityUtils.currentUsername()
         cartService.addCartItem(username, newItem)
     }
+
+
 
     /** 更新购物车中某个商品数量 */
     @PutMapping("/update/{skuId}")
