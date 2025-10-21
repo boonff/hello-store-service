@@ -39,8 +39,7 @@ class CartService(
         val storeIds = spuMap.values.map { it.storeId }.distinct()
         val storeMap = storeService.getStoreByIds(storeIds).associateBy { it.storeId }
 
-        val promotionMap = promotionService.getPromotionsByStores(storeIds)
-            .groupBy { it.storeId }
+        val promotionMap = promotionService.getPromotionsByStores(storeIds).groupBy { it.storeId }
 
         val storeGoodsList = storeIds.mapNotNull { storeId ->
             val store = storeMap[storeId] ?: return@mapNotNull null
@@ -51,7 +50,6 @@ class CartService(
                 val promoGoods = storeItems.mapNotNull { item ->
                     skuMap[item.skuId]?.let { sku ->
                         spuMap[sku.spuId]?.let { spu ->
-                            //获取
                             val specs = specService.getSpecsBySpuId(spu.spuId)
                             CartGoodsDetail.from(spu, sku, cart, specs)
                         }
