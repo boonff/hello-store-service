@@ -4,7 +4,6 @@ import com.hello.hello_store_service.model.business.cart.CartItemBO
 import com.hello.hello_store_service.model.view.cart.CartView
 import com.hello.hello_store_service.model.view.cart.PromotionGoods
 import com.hello.hello_store_service.model.view.cart.StoreGoods
-import com.hello.hello_store_service.model.view.cart.CartGoodsView
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.cart.CartItem
 import com.hello.hello_store_service.model.entity.goods.Spu

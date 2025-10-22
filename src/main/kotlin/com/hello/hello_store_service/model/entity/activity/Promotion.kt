@@ -1,6 +1,5 @@
 package com.hello.hello_store_service.model.entity.activity
 
-import com.hello.hello_store_service.model.common.ProductCondition
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -29,5 +28,12 @@ data class PromotionRule(
 enum class PromotionStatus {
     Discount, FullReduction, Gift
 }
+
+data class ProductCondition(
+    val spuIds: List<String>? = null, // 指定商品
+    val categoryIds: List<String>? = null, // 指定分类
+    val allProducts: Boolean = false      // 全店促销
+)
+
 
 
