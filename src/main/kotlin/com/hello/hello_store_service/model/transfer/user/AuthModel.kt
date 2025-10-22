@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.model.dto.user
+package com.hello.hello_store_service.model.transfer.user
 
 import com.hello.hello_store_service.model.entity.user.UserType
 

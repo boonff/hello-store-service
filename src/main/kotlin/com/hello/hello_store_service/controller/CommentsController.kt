@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.controller
 
-import com.hello.hello_store_service.model.dto.comment.CommentCount
+import com.hello.hello_store_service.model.view.comment.CommentCountView
 import com.hello.hello_store_service.model.entity.comment.Comments
 import com.hello.hello_store_service.service.comment.CommentsService
 import com.hello.hello_store_service.service.file.FileService
@@ -56,7 +56,7 @@ class CommentsController(
     }
 
     @GetMapping("/count")
-    fun getCommentCount(@RequestParam("spuId") spuId: String): CommentCount {
+    fun getCommentCount(@RequestParam("spuId") spuId: String): CommentCountView {
         return commentsService.getCommentsCount(spuId)
     }
 }

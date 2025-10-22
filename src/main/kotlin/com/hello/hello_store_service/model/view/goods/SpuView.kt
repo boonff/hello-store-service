@@ -1,11 +1,8 @@
-package com.hello.hello_store_service.model.dto.goods
+package com.hello.hello_store_service.model.view.goods
 
 import com.hello.hello_store_service.model.entity.goods.*
 
-/**
- * 商品详情 DTO（以 SPU 为主体，包含 SKU 和规格信息）
- */
-data class SpuDTO(
+data class SpuView(
     val spuId: String,                       // 商品 ID
     val saasId: String,
     val storeId: String,
@@ -30,8 +27,8 @@ data class SpuDTO(
     val skuList: List<Sku>
 ) {
     companion object {
-        fun from(spu: Spu, skus: List<Sku>, specs: List<Spec>): SpuDTO {
-            return SpuDTO(
+        fun from(spu: Spu, skus: List<Sku>, specs: List<Spec>): SpuView {
+            return SpuView(
                 spuId = spu.spuId,
                 saasId = spu.saasId,
                 storeId = spu.storeId,

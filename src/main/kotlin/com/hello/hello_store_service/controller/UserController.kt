@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.config.MinioProperties
-import com.hello.hello_store_service.model.dto.user.UserDto
+import com.hello.hello_store_service.model.view.user.UserView
 import com.hello.hello_store_service.service.file.FileService
 import com.hello.hello_store_service.service.user.UserService
 import com.hello.hello_store_service.util.SecurityUtils
@@ -20,14 +20,14 @@ class UserController(
 
     // 获取当前登录用户信息
     @GetMapping("/info")
-    fun getUserInfo(): ResponseEntity<UserDto> {
+    fun getUserInfo(): ResponseEntity<UserView> {
         val authentication = SecurityContextHolder.getContext().authentication
         val username = authentication.name
 
         val user = userService.getUser(username)
             ?: return ResponseEntity.notFound().build()
 
-        return ResponseEntity.ok(UserDto.from(user))
+        return ResponseEntity.ok(UserView.from(user))
     }
 
     // 上传用户头像

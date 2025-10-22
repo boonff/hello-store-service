@@ -1,6 +1,6 @@
-package com.hello.hello_store_service.model.dto.comment
+package com.hello.hello_store_service.model.view.comment
 
-data class CommentCount(
+data class CommentCountView(
     val commentCount: Int,
     val badCount: Int,
     val middleCount: Int,

@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service.goods
 
-import com.hello.hello_store_service.model.dto.goods.SpuDTO
+import com.hello.hello_store_service.model.view.goods.SpuView
 import com.hello.hello_store_service.model.entity.goods.Spu
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.repository.goods.SkuRepository
@@ -33,11 +33,11 @@ class SpuService(
         return spuRepository.findByRange(pageIndex, pageSize)
     }
 
-    fun fetchBySpuId(supId: String): SpuDTO? {
+    fun fetchBySpuId(supId: String): SpuView? {
         spuRepository.findBySpuId(supId)?.let { spu ->
             val specs = specRepository.findBySpuId(supId)
             val skus = skuRepository.findBySpuId(supId)
-            return SpuDTO.from(spu, skus, specs)
+            return SpuView.from(spu, skus, specs)
         }
         return null
     }

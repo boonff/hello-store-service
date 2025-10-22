@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.model.dto.address
+package com.hello.hello_store_service.model.transfer.address
 
 import com.hello.hello_store_service.model.entity.address.Address
 

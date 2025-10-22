@@ -1,9 +1,10 @@
 package com.hello.hello_store_service.service.chart
 
-import com.hello.hello_store_service.model.dto.cart.CartInfo
-import com.hello.hello_store_service.model.dto.cart.PromotionGoods
-import com.hello.hello_store_service.model.dto.cart.StoreGoods
-import com.hello.hello_store_service.model.dto.cart.CartGoodsDetail
+import com.hello.hello_store_service.model.business.cart.CartItemBO
+import com.hello.hello_store_service.model.view.cart.CartView
+import com.hello.hello_store_service.model.view.cart.PromotionGoods
+import com.hello.hello_store_service.model.view.cart.StoreGoods
+import com.hello.hello_store_service.model.view.cart.CartGoodsView
 import com.hello.hello_store_service.model.entity.cart.Cart
 import com.hello.hello_store_service.model.entity.cart.CartItem
 import com.hello.hello_store_service.model.entity.goods.Spu
@@ -27,7 +28,7 @@ class CartService(
 ) {
 
     /** 获取用户所有购物车 */
-    fun getUserCart(username: String): CartInfo? {
+    fun getUserCart(username: String): CartView? {
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return null
 
         val skuIds = cart.items.map { it.skuId }
@@ -51,7 +52,7 @@ class CartService(
                     skuMap[item.skuId]?.let { sku ->
                         spuMap[sku.spuId]?.let { spu ->
                             val specs = specService.getSpecsBySpuId(spu.spuId)
-                            CartGoodsDetail.from(spu, sku, cart, specs)
+                            CartItemBO(item, sku, spu, specs).toCartGoodsView()
                         }
                     }
                 }
@@ -77,7 +78,7 @@ class CartService(
             )
         }
 
-        val result = CartInfo(
+        val result = CartView(
             isAllSelected = cart.isAllSelected,
             selectedGoodsCount = cart.items.size,
             totalAmount = storeGoodsList.sumOf { it.totalDiscountSalePrice },

@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service.comment
 
-import com.hello.hello_store_service.model.dto.comment.CommentCount
+import com.hello.hello_store_service.model.view.comment.CommentCountView
 import com.hello.hello_store_service.model.entity.comment.Comments
 import com.hello.hello_store_service.repository.comment.CommentsRepository
 import org.slf4j.LoggerFactory
@@ -45,7 +45,7 @@ class CommentsService(private val commentsRepository: CommentsRepository) {
         return commentsRepository.findRandomTop(spuId, randomSize, selectSize)
     }
 
-    fun getCommentsCount(spuId: String): CommentCount {
+    fun getCommentsCount(spuId: String): CommentCountView {
         val comments = commentsRepository.findBySpuId(spuId)
         logger.info("开始统计评论数据, comments={}", comments)
 
@@ -62,7 +62,7 @@ class CommentsService(private val commentsRepository: CommentsRepository) {
             0.0
         }
 
-        return CommentCount(
+        return CommentCountView(
             commentCount = commentCount,
             badCount = badCount,
             middleCount = middleCount,

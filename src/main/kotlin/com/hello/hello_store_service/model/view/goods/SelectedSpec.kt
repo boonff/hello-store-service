@@ -1,8 +1,6 @@
-package com.hello.hello_store_service.model.dto.goods
+package com.hello.hello_store_service.model.view.goods
 
-/**
- * 规格 DTO（为了前端好展示）
- */
+
 data class SelectedSpec(
     val specId: String,
     val specTitle: String,       // 规格名称

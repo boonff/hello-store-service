@@ -1,8 +1,8 @@
-package com.hello.hello_store_service.model.dto.cart
+package com.hello.hello_store_service.model.view.cart
 
 import com.hello.hello_store_service.model.entity.activity.PromotionStatus
 
-data class CartInfo(
+data class CartView(
     val isAllSelected: Boolean = false,   // 是否全选
     val selectedGoodsCount: Int = 0,      // 已选择商品数量
     val totalAmount: Long = 0,            // 总金额（分）
@@ -27,5 +27,5 @@ data class PromotionGoods(
     val description: String,
     val doorSillRemain: Long,
     val isNeedAddOnShop: Boolean,
-    val goods: List<CartGoodsDetail>
+    val goods: List<CartGoodsView>
 )
