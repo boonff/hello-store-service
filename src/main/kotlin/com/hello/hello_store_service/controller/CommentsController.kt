@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.model.view.comment.CommentCountView
-import com.hello.hello_store_service.model.entity.comment.Comments
+import com.hello.hello_store_service.model.entity.comment.CommentEntity
 import com.hello.hello_store_service.service.comment.CommentsService
 import com.hello.hello_store_service.service.file.FileService
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,12 +17,12 @@ class CommentsController(
     private val fileService: FileService
 ) {
     @GetMapping()
-    fun getAllComments(): List<Comments> {
+    fun getAllComments(): List<CommentEntity> {
         return commentsService.findAll()
     }
 
     @GetMapping("/{spuId}")
-    fun getCommentsBySpuId(@PathVariable spuId: String): List<Comments> {
+    fun getCommentsBySpuId(@PathVariable spuId: String): List<CommentEntity> {
         return commentsService.findBySpuId(spuId)
     }
 
@@ -33,7 +33,7 @@ class CommentsController(
         @RequestParam("pageSize") pageSize: Int,
         @RequestParam("hasImage") hasImage: Boolean,
         @RequestParam("commentLevel") commentLevel: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         return commentsService.findDetail(spuId, pageIndex, pageSize, hasImage, commentLevel)
     }
 
@@ -42,7 +42,7 @@ class CommentsController(
         @RequestParam("spuId") spuId: String,
         @RequestParam("pageIndex") pageIndex: Int,
         @RequestParam("pageSize") pageSize: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         return commentsService.findByRange(spuId, pageIndex, pageSize)
     }
 
@@ -51,7 +51,7 @@ class CommentsController(
         @RequestParam("spuId") spuId: String,
         @RequestParam("randomSize") randomSie: Int,
         @RequestParam("selectSize") selectSize: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         return commentsService.findRandomTop(spuId, randomSie, selectSize)
     }
 

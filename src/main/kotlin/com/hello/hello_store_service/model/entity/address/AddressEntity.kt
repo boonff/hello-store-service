@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("address")
-data class Address(
+data class AddressEntity(
     @Id
     val id: String? = null,
     val saasId: String? = null,

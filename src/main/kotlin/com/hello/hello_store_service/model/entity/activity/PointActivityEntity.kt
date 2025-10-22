@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("point_activities")
-data class PointActivity(
+data class PointActivityEntity(
     @Id
     val id: String? = null,
     val activityId: String? = null,

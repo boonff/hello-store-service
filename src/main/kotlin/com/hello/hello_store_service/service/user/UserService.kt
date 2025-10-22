@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.service.user
 
-import com.hello.hello_store_service.model.entity.user.User
-import com.hello.hello_store_service.model.entity.user.UserCredential
+import com.hello.hello_store_service.model.entity.user.UserEntity
+import com.hello.hello_store_service.model.entity.user.UserCredentialEntity
 import com.hello.hello_store_service.model.entity.user.UserType
 import com.hello.hello_store_service.repository.user.UserCredentialRepository
 import com.hello.hello_store_service.repository.user.UserRepository
@@ -19,7 +19,7 @@ class UserService(
     private val userCredentialRepository: UserCredentialRepository,
     private val mongoTemplate: MongoTemplate
 ) {
-    fun getUser(username: String): User? {
+    fun getUser(username: String): UserEntity? {
         return userRepository.findByUsername(username)
     }
 
@@ -30,13 +30,13 @@ class UserService(
         nickName: String,
         password: String,
         userType: UserType
-    ): User {
+    ): UserEntity {
         if (userRepository.findByUsername(username) != null) {
             throw IllegalArgumentException("用户名已存在")
         }
 
         // 先创建用户基础信息
-        val user = User(
+        val user = UserEntity(
             phoneNumber = phoneNumber,
             username = username,
             nickName = nickName,
@@ -50,7 +50,7 @@ class UserService(
         val salt = BCrypt.gensalt()
         val passwordHash = BCrypt.hashpw(password, salt)
 
-        val credential = UserCredential(
+        val credential = UserCredentialEntity(
             username = savedUser.username,   // 使用用户名作为关联
             passwordHash = passwordHash,
             salt = salt
@@ -73,7 +73,7 @@ class UserService(
         val update = Update()
             .set("avatarUrl", newAvatarUrl)
             .set("updatedAt", Instant.now())
-        mongoTemplate.updateFirst(query, update, User::class.java)
+        mongoTemplate.updateFirst(query, update, UserEntity::class.java)
     }
 
     fun updateNickName(username: String, newNickName: String) {
@@ -81,7 +81,7 @@ class UserService(
         val update = Update()
             .set("nickName", newNickName)
             .set("updatedAt", Instant.now())
-        mongoTemplate.updateFirst(query, update, User::class.java)
+        mongoTemplate.updateFirst(query, update, UserEntity::class.java)
     }
 
     fun updateGender(username: String, newGender: Int) {
@@ -90,6 +90,6 @@ class UserService(
         val update = Update()
             .set("gender", newGender)
             .set("updatedAt", Instant.now())
-        mongoTemplate.updateFirst(query, update, User::class.java)
+        mongoTemplate.updateFirst(query, update, UserEntity::class.java)
     }
 }

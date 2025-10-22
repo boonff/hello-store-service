@@ -1,11 +1,11 @@
 package com.hello.hello_store_service.model.business.activity
 
-import com.hello.hello_store_service.model.entity.activity.Coupon
+import com.hello.hello_store_service.model.entity.activity.CouponEntity
 import com.hello.hello_store_service.model.entity.activity.CouponType
 import java.time.LocalDateTime
 
 data class CouponBO(
-    val coupon: Coupon,
+    val coupon: CouponEntity,
     val isUsed: Boolean,
     val receivedAt: LocalDateTime
 ) {

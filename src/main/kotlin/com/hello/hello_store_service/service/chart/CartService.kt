@@ -4,10 +4,10 @@ import com.hello.hello_store_service.model.business.cart.CartItemBO
 import com.hello.hello_store_service.model.view.cart.CartView
 import com.hello.hello_store_service.model.view.cart.PromotionGoods
 import com.hello.hello_store_service.model.view.cart.StoreGoods
-import com.hello.hello_store_service.model.entity.cart.Cart
+import com.hello.hello_store_service.model.entity.cart.CartEntity
 import com.hello.hello_store_service.model.entity.cart.CartItem
-import com.hello.hello_store_service.model.entity.goods.Spu
-import com.hello.hello_store_service.model.entity.goods.Sku
+import com.hello.hello_store_service.model.entity.goods.SpuEntity
+import com.hello.hello_store_service.model.entity.goods.SkuEntity
 import com.hello.hello_store_service.repository.cart.CartRepository
 import com.hello.hello_store_service.service.activity.PromotionService
 import com.hello.hello_store_service.service.goods.SpuService
@@ -31,10 +31,10 @@ class CartService(
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return null
 
         val skuIds = cart.items.map { it.skuId }
-        val skuMap: Map<String, Sku> = skuService.getSkusBySpuIds(skuIds).associateBy { it.skuId }
+        val skuMap: Map<String, SkuEntity> = skuService.getSkusBySpuIds(skuIds).associateBy { it.skuId }
 
         val spuIds = skuMap.values.map { it.spuId }.distinct()
-        val spuMap: Map<String, Spu> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
+        val spuMap: Map<String, SpuEntity> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
 
         val storeIds = spuMap.values.map { it.storeId }.distinct()
         val storeMap = storeService.getStoreByIds(storeIds).associateBy { it.storeId }
@@ -97,7 +97,7 @@ class CartService(
 
         if (cart == null) {
             // 如果没有购物车，创建一个新的
-            val newCart = Cart(username = username, items = listOf(newItem))
+            val newCart = CartEntity(username = username, items = listOf(newItem))
             cartRepository.save(newCart)
         } else {
             // 已有购物车，更新或新增 CartItem

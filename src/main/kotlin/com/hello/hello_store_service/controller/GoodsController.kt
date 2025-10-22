@@ -1,8 +1,8 @@
 package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.model.view.goods.SpuView
-import com.hello.hello_store_service.model.entity.goods.Spu
-import com.hello.hello_store_service.model.entity.goods.Sku
+import com.hello.hello_store_service.model.entity.goods.SpuEntity
+import com.hello.hello_store_service.model.entity.goods.SkuEntity
 import com.hello.hello_store_service.model.entity.goods.SpuTag
 import com.hello.hello_store_service.service.file.FileService
 import com.hello.hello_store_service.service.goods.SpuService
@@ -28,7 +28,7 @@ class GoodsController(
 ) {
     // 查询所有商品
     @GetMapping
-    fun getAllGoods(): List<Spu> {
+    fun getAllGoods(): List<SpuEntity> {
         return goodsService.fetchAll()
     }
 
@@ -37,13 +37,13 @@ class GoodsController(
     fun getRangeGoods(
         @RequestParam("pageIndex") pageIndex: Int,
         @RequestParam("pageSize") pageSize: Int
-    ): List<Spu> {
+    ): List<SpuEntity> {
         return goodsService.fetchByRange(pageIndex, pageSize)
     }
 
     // 根据关键字搜索商品
     @GetMapping("/search")
-    fun searchGoods(@RequestParam keyword: String): List<Spu> {
+    fun searchGoods(@RequestParam keyword: String): List<SpuEntity> {
         return goodsService.search(keyword)
     }
 
@@ -64,7 +64,7 @@ class GoodsController(
         @RequestParam(required = false) categoryIds: List<String> = emptyList(),
         @RequestParam(required = false) groupIdList: List<String> = emptyList(),
         @RequestParam(required = false, defaultValue = "1") isPutOnSale: Int
-    ): Spu {
+    ): SpuEntity {
         return goodsService.createSpu(
             saasId = "88888888",
             storeId = "1000",
@@ -82,20 +82,20 @@ class GoodsController(
 
     // 根据supId获取sku
     @GetMapping("/{spuId}/skus")
-    fun getSkusBySpuId(@PathVariable spuId: String): List<Sku> {
+    fun getSkusBySpuId(@PathVariable spuId: String): List<SkuEntity> {
         return skuService.getSkusBySpuId(spuId)
     }
 
     // 批量获取多个商品的 SKU
     @GetMapping("/skus")
-    fun getSkusBySpuIds(@RequestParam spuIds: List<String>): List<Sku> {
+    fun getSkusBySpuIds(@RequestParam spuIds: List<String>): List<SkuEntity> {
         return skuService.getSkusBySpuIds(spuIds)
     }
 
 
     // 更新商品
     @PutMapping("/{spuId}")
-    fun updateGoods(@PathVariable spuId: String, @RequestBody goods: Spu): Spu {
+    fun updateGoods(@PathVariable spuId: String, @RequestBody goods: SpuEntity): SpuEntity {
         return goodsService.updateSpu(spuId, goods)
     }
 

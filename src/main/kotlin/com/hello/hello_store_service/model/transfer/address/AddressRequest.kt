@@ -1,9 +1,9 @@
 package com.hello.hello_store_service.model.transfer.address
 
-import com.hello.hello_store_service.model.entity.address.Address
+import com.hello.hello_store_service.model.entity.address.AddressEntity
 
 
-data class AddressDTO(
+data class AddressRequest(
     val cityCode: String,
     val cityName: String,
     val countryCode: String,
@@ -21,8 +21,8 @@ data class AddressDTO(
     val latitude: Float? = null,
     val longitude: Float? = null,
 ) {
-    fun toEntity(username: String): Address {
-        return Address(
+    fun toEntity(username: String): AddressEntity {
+        return AddressEntity(
             id = null,
             saasId = null,
             storeId = null,

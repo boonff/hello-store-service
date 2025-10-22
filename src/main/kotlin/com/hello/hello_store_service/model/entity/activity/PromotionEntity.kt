@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("promotions")
-data class Promotion(
+data class PromotionEntity(
     @Id
     val id: String? = null,
     val storeId: String,

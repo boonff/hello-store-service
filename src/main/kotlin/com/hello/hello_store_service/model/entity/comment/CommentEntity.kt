@@ -8,7 +8,7 @@ import java.time.LocalDateTime
  * 评论实体类，对应 MongoDB 的 "comments" 集合
  */
 @Document("comments")
-data class Comments(
+data class CommentEntity(
     @Id
     val id: String? = null,                   // MongoDB 主键 (ObjectId)
 

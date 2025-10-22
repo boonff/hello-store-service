@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service.config
 
-import com.hello.hello_store_service.model.entity.config.AppConfig
+import com.hello.hello_store_service.model.entity.config.AppConfigEntity
 import com.hello.hello_store_service.model.entity.config.CustomerService
 import com.hello.hello_store_service.repository.config.AppConfigRepository
 import org.springframework.stereotype.Service
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service
 class AppConfigService(
     private val repository: AppConfigRepository,
 ) {
-    fun getConfig(): AppConfig? =
+    fun getConfig(): AppConfigEntity? =
         repository.findByConfigId("appConfig")
 
-    fun updateConfig(config: AppConfig): AppConfig =
+    fun updateConfig(config: AppConfigEntity): AppConfigEntity =
         repository.save(config.copy(configId = "appConfig"))
 
-    fun initConfig(defaultConfig: AppConfig): AppConfig =
+    fun initConfig(defaultConfig: AppConfigEntity): AppConfigEntity =
         getConfig() ?: repository.save(defaultConfig.copy(configId = "appConfig"))
 
     /**
@@ -27,8 +27,8 @@ class AppConfigService(
     /**
      * 更新客服配置
      */
-    fun updateCustomerService(customerService: CustomerService): AppConfig {
-        val config = getConfig() ?: AppConfig(customerService = customerService)
+    fun updateCustomerService(customerService: CustomerService): AppConfigEntity {
+        val config = getConfig() ?: AppConfigEntity(customerService = customerService)
         return repository.save(config.copy(customerService = customerService))
     }
 }

@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.repository.comment
 
-import com.hello.hello_store_service.model.entity.comment.Comments
+import com.hello.hello_store_service.model.entity.comment.CommentEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -11,12 +11,12 @@ import org.springframework.data.mongodb.core.query.Query
 class CommentsRepositoryImpl : CommentsRepositoryCustom {
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
-    override fun findByRange(spuId: String, pageIndex: Int, pageSize: Int): List<Comments> {
+    override fun findByRange(spuId: String, pageIndex: Int, pageSize: Int): List<CommentEntity> {
         val query = Query()
         query.addCriteria(Criteria.where("spuId").`is`(spuId))
         query.skip((pageIndex * pageSize).toLong())
         query.limit(pageSize)
-        return mongoTemplate.find(query, Comments::class.java)
+        return mongoTemplate.find(query, CommentEntity::class.java)
     }
 
     override fun findDetail(
@@ -25,7 +25,7 @@ class CommentsRepositoryImpl : CommentsRepositoryCustom {
         pageSize: Int,
         hasImage: Boolean,
         commentLevel: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         val matchStage = Aggregation.match(Criteria.where("spuId").`is`(spuId))
         // 可选筛选：有图
         val hasImageStage = if (hasImage) {
@@ -48,7 +48,7 @@ class CommentsRepositoryImpl : CommentsRepositoryCustom {
         val stages = listOfNotNull(matchStage, hasImageStage, commentLevelStage, skipStage, limitStage)
         val aggregation = Aggregation.newAggregation(stages)
 
-        return mongoTemplate.aggregate(aggregation, "comments", Comments::class.java).mappedResults
+        return mongoTemplate.aggregate(aggregation, "comments", CommentEntity::class.java).mappedResults
 
     }
 
@@ -56,7 +56,7 @@ class CommentsRepositoryImpl : CommentsRepositoryCustom {
         spuId: String,
         randomSize: Int,
         selectSize: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         // 随机选取 randomSize 条 spuId 匹配的评论
         val matchStage = Aggregation.match(Criteria.where("spuId").`is`(spuId))
         val sampleStage = Aggregation.sample(randomSize.toLong())
@@ -69,6 +69,6 @@ class CommentsRepositoryImpl : CommentsRepositoryCustom {
 
         val aggregation = Aggregation.newAggregation(matchStage, sampleStage, sortStage, limitStage)
 
-        return mongoTemplate.aggregate(aggregation, "comments", Comments::class.java).mappedResults
+        return mongoTemplate.aggregate(aggregation, "comments", CommentEntity::class.java).mappedResults
     }
 }

@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.service.comment
 
 import com.hello.hello_store_service.model.view.comment.CommentCountView
-import com.hello.hello_store_service.model.entity.comment.Comments
+import com.hello.hello_store_service.model.entity.comment.CommentEntity
 import com.hello.hello_store_service.repository.comment.CommentsRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -11,11 +11,11 @@ class CommentsService(private val commentsRepository: CommentsRepository) {
 
     private val logger = LoggerFactory.getLogger(CommentsService::class.java)
 
-    fun findAll(): List<Comments> {
+    fun findAll(): List<CommentEntity> {
         return commentsRepository.findAll()
     }
 
-    fun findBySpuId(spuId: String): List<Comments> {
+    fun findBySpuId(spuId: String): List<CommentEntity> {
         return commentsRepository.findBySpuId(spuId)
     }
 
@@ -23,7 +23,7 @@ class CommentsService(private val commentsRepository: CommentsRepository) {
         spuId: String,
         pageIndex: Int,
         pageSize: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         return commentsRepository.findByRange(spuId, pageIndex, pageSize)
     }
 
@@ -33,7 +33,7 @@ class CommentsService(private val commentsRepository: CommentsRepository) {
         pageSize: Int,
         hasImage: Boolean,
         commentLevel: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         return commentsRepository.findDetail(spuId, pageIndex, pageSize, hasImage, commentLevel)
     }
 
@@ -41,7 +41,7 @@ class CommentsService(private val commentsRepository: CommentsRepository) {
         spuId: String,
         randomSize: Int,
         selectSize: Int
-    ): List<Comments> {
+    ): List<CommentEntity> {
         return commentsRepository.findRandomTop(spuId, randomSize, selectSize)
     }
 

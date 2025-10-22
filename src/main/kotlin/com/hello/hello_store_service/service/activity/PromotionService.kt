@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.service.activity
 
-import com.hello.hello_store_service.model.entity.activity.Promotion
+import com.hello.hello_store_service.model.entity.activity.PromotionEntity
 import com.hello.hello_store_service.model.entity.activity.PromotionStatus
 import com.hello.hello_store_service.repository.activity.PromotionRepository
 import org.springframework.stereotype.Service
@@ -10,12 +10,12 @@ import java.time.Instant
 class PromotionService(private val promotionRepository: PromotionRepository) {
 
     // 新增或更新促销活动
-    fun savePromotion(promotion: Promotion): Promotion {
+    fun savePromotion(promotion: PromotionEntity): PromotionEntity {
         return promotionRepository.save(promotion)
     }
 
     // 根据ID查找促销活动
-    fun getPromotionById(id: String): Promotion? {
+    fun getPromotionById(id: String): PromotionEntity? {
         return promotionRepository.findById(id).orElse(null)
     }
 
@@ -25,33 +25,33 @@ class PromotionService(private val promotionRepository: PromotionRepository) {
     }
 
     // 获取某个店铺的所有促销活动
-    fun getPromotionsByStore(storeId: String): List<Promotion> {
+    fun getPromotionsByStore(storeId: String): List<PromotionEntity> {
         return promotionRepository.findByStoreId(storeId)
     }
 
-    fun getPromotionsByStores(storeIds: List<String>): List<Promotion> {
+    fun getPromotionsByStores(storeIds: List<String>): List<PromotionEntity> {
         if (storeIds.isEmpty()) return emptyList()
         return promotionRepository.findByStoreIdIn(storeIds)
     }
 
     // 根据状态查找促销活动
-    fun getPromotionsByStatus(status: Int): List<Promotion> {
+    fun getPromotionsByStatus(status: Int): List<PromotionEntity> {
         return promotionRepository.findByStatus(status)
     }
 
     // 获取当前有效的促销活动（startAt <= now <= endAt）
-    fun getCurrentPromotions(): List<Promotion> {
+    fun getCurrentPromotions(): List<PromotionEntity> {
         val now = Instant.now().toEpochMilli()
         return promotionRepository.findByStartAtLessThanEqualAndEndAtGreaterThanEqual(now, now)
     }
 
     // 根据促销类型筛选
-    fun getPromotionsByType(type: PromotionStatus): List<Promotion> {
+    fun getPromotionsByType(type: PromotionStatus): List<PromotionEntity> {
         return promotionRepository.findAll().filter { it.rule.type == type }
     }
 
     // 根据标题关键字模糊搜索
-    fun searchPromotionsByTitle(keyword: String): List<Promotion> {
+    fun searchPromotionsByTitle(keyword: String): List<PromotionEntity> {
         return promotionRepository.findByTitleContaining(keyword)
     }
 }

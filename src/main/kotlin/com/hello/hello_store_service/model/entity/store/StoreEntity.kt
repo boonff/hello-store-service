@@ -2,11 +2,10 @@ package com.hello.hello_store_service.model.entity.store
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.Field
 import java.time.LocalDateTime
 
 @Document("stores")
-data class Store(
+data class StoreEntity(
     @Id
     val id: String? = null,
     val storeId: String? = null,           // 商铺ID

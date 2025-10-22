@@ -23,11 +23,11 @@ data class SpuView(
     val maxSalePrice: Int?,                  // 最高价
     val maxLinePrice: Int?,                  // 划线价
 
-    val specList: List<Spec>,
-    val skuList: List<Sku>
+    val specList: List<SpecEntity>,
+    val skuList: List<SkuEntity>
 ) {
     companion object {
-        fun from(spu: Spu, skus: List<Sku>, specs: List<Spec>): SpuView {
+        fun from(spu: SpuEntity, skus: List<SkuEntity>, specs: List<SpecEntity>): SpuView {
             return SpuView(
                 spuId = spu.spuId,
                 saasId = spu.saasId,

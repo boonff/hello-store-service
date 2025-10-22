@@ -1,17 +1,17 @@
 package com.hello.hello_store_service.model.business.cart
 
 import com.hello.hello_store_service.model.entity.cart.CartItem
-import com.hello.hello_store_service.model.entity.goods.Sku
-import com.hello.hello_store_service.model.entity.goods.Spec
-import com.hello.hello_store_service.model.entity.goods.Spu
+import com.hello.hello_store_service.model.entity.goods.SkuEntity
+import com.hello.hello_store_service.model.entity.goods.SpecEntity
+import com.hello.hello_store_service.model.entity.goods.SpuEntity
 import com.hello.hello_store_service.model.view.goods.SelectedSpec
 import com.hello.hello_store_service.model.view.cart.CartGoodsView
 
 data class CartItemBO(
     val cartItem: CartItem,   // Cart 中的单个条目
-    val sku: Sku,
-    val spu: Spu,
-    val specs: List<Spec>
+    val sku: SkuEntity,
+    val spu: SpuEntity,
+    val specs: List<SpecEntity>
 ) {
     fun isSelected(): Boolean = cartItem.isSelected
     fun quantity(): Int = cartItem.count

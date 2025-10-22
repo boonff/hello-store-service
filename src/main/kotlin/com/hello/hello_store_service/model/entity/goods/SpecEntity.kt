@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("specs")
-data class Spec(
+data class SpecEntity(
     @Id
     val id: String? = null,
     val specId: String,                      // 规格 ID

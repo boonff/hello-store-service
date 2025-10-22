@@ -9,7 +9,7 @@ import java.time.Instant
  * 用户集合
  */
 @Document(collection = "users")
-data class User(
+data class UserEntity(
     @Id
     val username: String,
     val nickName: String,

@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("skus")
-data class Sku(
+data class SkuEntity(
     @Id
     val id: String? = null,
     val skuId: String,                       // SKU ID

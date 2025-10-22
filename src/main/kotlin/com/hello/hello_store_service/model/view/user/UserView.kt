@@ -3,7 +3,7 @@ package com.hello.hello_store_service.model.view.user
 import com.hello.hello_store_service.model.entity.user.CountData
 import com.hello.hello_store_service.model.entity.user.MerchantInfo
 import com.hello.hello_store_service.model.entity.user.OrderTagInfo
-import com.hello.hello_store_service.model.entity.user.User
+import com.hello.hello_store_service.model.entity.user.UserEntity
 import com.hello.hello_store_service.model.entity.user.UserType
 
 data class UserView(
@@ -20,7 +20,7 @@ data class UserView(
     val updatedAt: Long
 ) {
     companion object {
-        fun from(user: User): UserView {
+        fun from(user: UserEntity): UserView {
             return UserView(
                 username = user.username,
                 nickName = user.nickName,

@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "app_config")
-data class AppConfig(
+data class AppConfigEntity(
     @Id
     val id: String? = null,
     val configId: String = "appConfig",

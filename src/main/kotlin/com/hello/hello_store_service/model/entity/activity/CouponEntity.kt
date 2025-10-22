@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document("coupons")
-data class Coupon(
+data class CouponEntity(
     @Id val couponId: String,
     val title: String,
     val description: String,
