@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 class SpecService(
     private val specRepository: SpecRepository
 ) {
+    fun getAll():List<SpecEntity> = specRepository.findAll()
 
     // 查询某商品的所有规格
     fun getSpecsBySpuId(spuId: String): List<SpecEntity> =

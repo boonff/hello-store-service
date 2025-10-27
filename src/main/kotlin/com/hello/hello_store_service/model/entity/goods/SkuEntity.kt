@@ -2,6 +2,7 @@ package com.hello.hello_store_service.model.entity.goods
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.math.BigDecimal
 
 @Document("skus")
 data class SkuEntity(
@@ -9,14 +10,15 @@ data class SkuEntity(
     val id: String? = null,
     val skuId: String,                       // SKU ID
     val spuId: String,                       // 所属商品 ID
-    val specInfo: List<SpecRef>,             // SKU 的规格组合
+    val storeId: String,
+    val specList: List<SpecRef>,             // SKU 的规格组合
     val stockInfo: StockInfo,                // 库存信息
     val skuImage: String? = null,            // SKU 图
     val weight: Weight? = null,              // 重量
-    val volume: Long? = null,                 // 体积
-    val profitPrice: Int? = null,             // 利润价
-    val minSalePrice: Int? = null,            // SKU 真实售价（可选缓存参考）
-    val maxLinePrice: Int? = null             // 划线价（原价）
+    val volume: Long? = null,                // 体积
+    val profitPrice: BigDecimal? = null,            // 利润价
+    val salePrice: BigDecimal,              // SKU 真实售价
+    val linePrice: BigDecimal? = null               // 划线价（原价）
 )
 
 /**

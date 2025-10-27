@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.model.view.cart
 
 import com.hello.hello_store_service.model.entity.goods.SpuTag
-import com.hello.hello_store_service.model.view.goods.SelectedSpec
+import com.hello.hello_store_service.model.view.goods.SpecDetail
 
 data class CartGoodsView(
     val spuId: String,                       // 商品 ID
@@ -21,7 +21,7 @@ data class CartGoodsView(
     val groupIdList: List<String>?,
     val spuTagList: List<SpuTag>,
 
-    val specInfo: List<SelectedSpec>,
+    val specInfo: List<SpecDetail>,
 
     val available: Int?,                     // 是否可售
     val price: Int?,

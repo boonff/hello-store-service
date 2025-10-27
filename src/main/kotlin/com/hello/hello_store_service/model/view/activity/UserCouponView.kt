@@ -28,7 +28,7 @@ data class UserCouponView(
                 value = bo.getValue(),
                 tag = bo.coupon.tag,
                 desc = bo.coupon.description,
-                base = bo.coupon.threshold,
+                base = bo.coupon.threshold.toDouble(),
                 title = bo.coupon.title,
                 timeLimit = timeLimit,
             )

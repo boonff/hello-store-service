@@ -21,12 +21,12 @@ class CouponController(
     @GetMapping("/user")
     fun getUserCoupon(): List<UserCouponView> {
         val username = SecurityUtils.currentUsername()
-        return couponService.getUserCoupons(username)
+        return couponService.fetchUserCoupons(username)
     }
 
     @GetMapping("/user/{status}")
     fun getStatusCoupon(@PathVariable status: String): List<UserCouponView> {
         val username = SecurityUtils.currentUsername()
-        return couponService.getStatusCoupons(username, status)
+        return couponService.fetchStatusCoupons(username, status)
     }
 }

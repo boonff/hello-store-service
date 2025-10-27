@@ -1,6 +1,7 @@
 package com.hello.hello_store_service.service.activity
 
 import com.hello.hello_store_service.model.business.activity.CouponBO
+import com.hello.hello_store_service.model.entity.activity.CouponEntity
 import com.hello.hello_store_service.model.view.activity.UserCouponView
 import com.hello.hello_store_service.repository.activity.CouponRepository
 import com.hello.hello_store_service.repository.activity.UserCouponRepository
@@ -11,7 +12,10 @@ class CouponService(
     private val couponRepository: CouponRepository,
     private val userCouponRepository: UserCouponRepository
 ) {
-    fun getUserCoupons(username: String): List<UserCouponView> {
+    fun fetchCouponById(couponId: String): CouponEntity? =
+        couponRepository.findById(couponId).get()
+
+    fun fetchUserCoupons(username: String): List<UserCouponView> {
         val userCoupons = userCouponRepository.findByUsername(username)
         val coupons = couponRepository.findAll().associateBy { it.couponId }
         return userCoupons.mapNotNull { uc ->
@@ -22,8 +26,8 @@ class CouponService(
         }
     }
 
-    fun getStatusCoupons(username: String, status: String): List<UserCouponView> {
-        return getUserCoupons(username).filter { it.status == status }
+    fun fetchStatusCoupons(username: String, status: String): List<UserCouponView> {
+        return fetchUserCoupons(username).filter { it.status == status }
 
     }
 }

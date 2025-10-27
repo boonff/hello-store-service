@@ -45,16 +45,12 @@ class CartController(
         cartService.selectAllCartItems(username, isSelected)
     }
 
-
-
     /** 添加商品到购物车 */
     @PostMapping("/add")
     fun addCartItem(@RequestBody newItem: CartItem) {
         val username = SecurityUtils.currentUsername()
         cartService.addCartItem(username, newItem)
     }
-
-
 
     /** 更新购物车中某个商品数量 */
     @PutMapping("/update/{skuId}")

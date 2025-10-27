@@ -2,6 +2,7 @@ package com.hello.hello_store_service.model.entity.activity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Document("coupons")
@@ -11,9 +12,9 @@ data class CouponEntity(
     val description: String,
     val type: CouponType,
     val tag: String?,
-    val threshold: Double?,     // 使用门槛
-    val discount: Double?,      // 减免金额
-    val discountRate: Double?,  // 折扣券
+    val threshold: BigDecimal,     // 使用门槛
+    val discount: BigDecimal?,      // 减免金额
+    val discountRate: Float?,  // 折扣券
     val validDays: Int = 0      // 有效天数
 )
 

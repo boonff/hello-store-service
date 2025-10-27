@@ -24,8 +24,8 @@ data class CouponBO(
     }
 
     fun getValue(): Double? = when (coupon.type) {
-        CouponType.PriceOff -> coupon.discount
-        CouponType.Discount -> coupon.discountRate
+        CouponType.PriceOff -> coupon.discount?.toDouble()
+        CouponType.Discount -> coupon.discountRate?.toDouble()
     }
 
     fun getTimeLimit(): Pair<LocalDateTime, LocalDateTime> {

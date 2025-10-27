@@ -31,7 +31,7 @@ class CartService(
         val cart = cartRepository.findByUsername(username).firstOrNull() ?: return null
 
         val skuIds = cart.items.map { it.skuId }
-        val skuMap: Map<String, SkuEntity> = skuService.getSkusBySpuIds(skuIds).associateBy { it.skuId }
+        val skuMap: Map<String, SkuEntity> = skuService.fetchByIds(skuIds).associateBy { it.skuId }
 
         val spuIds = skuMap.values.map { it.spuId }.distinct()
         val spuMap: Map<String, SpuEntity> = goodsService.fetchBySpuIds(spuIds).associateBy { it.spuId }
@@ -72,7 +72,7 @@ class CartService(
                 storeId = storeId,
                 storeName = store.storeName,
                 storeStatus = store.storeStatus,
-                totalDiscountSalePrice = storeItems.sumOf { (skuMap[it.skuId]?.minSalePrice ?: 0L).toLong() },
+                totalDiscountSalePrice = storeItems.sumOf { (skuMap[it.skuId]?.salePrice ?: 0L).toLong() },
                 promotionGoodsList = promotionGoodsList
             )
         }

@@ -1,6 +1,7 @@
 package com.hello.hello_store_service.service.goods
 
 import com.hello.hello_store_service.model.entity.goods.SkuEntity
+import com.hello.hello_store_service.model.view.goods.SkuDetail
 import com.hello.hello_store_service.repository.goods.SkuRepository
 import org.springframework.stereotype.Service
 
@@ -8,14 +9,26 @@ import org.springframework.stereotype.Service
 class SkuService(
     private val skuRepository: SkuRepository
 ) {
+    fun fetchDetail(skuId: String): SkuDetail? =
+        fetchById(skuId)?.let { skuEntity ->
+            SkuDetail.from(skuEntity)
+        }
 
-    // 根据 spuId 获取商品下的所有 SKU
-    fun getSkusBySpuId(spuId: String): List<SkuEntity> =
+    fun fetchDetails(skuId: String): List<SkuDetail> =
+        fetchBySpuId(skuId).map { skuEntity ->
+            SkuDetail.from(skuEntity)
+        }
+
+    fun fetchAll(): List<SkuEntity> = skuRepository.findAll()
+
+    fun fetchById(skuId: String): SkuEntity? =
+        skuRepository.findById(skuId).orElse(null)
+
+    fun fetchBySpuId(spuId: String): List<SkuEntity> =
         skuRepository.findBySpuId(spuId)
 
-    // 批量获取多个商品的 SKU
-    fun getSkusBySpuIds(spuIds: List<String>): List<SkuEntity> =
-        skuRepository.findAllBySpuIdIn(spuIds)
+    fun fetchByIds(skuIds: List<String>): List<SkuEntity> =
+        skuRepository.findAllById(skuIds)
 
     // 获取库存低于阈值的 SKU
     fun getLowStockSkus(threshold: Int): List<SkuEntity> =

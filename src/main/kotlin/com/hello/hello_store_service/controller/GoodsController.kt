@@ -2,8 +2,8 @@ package com.hello.hello_store_service.controller
 
 import com.hello.hello_store_service.model.view.goods.SpuView
 import com.hello.hello_store_service.model.entity.goods.SpuEntity
-import com.hello.hello_store_service.model.entity.goods.SkuEntity
 import com.hello.hello_store_service.model.entity.goods.SpuTag
+import com.hello.hello_store_service.model.view.goods.SkuDetail
 import com.hello.hello_store_service.service.file.FileService
 import com.hello.hello_store_service.service.goods.SpuService
 import com.hello.hello_store_service.service.goods.SkuService
@@ -82,14 +82,8 @@ class GoodsController(
 
     // 根据supId获取sku
     @GetMapping("/{spuId}/skus")
-    fun getSkusBySpuId(@PathVariable spuId: String): List<SkuEntity> {
-        return skuService.getSkusBySpuId(spuId)
-    }
-
-    // 批量获取多个商品的 SKU
-    @GetMapping("/skus")
-    fun getSkusBySpuIds(@RequestParam spuIds: List<String>): List<SkuEntity> {
-        return skuService.getSkusBySpuIds(spuIds)
+    fun getSkusBySpuId(@PathVariable spuId: String): List<SkuDetail> {
+        return skuService.fetchDetails(spuId)
     }
 
 

@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class CommentsService(private val commentsRepository: CommentsRepository) {
+class CommentService(private val commentsRepository: CommentsRepository) {
 
-    private val logger = LoggerFactory.getLogger(CommentsService::class.java)
+    private val logger = LoggerFactory.getLogger(CommentService::class.java)
 
     fun findAll(): List<CommentEntity> {
         return commentsRepository.findAll()

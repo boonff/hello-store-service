@@ -6,9 +6,8 @@ import java.time.LocalDateTime
 
 @Document("stores")
 data class StoreEntity(
-    @Id
-    val id: String? = null,
-    val storeId: String? = null,           // 商铺ID
+    @Id val id: String,
+    val storeId: String,           // 商铺ID
 
     val storeName: String,                  // 商铺名称
     val storeType: String? = null,          // 商铺类型，例如餐饮、服饰等
