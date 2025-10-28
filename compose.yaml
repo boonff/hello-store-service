@@ -1,7 +1,8 @@
 services:
   mongodb:
     image: 'mongo:latest'
-    container_name: mongodb
+    container_name: mongodb 
+    restart: always
     environment:
       MONGO_INITDB_DATABASE: helloStore
       MONGO_INITDB_ROOT_USERNAME: root
@@ -26,7 +27,8 @@ services:
 
   mongo-express:
     image: mongo-express
-    container_name: mongo-express
+    container_name: mongo-express  
+    restart: always
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: secret
