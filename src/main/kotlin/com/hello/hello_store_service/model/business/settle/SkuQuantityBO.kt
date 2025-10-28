@@ -7,8 +7,8 @@ data class SkuQuantityBO(
     val skuEntity: SkuEntity,
     val quantity: Int,
 ) {
-    val totalPrice: BigDecimal
-        get() = skuEntity.salePrice.multiply(quantity.toBigDecimal())
+    val totalPrice: Int
+        get() = skuEntity.salePrice * quantity
 }
 
 fun SkuEntity.toSkuQuantityBO(quantity: Int): SkuQuantityBO =

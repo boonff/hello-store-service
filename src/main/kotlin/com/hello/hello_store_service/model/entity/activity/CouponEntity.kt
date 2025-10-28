@@ -12,8 +12,8 @@ data class CouponEntity(
     val description: String,
     val type: CouponType,
     val tag: String?,
-    val threshold: BigDecimal,     // 使用门槛
-    val discount: BigDecimal?,      // 减免金额
+    val threshold: Int,     // 使用门槛
+    val discount: Int?,      // 减免金额
     val discountRate: Float?,  // 折扣券
     val validDays: Int = 0      // 有效天数
 )

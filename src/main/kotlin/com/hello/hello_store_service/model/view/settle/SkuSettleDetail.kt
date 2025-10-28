@@ -34,15 +34,18 @@ data class SkuSettleDetail(
                 masterGoodsType = 0, //TODO 不清楚的字段
                 promotionIds = skuBO.promotionIds(),
                 quantity = skuBO.quantity(),
-                oriPrice = skuBO.oriFee().toInt(), //TODO 修改类型转换方法
-                payPrice = skuBO.payFee().toInt(),
-                discountSettlePrice = skuBO.discountFee().toInt(),
-                realSettlePrice = skuBO.realFee().toInt(),
+                oriPrice = skuBO.oriFee(),
+                payPrice = skuBO.payFee(),
+                discountSettlePrice = skuBO.discountFee(),
+                realSettlePrice = skuBO.realFee(),
                 reminderStock = skuBO.reminderStock(),
-                settlePrice = skuBO.settleFee().toInt(),
+                settlePrice = skuBO.settleFee(),
                 skuSpecLst = specBO.fetchSpecDetail()
 
             )
     }
+
+
+
 
 }

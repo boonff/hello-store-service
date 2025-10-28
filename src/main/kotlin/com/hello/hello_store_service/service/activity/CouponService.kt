@@ -13,7 +13,7 @@ class CouponService(
     private val userCouponRepository: UserCouponRepository
 ) {
     fun fetchCouponById(couponId: String): CouponEntity? =
-        couponRepository.findById(couponId).get()
+        couponRepository.findById(couponId).orElse(null)
 
     fun fetchUserCoupons(username: String): List<UserCouponView> {
         val userCoupons = userCouponRepository.findByUsername(username)

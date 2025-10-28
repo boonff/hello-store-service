@@ -2,9 +2,6 @@ package com.hello.hello_store_service.model.business.settle
 
 import com.hello.hello_store_service.model.entity.activity.CouponEntity
 import com.hello.hello_store_service.model.entity.activity.CouponType
-import com.hello.hello_store_service.model.transfer.payment.CouponRef
-import com.hello.hello_store_service.model.transfer.payment.SkuData
-import java.math.BigDecimal
 
 /*TODO
    优惠卷的设定还没有确定，打算不做商店限制，优惠卷可以随便用。
@@ -15,22 +12,21 @@ class SettleDetailBO(
     private val couponList: List<CouponStoreBO>?
 ) {
     fun goodsCount(): Int = skuList.size
-    fun payFee(): BigDecimal {
-        return saleFee()
-            .subtract(deliveryFee())
+    fun payFee(): Int {
+        return saleFee() + deliveryFee()
     }
 
-    fun totalFee(): BigDecimal {
-        var total = BigDecimal.ZERO
+    fun totalFee(): Int {
+        var total = 0
         skuList.forEach { skuItem ->
-            total = total.add(skuItem.totalPrice)
+            total += skuItem.totalPrice
         }
 
         return total
     }
 
-    fun couponFee(): BigDecimal {
-        var total = BigDecimal.ZERO
+    fun couponFee(): Int {
+        var total = 0
         couponList?.forEach { couponItem ->
             total = applyCoupon(total, couponItem.coupon)
         }
@@ -39,33 +35,34 @@ class SettleDetailBO(
     }
 
     //TODO 计算活动优惠金额
-    fun promotionFee(): BigDecimal = BigDecimal.ZERO
+    fun promotionFee(): Int = 0
 
-    fun discountFee(): BigDecimal =
-        couponFee()
-            .add(promotionFee())
+    fun discountFee(): Int = couponFee() + promotionFee()
 
-    fun saleFee(): BigDecimal =
-        totalFee()
-            .subtract(couponFee())
+    fun saleFee(): Int = totalFee() - couponFee()
 
-    fun deliveryFee(): BigDecimal = BigDecimal.ZERO
+    fun deliveryFee(): Int = 0
 
-    private fun applyCoupon(total: BigDecimal, coupon: CouponEntity): BigDecimal {
+    private fun applyCoupon(total: Int, coupon: CouponEntity): Int {
         // 判断门槛
         if (total < coupon.threshold) return total
         // 根据优惠类型计算
         return when (coupon.type) {
             CouponType.Discount -> {
-                val result = total.subtract(coupon.discount)
-                if (result < BigDecimal.ZERO) BigDecimal.ZERO else result
+                val discountRate = coupon.discountRate ?: 0f
+                val discountAmount = (total * discountRate).toDouble() // 计算折扣金额
+                val result = total - discountAmount
+                if (result < 0) 0 else result.toInt()
             }
 
             CouponType.PriceOff -> {
-                total.multiply(coupon.discountRate?.toBigDecimal())
+                val discountAmount = coupon.discount ?: 0
+                val result = total - discountAmount
+                if (result < 0) 0 else result
             }
         }
     }
+
 }
 
 

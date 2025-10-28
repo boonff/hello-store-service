@@ -18,16 +18,20 @@ class SkuSettleBO(
     fun quantity() = skuQuantityBO.quantity
     fun oriFee() = skuEntity.salePrice
     fun payFee() = skuEntity.salePrice
-    fun discountFee(): BigDecimal {
+    fun discountFee(): Int {
         couponList?.forEach { (coupon, storeId) ->
-            if (coupon.type == CouponType.PriceOff)
-                return oriFee().multiply(coupon.discountRate?.toBigDecimal())
+            if (coupon.type == CouponType.PriceOff) {
+                coupon.discountRate?.let { discountRate ->
+                    val discountAmount = oriFee() * discountRate
+                    return discountAmount.toInt()
+                }?:0
+            }
         }
         return oriFee()
     }
 
-    fun realFee(): BigDecimal = discountFee()
-    fun settleFee(): BigDecimal = discountFee()
+    fun realFee(): Int = discountFee()
+    fun settleFee(): Int = discountFee()
     fun reminderStock() = skuEntity.stockInfo.stockQuantity
 
  

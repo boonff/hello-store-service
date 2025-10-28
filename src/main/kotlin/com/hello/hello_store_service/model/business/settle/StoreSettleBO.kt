@@ -27,31 +27,31 @@ class StoreSettleBO(
         skusByStoreId(storeId).size
 
     //TODO 计算运费
-    fun deliveryFee(storeId: String): BigDecimal = BigDecimal.ZERO
+    fun deliveryFee(storeId: String): Int = 0
 
     //TODO 运费说明
     fun deliveryWords(storeId: String): String = "运费说明"
 
-    fun totalFee(storeId: String): BigDecimal =
+    fun totalFee(storeId: String): Int =
         getSettleDetailBO(
             skusByStoreId(storeId),
             couponsByStoreId(storeId)
         ).totalFee()
 
 
-    fun payFee(storeId: String): BigDecimal =
+    fun payFee(storeId: String): Int =
         getSettleDetailBO(
             skusByStoreId(storeId),
             couponsByStoreId(storeId)
         ).payFee()
 
-    fun couponFee(storeId: String): BigDecimal =
+    fun couponFee(storeId: String): Int =
         getSettleDetailBO(
             skusByStoreId(storeId),
             couponsByStoreId(storeId)
         ).couponFee()
 
-    fun discountFee(storeId: String): BigDecimal =
+    fun discountFee(storeId: String): Int =
         getSettleDetailBO(
             skusByStoreId(storeId),
             couponsByStoreId(storeId)

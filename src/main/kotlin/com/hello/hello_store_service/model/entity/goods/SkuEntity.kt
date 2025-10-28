@@ -16,9 +16,9 @@ data class SkuEntity(
     val skuImage: String? = null,            // SKU 图
     val weight: Weight? = null,              // 重量
     val volume: Long? = null,                // 体积
-    val profitPrice: BigDecimal? = null,            // 利润价
-    val salePrice: BigDecimal,              // SKU 真实售价
-    val linePrice: BigDecimal? = null               // 划线价（原价）
+    val profitPrice: Int? = null,     // 利润价
+    val salePrice: Int,               // SKU 真实售价
+    val linePrice: Int? = null        // 划线价（原价）
 )
 
 /**
