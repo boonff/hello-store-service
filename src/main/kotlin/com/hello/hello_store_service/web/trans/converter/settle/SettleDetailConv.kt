@@ -1,8 +1,5 @@
 package com.hello.hello_store_service.web.trans.converter.settle
 
-import com.hello.hello_store_service.model.context.SettleParams
-import com.hello.hello_store_service.model.view.settle.SettleDetail
-import com.hello.hello_store_service.model.view.settle.StoreSettleDetail
 import com.hello.hello_store_service.web.trans.context.SettleParams
 import com.hello.hello_store_service.web.trans.view.settle.SettleDetail
 import com.hello.hello_store_service.web.trans.view.settle.StoreSettleDetail
