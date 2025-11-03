@@ -2,7 +2,7 @@ package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.data.model.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressService
-import com.hello.hello_store_service.util.SecurityUtils
+import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.trans.param.AddressRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

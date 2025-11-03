@@ -2,7 +2,7 @@ package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.data.model.entity.CartItem
 import com.hello.hello_store_service.data.service.CartService
-import com.hello.hello_store_service.util.SecurityUtils
+import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.trans.view.cart.CartView
 import org.springframework.web.bind.annotation.*
 

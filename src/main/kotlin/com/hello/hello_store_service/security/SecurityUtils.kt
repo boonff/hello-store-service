@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.util
+package com.hello.hello_store_service.security
 
 import org.springframework.security.core.context.SecurityContextHolder
 

@@ -3,7 +3,7 @@ package com.hello.hello_store_service.web.controller
 import com.hello.hello_store_service.config.MinioProperties
 import com.hello.hello_store_service.data.service.FileService
 import com.hello.hello_store_service.data.service.UserService
-import com.hello.hello_store_service.util.SecurityUtils
+import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.trans.view.user.UserView
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder

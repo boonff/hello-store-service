@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.data.service.coupon.UserCouponService
-import com.hello.hello_store_service.util.SecurityUtils
+import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.trans.view.coupon.CouponResultList
 import com.hello.hello_store_service.web.trans.view.coupon.UserCouponView
 import org.slf4j.Logger
