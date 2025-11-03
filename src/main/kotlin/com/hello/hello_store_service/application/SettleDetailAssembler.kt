@@ -1,23 +1,23 @@
 package com.hello.hello_store_service.application
 
-import com.hello.hello_store_service.model.business.settle.SettleDetailBO
-import com.hello.hello_store_service.model.business.settle.SkuQuantityBO
-import com.hello.hello_store_service.model.business.settle.StoreSettleBO
-import com.hello.hello_store_service.model.business.settle.toCouponStoreBO
-import com.hello.hello_store_service.model.business.settle.toSkuQuantityBO
-import com.hello.hello_store_service.model.context.SettleParams
-import com.hello.hello_store_service.model.entity.address.AddressEntity
-import com.hello.hello_store_service.model.entity.goods.SkuEntity
-import com.hello.hello_store_service.model.entity.goods.SpecEntity
-import com.hello.hello_store_service.model.entity.goods.SpuEntity
-import com.hello.hello_store_service.model.entity.store.StoreEntity
-import com.hello.hello_store_service.model.transfer.payment.SettleDetailRequest
-import com.hello.hello_store_service.service.activity.CouponService
-import com.hello.hello_store_service.service.address.AddressService
-import com.hello.hello_store_service.service.goods.SkuService
-import com.hello.hello_store_service.service.goods.SpecService
-import com.hello.hello_store_service.service.goods.SpuService
-import com.hello.hello_store_service.service.store.StoreService
+import com.hello.hello_store_service.web.trans.business.settle.OrderSettlement
+import com.hello.hello_store_service.web.trans.business.settle.SkuQuantityBO
+import com.hello.hello_store_service.web.trans.business.settle.StoreSettlement
+import com.hello.hello_store_service.web.trans.business.settle.toCouponStoreBO
+import com.hello.hello_store_service.web.trans.business.settle.toSkuQuantityBO
+import com.hello.hello_store_service.web.trans.context.SettleParams
+import com.hello.hello_store_service.data.model.entity.address.AddressEntity
+import com.hello.hello_store_service.data.model.entity.goods.SkuEntity
+import com.hello.hello_store_service.data.model.entity.goods.SpecEntity
+import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
+import com.hello.hello_store_service.data.model.entity.StoreEntity
+import com.hello.hello_store_service.web.trans.param.SettleDetailRequest
+import com.hello.hello_store_service.data.service.coupon.UserCouponService
+import com.hello.hello_store_service.data.service.AddressService
+import com.hello.hello_store_service.data.service.goods.SkuService
+import com.hello.hello_store_service.data.service.goods.SpecService
+import com.hello.hello_store_service.data.service.goods.SpuService
+import com.hello.hello_store_service.data.service.StoreService
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,7 +25,7 @@ class SettleDetailAssembler(
     private val storeService: StoreService,
     private val spuService: SpuService,
     private val skuService: SkuService,
-    private val couponService: CouponService,
+    private val couponService: UserCouponService,
     private val addressService: AddressService,
     private val specService: SpecService
 ) {
@@ -58,14 +58,14 @@ class SettleDetailAssembler(
     private fun specMap(): Map<String, SpecEntity> =
         specService.getAll().associateBy { it.specId }
 
-    private fun settleDetailBO(request: SettleDetailRequest): SettleDetailBO =
-        SettleDetailBO(
+    private fun settleDetailBO(request: SettleDetailRequest): OrderSettlement =
+        OrderSettlement(
             skuList = skuQuantityBOs(request),
             couponList = couponStoreBOs(request)
         )
 
-    private fun storeSettleBO(request: SettleDetailRequest): StoreSettleBO =
-        StoreSettleBO(
+    private fun storeSettleBO(request: SettleDetailRequest): StoreSettlement =
+        StoreSettlement(
             spuMap = spuService.fetchAll().associateBy { it.spuId },
             skuList = skuQuantityBOs(request),
             couponList = couponStoreBOs(request)
