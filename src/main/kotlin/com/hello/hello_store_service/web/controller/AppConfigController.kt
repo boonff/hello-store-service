@@ -3,13 +3,13 @@ package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.data.model.entity.AppConfigEntity
 import com.hello.hello_store_service.data.model.entity.CustomerService
-import com.hello.hello_store_service.data.service.AppConfigService
+import com.hello.hello_store_service.data.service.AppConfigDataService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/config")
 class AppConfigController(
-    private val appConfigService: AppConfigService
+    private val appConfigService: AppConfigDataService
 ) {
     @GetMapping
     fun getConfig(): AppConfigEntity? =

@@ -1,8 +1,8 @@
 package com.hello.hello_store_service.data.repository.coupon
 
 
-import com.hello.hello_store_service.data.model.composite.UserCoupon
-import com.hello.hello_store_service.data.model.entity.CouponEntity
+import com.hello.hello_store_service.data.model.record.UserCouponRecord
+import com.hello.hello_store_service.data.model.entity.coupon.CouponEntity
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
@@ -12,5 +12,5 @@ interface CouponRepository : MongoRepository<CouponEntity, String>, CouponReposi
 }
 
 interface CouponRepositoryCustom{
-    fun findUserCouponDTOs(username: String): List<UserCoupon>
+    fun findUserCouponRecord(username: String): List<UserCouponRecord>
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 interface CartRepository : MongoRepository<CartEntity, String> {
 
     // 根据用户查询该用户所有购物车（一个用户可能有多个门店的购物车）
-    fun findByUsername(username: String): List<CartEntity>
+    fun findByUsername(username: String): CartEntity
 
     // 可选：批量删除用户的购物车
     fun deleteByUsername(userId: String)

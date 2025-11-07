@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.data.repository.coupon
 
 
-import com.hello.hello_store_service.data.model.entity.UserCouponEntity
+import com.hello.hello_store_service.data.model.entity.coupon.UserCouponEntity
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 

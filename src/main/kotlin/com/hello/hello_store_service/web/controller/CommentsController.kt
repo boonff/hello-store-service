@@ -2,9 +2,9 @@ package com.hello.hello_store_service.web.controller
 
 
 import com.hello.hello_store_service.data.model.entity.CommentEntity
-import com.hello.hello_store_service.data.service.CommentService
-import com.hello.hello_store_service.data.service.FileService
-import com.hello.hello_store_service.web.trans.view.CommentCountView
+import com.hello.hello_store_service.data.service.CommentDataService
+import com.hello.hello_store_service.data.service.FileDataService
+import com.hello.hello_store_service.web.model.view.CommentCountView
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/comments")
 class CommentsController(
-    private val commentsService: CommentService,
-    private val fileService: FileService
+    private val commentsService: CommentDataService,
+    private val fileService: FileDataService
 ) {
     @GetMapping()
     fun getAllComments(): List<CommentEntity> {

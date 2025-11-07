@@ -1,10 +1,10 @@
 package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.config.MinioProperties
-import com.hello.hello_store_service.data.service.FileService
-import com.hello.hello_store_service.data.service.UserService
+import com.hello.hello_store_service.data.service.FileDataService
+import com.hello.hello_store_service.data.service.UserDataService
 import com.hello.hello_store_service.security.SecurityUtils
-import com.hello.hello_store_service.web.trans.view.user.UserView
+import com.hello.hello_store_service.web.model.view.UserView
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/user")
 class UserController(
-    private val userService: UserService,
-    private val fileService: FileService,
+    private val userService: UserDataService,
+    private val fileService: FileDataService,
     private val minioProperties: MinioProperties
 ) {
 

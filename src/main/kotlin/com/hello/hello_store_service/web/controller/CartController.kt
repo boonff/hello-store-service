@@ -1,32 +1,34 @@
 package com.hello.hello_store_service.web.controller
 
+import com.hello.hello_store_service.application.CartService
 import com.hello.hello_store_service.data.model.entity.CartItem
-import com.hello.hello_store_service.data.service.CartService
+import com.hello.hello_store_service.data.service.CartDataService
 import com.hello.hello_store_service.security.SecurityUtils
-import com.hello.hello_store_service.web.trans.view.cart.CartView
+import com.hello.hello_store_service.web.clean.CartViewClean
+import com.hello.hello_store_service.web.model.view.CartView
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/cart")
 class CartController(
-    private val cartService: CartService
+    private val cartService: CartService,
+    private val cartViewClean: CartViewClean
 ) {
 
     /** 获取当前用户购物车 */
     @GetMapping
     fun getCart(): CartView? {
         val username = SecurityUtils.currentUsername()
-        return cartService.getUserCart(username)
+        return cartViewClean.getCartView(username)
     }
 
     /** 选择/取消选择单个商品 **/
     @PutMapping("/select/{skuId}")
-    fun selectCartItem(
-        @PathVariable skuId: String,
-    ) {
+    fun selectCartItem(@PathVariable skuId: String) {
         val username = SecurityUtils.currentUsername()
         cartService.selectCartItem(username, skuId)
     }
+
     /** 全选/取消商店 **/
     @PutMapping("/select/store/{storeId}")
     fun selectStoreCartItem(
@@ -36,6 +38,7 @@ class CartController(
         val username = SecurityUtils.currentUsername()
         cartService.selectStoreCartItem(username, storeId, isSelected)
     }
+
     /** 全选/取消全选购物车 **/
     @PutMapping("/select/all")
     fun selectAllCartItems(

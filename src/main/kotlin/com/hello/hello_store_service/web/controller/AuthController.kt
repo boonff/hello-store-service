@@ -1,10 +1,10 @@
 package com.hello.hello_store_service.web.controller
 
 
-import com.hello.hello_store_service.data.service.UserService
+import com.hello.hello_store_service.data.service.UserDataService
 import com.hello.hello_store_service.security.JwtService
-import com.hello.hello_store_service.web.trans.param.LoginRequest
-import com.hello.hello_store_service.web.trans.param.RegisterRequest
+import com.hello.hello_store_service.web.model.request.LoginRequest
+import com.hello.hello_store_service.web.model.request.RegisterRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AnonymousAuthenticationToken
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    private val userService: UserService,
+    private val userService: UserDataService,
     private val jwtService: JwtService
 ) {
 

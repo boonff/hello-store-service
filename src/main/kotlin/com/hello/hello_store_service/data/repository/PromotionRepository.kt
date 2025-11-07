@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository
 interface PromotionRepository : MongoRepository<PromotionEntity, String> {
 
     // 根据店铺ID查找促销活动
-    fun findByStoreId(storeId: String): List<PromotionEntity>
+    fun findByStoreId(storeId: String): PromotionEntity
 
-    fun findByStoreIdIn(storeIds: List<String>): List<PromotionEntity>
 
     // 根据状态查找促销活动
     fun findByStatus(status: Int): List<PromotionEntity>

@@ -2,11 +2,11 @@ package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
 import com.hello.hello_store_service.data.model.entity.goods.SpuTag
-import com.hello.hello_store_service.data.service.FileService
-import com.hello.hello_store_service.data.service.goods.SkuService
-import com.hello.hello_store_service.data.service.goods.SpuService
-import com.hello.hello_store_service.web.trans.view.goods.SkuDetail
-import com.hello.hello_store_service.web.trans.view.goods.SpuView
+import com.hello.hello_store_service.data.service.FileDataService
+import com.hello.hello_store_service.data.service.goods.SkuDataService
+import com.hello.hello_store_service.data.service.goods.SpuDataService
+import com.hello.hello_store_service.web.model.view.goods.SkuDetail
+import com.hello.hello_store_service.web.model.view.goods.SpuView
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,9 +22,9 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/goods")
 class GoodsController(
-    private val goodsService: SpuService,
-    private val skuService: SkuService,
-    private val fileService: FileService,
+    private val goodsService: SpuDataService,
+    private val skuService: SkuDataService,
+    private val fileService: FileDataService,
 ) {
     // 查询所有商品
     @GetMapping

@@ -1,8 +1,8 @@
 package com.hello.hello_store_service.data.repository.coupon
 
-import com.hello.hello_store_service.data.model.composite.UserCoupon
-import com.hello.hello_store_service.data.model.entity.CouponEntity
-import com.hello.hello_store_service.data.model.entity.UserCouponEntity
+import com.hello.hello_store_service.data.model.record.UserCouponRecord
+import com.hello.hello_store_service.data.model.entity.coupon.CouponEntity
+import com.hello.hello_store_service.data.model.entity.coupon.UserCouponEntity
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -11,7 +11,7 @@ class CouponRepositoryCustomImpl(
     private val mongoTemplate: MongoTemplate
 ) : CouponRepositoryCustom {
 
-    override fun findUserCouponDTOs(username: String): List<UserCoupon> {
+    override fun findUserCouponRecord(username: String): List<UserCouponRecord> {
         val userCoupons = mongoTemplate.find(
             Query.query(Criteria.where("username").`is`(username)),
             UserCouponEntity::class.java,
@@ -27,7 +27,7 @@ class CouponRepositoryCustomImpl(
 
         return userCoupons.mapNotNull { userCoupon ->
             coupons[userCoupon.couponId]?.let { coupon ->
-                UserCoupon(
+                UserCouponRecord(
                     coupon = coupon,
                     isUsed = userCoupon.isUsed,
                     receivedAt = userCoupon.receivedAt
