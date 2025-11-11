@@ -48,6 +48,7 @@ class CartViewClean(
                 storeName = storeEntity.storeName,
                 storeStatus = storeEntity.storeStatus,
                 totalDiscountSalePrice = 0,
+                //TODO 如果每个店铺只有一个Promotion，优化掉listOf
                 promotionGoodsList = listOf(getPromotionGoodsList(storeId, items))
             )
         }
@@ -62,7 +63,7 @@ class CartViewClean(
             promotionSubCode = "", //TODO promotionSubCode
             promotionStatus = promotionEntity.status,
             type = promotionEntity.rule.type,
-            description = promotionEntity.description,
+            description = promotionEntity.title,
             doorSillRemain = promotionEntity.rule.minAmount,
             isNeedAddOnShop = false,
             goods = getGoodsList(cartItem)

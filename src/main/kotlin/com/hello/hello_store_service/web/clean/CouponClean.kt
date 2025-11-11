@@ -1,7 +1,8 @@
 package com.hello.hello_store_service.web.clean
 
-import com.hello.hello_store_service.application.coupon.UserCouponService
-import com.hello.hello_store_service.application.coupon.UserCouponModel
+import com.hello.hello_store_service.application.coupon.CouponService
+import com.hello.hello_store_service.application.coupon.model.CouponModel
+import com.hello.hello_store_service.data.model.entity.coupon.CouponType
 import com.hello.hello_store_service.web.model.view.coupon.CouponData
 import com.hello.hello_store_service.web.model.view.coupon.CouponResultList
 import com.hello.hello_store_service.web.model.view.coupon.CouponView
@@ -12,15 +13,15 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class CouponClean(
-    private val userCouponService: UserCouponService
+    private val userCouponService: CouponService
 ) {
     fun fetchUserCouponViews(username: String): List<UserCouponView> {
-        return userCouponService.fetchByUsername(username).map { userCoupon ->
+        return userCouponService.fetchCouponModelList(username).map { userCoupon ->
             UserCouponView(
                 key = userCoupon.couponId,
                 status = userCoupon.status.typeName,
                 type = userCoupon.type.code,
-                value = userCoupon.discount,
+                value = getValue(userCoupon.couponValue, userCoupon.type),
                 tag = userCoupon.tag,
                 desc = userCoupon.description,
                 base = userCoupon.threshold,
@@ -32,22 +33,26 @@ class CouponClean(
 
     fun fetchCouponResultList(username: String): CouponResultList {
         return CouponResultList(
-            couponDataList = userCouponService.fetchByUsername(username).map { userCoupon ->
+            couponDataList = userCouponService.fetchCouponModelList(username).map { userCoupon ->
                 fetchCouponData(userCoupon)
-            },
-            reduce = 0
+            }, reduce = 0
         )
     }
 
-
-    private fun fetchCouponData(userCoupon: UserCouponModel): CouponData {
+    fun fetchCouponData(userCoupon: CouponModel): CouponData {
         return CouponData(
-            couponVO = fetchCouponView(userCoupon),
-            status = false
+            couponVO = fetchCouponView(userCoupon), status = false
         )
     }
 
-    private fun fetchCouponView(userCoupon: UserCouponModel): CouponView {
+    private fun getValue(couponValue: Float, type: CouponType): Float {
+        return when (type) {
+            CouponType.PriceOff -> couponValue
+            CouponType.Discount -> (1 - couponValue) * 10
+        }
+    }
+
+    private fun fetchCouponView(userCoupon: CouponModel): CouponView {
         return CouponView(
             storeId = null,
             condition = userCoupon.title,
@@ -59,7 +64,7 @@ class CouponClean(
             promotionCode = null,
             promotionSubCode = null,
             scopeText = null,
-            value = userCoupon.discount ?: 0,
+            value = getValue(userCoupon.couponValue, userCoupon.type),
             type = userCoupon.type.code
         )
     }

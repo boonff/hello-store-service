@@ -15,17 +15,15 @@ import org.springframework.web.bind.annotation.RestController
 class AddressController(
     private val addressService: AddressDataService
 ) {
-    @PostMapping("/create")
-    fun createAddress(@RequestBody address: AddressRequest) {
-        val username = SecurityUtils.currentUsername()
-        addressService.createAddress(address.toEntity(username))
-    }
-
     @GetMapping
     fun userAddress(): List<AddressEntity> {
         val username = SecurityUtils.currentUsername()
         return addressService.userAddress(username)
     }
 
-
+    @PostMapping("/create")
+    fun createAddress(@RequestBody address: AddressRequest) {
+        val username = SecurityUtils.currentUsername()
+        addressService.createAddress(address.toEntity(username))
+    }
 }

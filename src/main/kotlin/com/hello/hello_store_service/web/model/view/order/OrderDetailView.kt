@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.web.model.view.order
 
-data class OrderView(
+data class OrderDetailView(
     val saasId: String,                       // SaaS 商户ID
     val storeId: String,                      // 店铺ID
     val storeName: String,                    // 店铺名称

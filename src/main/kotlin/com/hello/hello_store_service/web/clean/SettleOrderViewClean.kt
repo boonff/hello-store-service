@@ -2,34 +2,35 @@ package com.hello.hello_store_service.web.clean
 
 import com.hello.hello_store_service.application.goods.SkuService
 import com.hello.hello_store_service.application.goods.SpecDetail
-import com.hello.hello_store_service.application.settle.SettleCalculator
-import com.hello.hello_store_service.application.settle.SettleParam
+import com.hello.hello_store_service.application.order.OrderRule
+import com.hello.hello_store_service.application.order.OrderParam
 import com.hello.hello_store_service.data.model.entity.StoreEntity
 import com.hello.hello_store_service.data.model.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.model.request.SettleDetailRequest
-import com.hello.hello_store_service.web.model.view.SettleView
-import com.hello.hello_store_service.web.model.view.SkuSettleView
-import com.hello.hello_store_service.web.model.view.StoreSettleView
+import com.hello.hello_store_service.web.model.request.OrderRequest
+import com.hello.hello_store_service.web.model.view.SettleOrderView
+import com.hello.hello_store_service.web.model.view.SkuOrderView
+import com.hello.hello_store_service.web.model.view.StoreOrderView
 import com.hello.hello_store_service.web.model.view.goods.SpecDetailView
 import org.springframework.stereotype.Service
 
 @Service
-class SettleViewClean(
+class SettleOrderViewClean(
 
     private val addressDataService: AddressDataService,
-    private val spuDataService: SpuDataService,
-    private val calculator: SettleCalculator,
+    private val spuDataService
+    : SpuDataService,
+    private val calculator: OrderRule,
     private val skuService: SkuService
 
 ) {
-    fun getSettleDetailView(request: SettleDetailRequest, username: String): SettleView {
-        val param = getSettleParam(request, username)
+    fun getOrderDetailView(request: OrderRequest, username: String): SettleOrderView {
+        val param = getOrderParam(request, username)
         val addressEntity = fetchAddress(request.userAddressId)
 
-        return SettleView(
-            settleType = settleType(addressEntity),
+        return SettleOrderView(
+            settleType = orderType(addressEntity),
             userAddress = addressEntity,
             totalGoodsCount = calculator.goodsCount(param),
             packageCount = calculator.packageCount(param),
@@ -48,10 +49,10 @@ class SettleViewClean(
         )
     }
 
-    private fun getStoreViews(settleParam: SettleParam): List<StoreSettleView> {
-        val paramMap = getStoreParams(settleParam)
+    private fun getStoreViews(orderParam: OrderParam): List<StoreOrderView> {
+        val paramMap = getStoreParams(orderParam)
         return paramMap.map { (store, param) ->
-            StoreSettleView(
+            StoreOrderView(
                 storeId = store.storeId,
                 storeName = store.storeName,
                 remark = null,
@@ -63,18 +64,18 @@ class SettleViewClean(
                 storeTotalDiscountAmount = calculator.discountFee(param),
                 storeTotalCouponAmount = calculator.couponFee(param),
                 couponList = null,
-                skuDetailVos = getSkuSettleViews(param)
+                skuDetailVos = getSkuOrderViews(param)
             )
         }
 
     }
 
-    private fun getSkuSettleViews(settleParam: SettleParam): List<SkuSettleView> {
-        return settleParam.skuList.mapNotNull { skuData ->
+    private fun getSkuOrderViews(orderParam: OrderParam): List<SkuOrderView> {
+        return orderParam.skuList.mapNotNull { skuData ->
             val skuModel = skuService.fetchSkuModel(skuData.skuId) ?: return@mapNotNull null
             val spuEntity = spuDataService.fetchBySpuId(skuModel.spuId) ?: return@mapNotNull null
 
-            SkuSettleView(
+            SkuOrderView(
                 skuId = skuModel.skuId,
                 roomId = null,
                 egoodsName = spuEntity.etitle,
@@ -83,12 +84,12 @@ class SettleViewClean(
                 masterGoodsType = 0,
                 promotionIds = null,
                 quantity = skuData.quantity,
-                oriPrice = skuModel.salePrice,
-                payPrice = skuModel.salePrice,
+                oriPrice = 0,
+                payPrice = 0,
                 discountSettlePrice = 0,
                 realSettlePrice = 0,
                 reminderStock = skuModel.stockInfo.stockQuantity,
-                settlePrice = 0,
+                settlePrice = skuModel.salePrice,
                 skuSpecLst = getSpecDetailView(skuModel.specList)
             )
         }
@@ -100,27 +101,27 @@ class SettleViewClean(
         }
     }
 
-    private fun getSettleParam(request: SettleDetailRequest, username: String): SettleParam {
-        return SettleParam(
+    private fun getOrderParam(request: OrderRequest, username: String): OrderParam {
+        return OrderParam(
             username = username,
             skuList = request.skuList,
             couponIdList = request.couponIdList
         )
     }
 
-    private fun getStoreParams(settleParam: SettleParam): Map<StoreEntity, SettleParam> {
-        val skuGroup = settleParam.skuList
+    private fun getStoreParams(orderParam: OrderParam): Map<StoreEntity, OrderParam> {
+        val skuGroup = orderParam.skuList
             .mapNotNull { skuData ->
                 skuService.fetchStore(skuData.skuId)?.let { storeId ->
                     storeId to skuData
                 }
             }.groupBy({ it.first }, { it.second })
 
-        return skuGroup.mapValues { (storeId, skuIds) ->
-            SettleParam(
-                username = settleParam.username,
+        return skuGroup.mapValues { (_, skuIds) ->
+            OrderParam(
+                username = orderParam.username,
                 skuList = skuIds,
-                couponIdList = settleParam.couponIdList
+                couponIdList = orderParam.couponIdList
             )
         }
     }
@@ -130,7 +131,7 @@ class SettleViewClean(
         return addressDataService.fetchAddressById(addressId)
     }
 
-    private fun settleType(userAddress: AddressEntity?): Int =
+    private fun orderType(userAddress: AddressEntity?): Int =
         userAddress?.let { 1 } ?: 0
 
 }

@@ -1,19 +1,18 @@
-package com.hello.hello_store_service.application.settle
+package com.hello.hello_store_service.application.order
 
-import com.hello.hello_store_service.application.coupon.OrderCouponCalculator
-import com.hello.hello_store_service.application.coupon.UserCouponService
+import com.hello.hello_store_service.application.coupon.OrderCouponRule
 import com.hello.hello_store_service.data.service.goods.SkuDataService
 import org.springframework.stereotype.Service
 
 @Service
-class SettleCalculator(
+class OrderRule(
     private val skuService: SkuDataService,
-    private val orderCouponCalculator: OrderCouponCalculator
+    private val orderCouponCalculator: OrderCouponRule
 ) {
-    fun goodsCount(param: SettleParam): Int = param.skuList.size
-    fun packageCount(param: SettleParam): Int = 0 //TODO 计算包裹数量
+    fun goodsCount(param: OrderParam): Int = param.skuList.size
+    fun packageCount(param: OrderParam): Int = 0 //TODO 计算包裹数量
 
-    fun totalFee(param: SettleParam): Int {
+    fun totalFee(param: OrderParam): Int {
         return param.skuList.sumOf { (skuId, quantity) ->
             fetchSkuById(skuId)?.let { skuEntity ->
                 skuEntity.salePrice * quantity
@@ -21,9 +20,9 @@ class SettleCalculator(
         }
     }
 
-    fun discountFee(param: SettleParam): Int = couponFee(param)
+    fun discountFee(param: OrderParam): Int = couponFee(param)
 
-    fun couponFee(param: SettleParam): Int {
+    fun couponFee(param: OrderParam): Int {
         if (param.couponIdList.isNullOrEmpty()) return 0
 
         return discountCoupons(
@@ -33,12 +32,12 @@ class SettleCalculator(
         )
     }
 
-    fun saleFee(param: SettleParam): Int =
+    fun saleFee(param: OrderParam): Int =
         totalFee(param) - couponFee(param)
 
     fun deliveryFee(): Int = 0 //TODO 计算运费
 
-    fun payFee(param: SettleParam): Int =
+    fun payFee(param: OrderParam): Int =
         saleFee(param) + deliveryFee()
 
     private fun discountCoupons(

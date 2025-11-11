@@ -1,28 +1,29 @@
 package com.hello.hello_store_service.application.coupon
 
+import com.hello.hello_store_service.application.coupon.model.CouponModel
+import com.hello.hello_store_service.application.coupon.model.CouponModelFactory
 import com.hello.hello_store_service.data.model.record.UserCouponRecord
 import com.hello.hello_store_service.data.service.coupon.UserCouponDataService
 import org.springframework.stereotype.Service
 
 @Service
-class UserCouponService(
+class CouponService(
     private val repositoryService: UserCouponDataService,
-    private val evaluator: UserCouponEvaluator
 ) {
-    fun fetchByUsername(username: String): List<UserCouponModel> {
+    fun fetchCouponModelList(username: String): List<CouponModel> {
         val records: List<UserCouponRecord> = repositoryService.fetchByUsername(username)
-        return records.map { evaluator.evaluate(it) }
+        return records.map { CouponModelFactory.build(it) }
     }
 
-    fun fetchByCouponId(username: String, couponId: String): UserCouponModel? {
+    fun fetchCouponModel(username: String, couponId: String): CouponModel? {
         return repositoryService.fetchByCouponId(username, couponId)?.let { couponRecord ->
-            evaluator.evaluate(couponRecord)
+            CouponModelFactory.build(couponRecord)
         }
     }
 
-    fun fetchByCouponIds(username: String, couponIds: List<String>): List<UserCouponModel> {
+    fun fetchByCouponIds(username: String, couponIds: List<String>): List<CouponModel> {
         return repositoryService.fetchByCouponIds(username, couponIds).map { couponRecord ->
-            evaluator.evaluate(couponRecord)
+            CouponModelFactory.build(couponRecord)
         }
     }
 

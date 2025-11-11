@@ -21,6 +21,6 @@ data class CouponView(
     val promotionCode: String?,
     val promotionSubCode: String?,
     val scopeText: String?,
-    val value: Int,
+    val value: Float,
     val type: Int,
 )

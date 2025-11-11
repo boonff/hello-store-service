@@ -3,7 +3,7 @@ package com.hello.hello_store_service.web.model.view
 import com.hello.hello_store_service.data.model.entity.address.AddressEntity
 import com.hello.hello_store_service.web.model.view.goods.SpecDetailView
 
-data class SettleView(
+data class SettleOrderView(
     val settleType: Int,                // 结算类型（如立即购买、购物车结算等）
     val userAddress: AddressEntity?,     // 用户收货地址信息
     val totalGoodsCount: Int,           // 商品总数量
@@ -19,10 +19,10 @@ data class SettleView(
     val invoiceRequest: Boolean = false,        // 是否需要发票
     val skuImages: List<String>? = null,              // 商品图片（拼接或主图）
     val deliveryFeeList: List<Int>? = null, // 各包裹运费列表
-    val storeGoodsList: List<StoreSettleView>    // 店铺商品明细列表
+    val storeGoodsList: List<StoreOrderView>    // 店铺商品明细列表
 )
 
-data class StoreSettleView(
+data class StoreOrderView(
     val storeId: String,                // 店铺 ID
     val storeName: String,              // 店铺名称
     val remark: String? = null,                    // 备注（可为标志位或备注数量）
@@ -33,11 +33,11 @@ data class StoreSettleView(
     val storeTotalPayAmount: Int,       // 店铺实际支付金额
     val storeTotalDiscountAmount: Int,  // 店铺优惠总额
     val storeTotalCouponAmount: Int,    // 店铺优惠券优惠金额
-    val skuDetailVos: List<SkuSettleView>?,        // 商品明细信息
+    val skuDetailVos: List<SkuOrderView>?,        // 商品明细信息
     val couponList: List<String>?       // 可用优惠券列表
 )
 
-data class SkuSettleView(
+data class SkuOrderView(
     val skuId: String,                  // SKU ID
     val roomId: String?,                 // 房间 ID（用于直播或活动）
     val egoodsName: String,             // 英文商品名

@@ -5,7 +5,7 @@ data class UserCouponView(
     val key: String,
     val status: String,
     val type: Int,
-    val value: Int?,
+    val value: Float?,
     val tag: String?,
     val desc: String,
     val base: Int?,
