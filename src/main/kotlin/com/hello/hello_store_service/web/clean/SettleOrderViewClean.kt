@@ -44,7 +44,7 @@ class SettleOrderViewClean(
             invoiceRequest = false,
             skuImages = null,
             deliveryFeeList = null,
-            skuOrderViews = getSkuOrderViews(param)
+            goodsList = getSkuOrderViews(param)
         )
     }
 
