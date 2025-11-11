@@ -2,7 +2,6 @@ package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.application.CartService
 import com.hello.hello_store_service.data.model.entity.CartItem
-import com.hello.hello_store_service.data.service.CartDataService
 import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.clean.CartViewClean
 import com.hello.hello_store_service.web.model.view.CartView
@@ -15,67 +14,53 @@ class CartController(
     private val cartViewClean: CartViewClean
 ) {
 
-    /** 获取当前用户购物车 */
     @GetMapping
-    fun getCart(): CartView? {
+    fun getCartView(): CartView? {
         val username = SecurityUtils.currentUsername()
         return cartViewClean.getCartView(username)
     }
 
-    /** 选择/取消选择单个商品 **/
     @PutMapping("/select/{skuId}")
     fun selectCartItem(@PathVariable skuId: String) {
         val username = SecurityUtils.currentUsername()
         cartService.selectCartItem(username, skuId)
     }
 
-    /** 全选/取消商店 **/
-    @PutMapping("/select/store/{storeId}")
-    fun selectStoreCartItem(
-        @PathVariable storeId: String,
-        @RequestParam isSelected: Boolean
-    ) {
-        val username = SecurityUtils.currentUsername()
-        cartService.selectStoreCartItem(username, storeId, isSelected)
-    }
-
-    /** 全选/取消全选购物车 **/
     @PutMapping("/select/all")
-    fun selectAllCartItems(
+    fun selectAllItems(
         @RequestParam isSelected: Boolean
     ) {
         val username = SecurityUtils.currentUsername()
-        cartService.selectAllCartItems(username, isSelected)
+        cartService.selectSwitch(username, isSelected)
     }
 
-    /** 添加商品到购物车 */
-    @PostMapping("/add")
-    fun addCartItem(@RequestBody newItem: CartItem) {
-        val username = SecurityUtils.currentUsername()
-        cartService.addCartItem(username, newItem)
-    }
 
-    /** 更新购物车中某个商品数量 */
-    @PutMapping("/update/{skuId}")
-    fun updateCartItem(
-        @PathVariable skuId: String,
-        @RequestParam count: Int
-    ) {
-        val username = SecurityUtils.currentUsername()
-        cartService.updateCartItem(username, skuId, count)
-    }
-
-    /** 删除购物车中的商品 */
-    @DeleteMapping("/remove/{skuId}")
-    fun removeCartItem(@PathVariable skuId: String) {
-        val username = SecurityUtils.currentUsername()
-        cartService.removeCartItem(username, skuId)
-    }
-
-    /** 清空购物车 */
     @DeleteMapping("/clear")
     fun clearCart() {
         val username = SecurityUtils.currentUsername()
         cartService.clearCart(username)
     }
+
+    @PostMapping("/add")
+    fun addCartItem(@RequestBody newItem: CartItem) {
+        val username = SecurityUtils.currentUsername()
+        cartService.addItem(username, newItem)
+    }
+
+    @DeleteMapping("/remove/{skuId}")
+    fun removeItem(@PathVariable skuId: String) {
+        val username = SecurityUtils.currentUsername()
+        cartService.removeItem(username, skuId)
+    }
+
+    @PutMapping("/update/{skuId}")
+    fun updateItemQuantity(
+        @PathVariable skuId: String,
+        @RequestParam count: Int
+    ) {
+        val username = SecurityUtils.currentUsername()
+        cartService.updateItemQuantity(username, skuId, count)
+    }
+
+
 }

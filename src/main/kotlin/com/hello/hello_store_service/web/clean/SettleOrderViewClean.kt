@@ -11,7 +11,6 @@ import com.hello.hello_store_service.data.service.goods.SpuDataService
 import com.hello.hello_store_service.web.model.request.OrderRequest
 import com.hello.hello_store_service.web.model.view.SettleOrderView
 import com.hello.hello_store_service.web.model.view.SkuOrderView
-import com.hello.hello_store_service.web.model.view.StoreOrderView
 import com.hello.hello_store_service.web.model.view.goods.SpecDetailView
 import org.springframework.stereotype.Service
 
@@ -45,30 +44,10 @@ class SettleOrderViewClean(
             invoiceRequest = false,
             skuImages = null,
             deliveryFeeList = null,
-            storeGoodsList = getStoreViews(param)
+            skuOrderViews = getSkuOrderViews(param)
         )
     }
 
-    private fun getStoreViews(orderParam: OrderParam): List<StoreOrderView> {
-        val paramMap = getStoreParams(orderParam)
-        return paramMap.map { (store, param) ->
-            StoreOrderView(
-                storeId = store.storeId,
-                storeName = store.storeName,
-                remark = null,
-                goodsCount = calculator.goodsCount(param),
-                deliveryFee = calculator.deliveryFee(),
-                deliveryWords = "运费说明", //TODO 运费说明
-                storeTotalAmount = calculator.totalFee(param),
-                storeTotalPayAmount = calculator.payFee(param),
-                storeTotalDiscountAmount = calculator.discountFee(param),
-                storeTotalCouponAmount = calculator.couponFee(param),
-                couponList = null,
-                skuDetailVos = getSkuOrderViews(param)
-            )
-        }
-
-    }
 
     private fun getSkuOrderViews(orderParam: OrderParam): List<SkuOrderView> {
         return orderParam.skuList.mapNotNull { skuData ->
@@ -109,6 +88,15 @@ class SettleOrderViewClean(
         )
     }
 
+
+    private fun fetchAddress(addressId: String?): AddressEntity? {
+        if (addressId == null) return null
+        return addressDataService.fetchAddressById(addressId)
+    }
+
+    private fun orderType(userAddress: AddressEntity?): Int =
+        userAddress?.let { 1 } ?: 0
+
     private fun getStoreParams(orderParam: OrderParam): Map<StoreEntity, OrderParam> {
         val skuGroup = orderParam.skuList
             .mapNotNull { skuData ->
@@ -125,13 +113,4 @@ class SettleOrderViewClean(
             )
         }
     }
-
-    private fun fetchAddress(addressId: String?): AddressEntity? {
-        if (addressId == null) return null
-        return addressDataService.fetchAddressById(addressId)
-    }
-
-    private fun orderType(userAddress: AddressEntity?): Int =
-        userAddress?.let { 1 } ?: 0
-
 }

@@ -1,18 +1,8 @@
 package com.hello.hello_store_service.data.service
 
 import com.hello.hello_store_service.data.model.entity.CartEntity
-import com.hello.hello_store_service.data.model.entity.CartItem
-import com.hello.hello_store_service.data.model.entity.goods.SkuEntity
-import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
 import com.hello.hello_store_service.data.repository.CartRepository
-import com.hello.hello_store_service.data.service.goods.SkuDataService
-import com.hello.hello_store_service.data.service.goods.SpecDataService
-import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.model.view.CartView
-import com.hello.hello_store_service.web.model.view.PromotionGoodsView
-import com.hello.hello_store_service.web.model.view.StoreGoodsView
 import org.springframework.stereotype.Service
-import kotlin.collections.firstOrNull
 
 @Service
 class CartDataService(
@@ -36,6 +26,4 @@ class CartDataService(
         require(cartRepository.existsById(cartEntity.id)) { "要更新的购物车不存在" }
         cartRepository.save(cartEntity)
     }
-
-
 }

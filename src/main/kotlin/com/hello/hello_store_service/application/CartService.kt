@@ -9,68 +9,30 @@ import org.springframework.stereotype.Service
 class CartService(
     private val cartDataService: CartDataService
 ) {
-    fun fetchCartEntity(username: String): CartEntity? {
-        return cartDataService.fetchByUsername(username)
-    }
+    fun addItem(username: String, newItem: CartItem) {
+        val cartEntity = fetchCartEntity(username)
 
-    /** 全选/取消商店 **/
-    fun selectStoreCartItem(username: String, storeId: String, isSelected: Boolean) {
-        val cart = fetchCartEntity(username) ?: return
-        val updateItem = cart.items.map {
-            if (it.storeId == storeId) it.copy(isSelected = isSelected) else it
-        }
-        cartDataService.save(cart.copy(items = updateItem))
-    }
-
-    /** 全选/取消全选购物车 **/
-    fun selectAllCartItems(username: String, isAllSelected: Boolean) {
-        val cart = fetchCartEntity(username) ?: return
-
-        cartDataService.save(cart.copy(isAllSelected = isAllSelected))
-    }
-
-    /** 更新购物车中某个商品数量 */
-    fun updateCartItem(username: String, skuId: String, count: Int) {
-        val cart = fetchCartEntity(username) ?: return
-        val updatedItems = cart.items.map {
-            if (it.skuId == skuId) it.copy(count = count) else it
-        }
-        cartDataService.save(cart.copy(items = updatedItems))
-    }
-
-    /** 删除购物车中的商品 */
-    fun removeCartItem(username: String, skuId: String) {
-        val cart = fetchCartEntity(username) ?: return
-        val updatedItems = cart.items.filter { it.skuId != skuId }
-        cartDataService.save(cart.copy(items = updatedItems))
-    }
-
-    /** 清空购物车 */
-    fun clearCart(username: String) {
-        val cart = fetchCartEntity(username) ?: return
-        cartDataService.save(cart.copy(items = emptyList()))
-    }
-
-    fun addCartItem(username: String, newItem: CartItem) {
-        val cart = fetchCartEntity(username)
-        if (cart == null) {
-            // 如果没有购物车，创建一个新的
-            val newCart = CartEntity(username = username, items = listOf(newItem))
-            cartDataService.save(newCart)
+        val newCart = if (cartEntity == null) {
+            // 用户没有购物车，直接创建
+            CartEntity(username = username, items = listOf(newItem))
         } else {
-            // 已有购物车，更新或新增 CartItem
-            val updatedItems = cart.items.toMutableList()
-            val existingItemIndex = updatedItems.indexOfFirst { it.skuId == newItem.skuId }
-            if (existingItemIndex >= 0) {
-                // SKU 已存在，累加数量
-                val existingItem = updatedItems[existingItemIndex]
-                updatedItems[existingItemIndex] = existingItem.copy(count = existingItem.count + newItem.count)
-            } else {
-                // 新增 SKU
-                updatedItems.add(newItem)
-            }
-            cartDataService.save(cart.copy(items = updatedItems))
+            // 如果购物车里已有该商品，更新数量，否则添加新商品
+            val exists = cartEntity.items.any { it.skuId == newItem.skuId }
+
+            if (exists) updateQuantity(cartEntity, newItem)
+            else cartEntity.copy(items = cartEntity.items + newItem)
         }
+
+        cartDataService.save(newCart)
+    }
+
+    private fun updateQuantity(cartEntity: CartEntity, newItem: CartItem): CartEntity {
+        return cartEntity.copy(
+            items = cartEntity.items.map { item ->
+                if (item.skuId == newItem.skuId) item.copy(quantity = item.quantity + newItem.quantity)
+                else item
+            }
+        )
     }
 
     fun selectCartItem(username: String, skuId: String) {
@@ -79,5 +41,38 @@ class CartService(
             if (it.skuId == skuId) it.copy(isSelected = !it.isSelected) else it
         }
         cartDataService.save(cart.copy(items = updateItem))
+    }
+
+    fun selectSwitch(username: String, boolean: Boolean) {
+        val cart = fetchCartEntity(username) ?: return
+
+        val newCart = cart.copy(
+            items = cart.items.map { item ->
+                item.copy(isSelected = boolean)
+            })
+        cartDataService.save(newCart)
+    }
+
+    fun clearCart(username: String) {
+        val cart = fetchCartEntity(username) ?: return
+        cartDataService.save(cart.copy(items = emptyList()))
+    }
+
+    fun updateItemQuantity(username: String, skuId: String, count: Int) {
+        val cart = fetchCartEntity(username) ?: return
+        val updatedItems = cart.items.map {
+            if (it.skuId == skuId) it.copy(quantity = count) else it
+        }
+        cartDataService.save(cart.copy(items = updatedItems))
+    }
+
+    fun removeItem(username: String, skuId: String) {
+        val cart = fetchCartEntity(username) ?: return
+        val updatedItems = cart.items.filter { it.skuId != skuId }
+        cartDataService.save(cart.copy(items = updatedItems))
+    }
+
+    fun fetchCartEntity(username: String): CartEntity? {
+        return cartDataService.fetchByUsername(username)
     }
 }
