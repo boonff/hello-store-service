@@ -4,7 +4,6 @@ import com.hello.hello_store_service.application.goods.SkuService
 import com.hello.hello_store_service.application.goods.SpecDetail
 import com.hello.hello_store_service.application.order.OrderRule
 import com.hello.hello_store_service.application.order.OrderParam
-import com.hello.hello_store_service.data.model.entity.StoreEntity
 import com.hello.hello_store_service.data.model.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
@@ -96,21 +95,4 @@ class SettleOrderViewClean(
 
     private fun orderType(userAddress: AddressEntity?): Int =
         userAddress?.let { 1 } ?: 0
-
-    private fun getStoreParams(orderParam: OrderParam): Map<StoreEntity, OrderParam> {
-        val skuGroup = orderParam.skuList
-            .mapNotNull { skuData ->
-                skuService.fetchStore(skuData.skuId)?.let { storeId ->
-                    storeId to skuData
-                }
-            }.groupBy({ it.first }, { it.second })
-
-        return skuGroup.mapValues { (_, skuIds) ->
-            OrderParam(
-                username = orderParam.username,
-                skuList = skuIds,
-                couponIdList = orderParam.couponIdList
-            )
-        }
-    }
 }

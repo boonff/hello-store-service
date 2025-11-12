@@ -8,7 +8,24 @@ data class AppConfigEntity(
     @Id
     val id: String? = null,
     val configId: String = "appConfig",
-    val customerService: CustomerService
+    val customerService: CustomerService,
+    val storeInfo: StoreInfo,
+    val paymentInfo: PaymentInfo
+)
+
+
+data class StoreInfo(
+    val name: String,           // 商店名称
+    val logoUrl: String?,       // 商店Logo
+    val description: String?,   // 商店简介
+    val address: String?,       // 地址（可选）
+    val contactEmail: String?   // 邮箱（可选）
+)
+
+data class PaymentInfo(
+    val wechatMchId: String,     // 微信商户号
+    val wechatApiKey: String,    // 微信API密钥（建议加密存储）
+    val notifyUrl: String        // 支付回调地址
 )
 
 data class CustomerService(

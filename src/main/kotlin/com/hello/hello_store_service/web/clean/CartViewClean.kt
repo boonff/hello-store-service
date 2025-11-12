@@ -3,20 +3,14 @@ package com.hello.hello_store_service.web.clean
 import com.hello.hello_store_service.application.CartService
 import com.hello.hello_store_service.application.goods.SkuModel
 import com.hello.hello_store_service.application.goods.SkuService
-import com.hello.hello_store_service.application.goods.SpecDetail
 import com.hello.hello_store_service.data.model.entity.CartEntity
-import com.hello.hello_store_service.data.model.entity.StoreEntity
-import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
-import com.hello.hello_store_service.data.service.StoreDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.model.view.CartView
 import com.hello.hello_store_service.web.model.view.CartGoodsView
-import com.hello.hello_store_service.web.model.view.goods.SpecDetailView
+import com.hello.hello_store_service.web.model.view.CartView
 import org.springframework.stereotype.Service
 
 @Service
 class CartViewClean(
-    private val storeDataService: StoreDataService,
     private val spuDataService: SpuDataService,
     private val cartService: CartService,
     private val skuService: SkuService
@@ -82,21 +76,7 @@ class CartViewClean(
         return cartService.fetchCartEntity(username)
     }
 
-    private fun fetchStoreEntity(storeId: String): StoreEntity? {
-        return storeDataService.fetchStoreById(storeId)
-    }
-
     private fun fetchSkuModel(skuId: String): SkuModel? {
         return skuService.fetchSkuModel(skuId)
-    }
-
-    private fun fetchSpuEntity(spuId: String): SpuEntity? {
-        return spuDataService.fetchById(spuId)
-    }
-
-    private fun getSpecDetailView(specDetails: List<SpecDetail>): List<SpecDetailView> {
-        return specDetails.map { specDetail ->
-            SpecDetailView.from(specDetail)
-        }
     }
 }
