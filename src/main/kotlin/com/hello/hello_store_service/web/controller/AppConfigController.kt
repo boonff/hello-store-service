@@ -28,7 +28,7 @@ class AppConfigController(
         appConfigService.getCustomerService()
 
 
-    @PostMapping("/customerService")
-    fun updateCustomerService(@RequestParam config: CustomerService): AppConfigEntity =
-        appConfigService.updateCustomerService(config)
+//    @PostMapping("/customerService")
+//    fun updateCustomerService(@RequestParam config: CustomerService): AppConfigEntity =
+//        appConfigService.updateCustomerService(config)
 }

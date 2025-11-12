@@ -27,8 +27,8 @@ class AppConfigDataService(
     /**
      * 更新客服配置
      */
-    fun updateCustomerService(customerService: CustomerService): AppConfigEntity {
-        val config = getConfig() ?: AppConfigEntity(customerService = customerService)
-        return repository.save(config.copy(customerService = customerService))
-    }
+//    fun updateCustomerService(customerService: CustomerService): AppConfigEntity {
+//        val config = getConfig() ?: AppConfigEntity(customerService = customerService)
+//        return repository.save(config.copy(customerService = customerService))
+//    }
 }
