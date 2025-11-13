@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class OrderRule(
     private val skuService: SkuDataService,
-    private val orderCouponCalculator: OrderCouponRule
+    private val orderCouponRule: OrderCouponRule
 ) {
     fun goodsCount(param: OrderParam): Int = param.skuList.size
     fun packageCount(param: OrderParam): Int = 0 //TODO 计算包裹数量
@@ -44,7 +44,7 @@ class OrderRule(
         username: String,
         couponIds: List<String>,
         originalPrice: Int
-    ): Int = orderCouponCalculator.discountCoupons(username, couponIds, originalPrice)
+    ): Int = orderCouponRule.discountCoupons(username, couponIds, originalPrice)
 
     private fun fetchSkuById(skuId: String) = skuService.fetchById(skuId)
 }

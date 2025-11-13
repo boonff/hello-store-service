@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.data.service.goods
 
-import com.hello.hello_store_service.data.model.entity.goods.SpecEntity
-import com.hello.hello_store_service.data.model.entity.goods.SpecValue
+import com.hello.hello_store_service.data.entity.goods.SpecEntity
+import com.hello.hello_store_service.data.entity.goods.SpecValue
 import com.hello.hello_store_service.data.repository.goods.SpecRepository
 
 import org.springframework.stereotype.Service

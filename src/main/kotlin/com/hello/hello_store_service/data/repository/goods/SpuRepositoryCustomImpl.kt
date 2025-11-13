@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.data.repository.goods
 
-import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
+import com.hello.hello_store_service.data.entity.goods.SpuEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria

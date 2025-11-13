@@ -23,11 +23,11 @@ class JwtService(
         secretKey = Keys.hmacShaKeyFor(secret.toByteArray())
     }
 
-    fun generateToken(username: String, roles: List<String>): String {
+    fun generateToken(uid: String, roles: List<String>): String {
         val now = Date()
         val expiryDate = Date(now.time + expirationMillis)
         return Jwts.builder()
-            .setSubject(username)
+            .setSubject(uid)
             .claim("roles", roles)   // 存储角色集合
             .setIssuedAt(now)
             .setExpiration(expiryDate)
@@ -47,7 +47,7 @@ class JwtService(
         }
     }
 
-    fun getUsernameFromToken(token: String): String {
+    fun getUidFromToken(token: String): String {
         val claims = Jwts.parserBuilder()
             .setSigningKey(secretKey)
             .build()

@@ -3,10 +3,10 @@ package com.hello.hello_store_service.web.clean
 import com.hello.hello_store_service.application.CartService
 import com.hello.hello_store_service.application.goods.SkuModel
 import com.hello.hello_store_service.application.goods.SkuService
-import com.hello.hello_store_service.data.model.entity.CartEntity
+import com.hello.hello_store_service.data.entity.CartEntity
 import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.model.view.CartGoodsView
-import com.hello.hello_store_service.web.model.view.CartView
+import com.hello.hello_store_service.web.view.CartGoodsView
+import com.hello.hello_store_service.web.view.CartView
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,8 +15,8 @@ class CartViewClean(
     private val cartService: CartService,
     private val skuService: SkuService
 ) {
-    fun getCartView(username: String): CartView? {
-        val cartEntity = fetchCartEntity(username) ?: return null
+    fun getCartView(uid: String): CartView? {
+        val cartEntity = fetchCartEntity(uid) ?: return null
         return CartView(
             isAllSelected = isAllSelected(cartEntity),
             selectedGoodsCount = getSelectedGoodsCount(cartEntity),
@@ -72,8 +72,8 @@ class CartViewClean(
         return cartEntity.items.count { it.isSelected }
     }
 
-    private fun fetchCartEntity(username: String): CartEntity? {
-        return cartService.fetchCartEntity(username)
+    private fun fetchCartEntity(uid: String): CartEntity? {
+        return cartService.fetchCartEntity(uid)
     }
 
     private fun fetchSkuModel(skuId: String): SkuModel? {

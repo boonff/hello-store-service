@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.data.repository.goods
 
-import com.hello.hello_store_service.data.model.entity.goods.SkuEntity
+import com.hello.hello_store_service.data.entity.goods.SkuEntity
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 

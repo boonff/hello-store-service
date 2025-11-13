@@ -1,15 +1,13 @@
 package com.hello.hello_store_service.data.service
 
-import com.hello.hello_store_service.data.model.entity.user.UserCredentialEntity
-import com.hello.hello_store_service.data.model.entity.user.UserEntity
-import com.hello.hello_store_service.data.model.entity.user.UserType
+import com.hello.hello_store_service.data.entity.user.UserCredentialEntity
+import com.hello.hello_store_service.data.entity.user.UserEntity
 import com.hello.hello_store_service.data.repository.user.UserCredentialRepository
 import com.hello.hello_store_service.data.repository.user.UserRepository
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update
-import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Service
 import java.time.Instant
 
@@ -19,77 +17,44 @@ class UserDataService(
     private val userCredentialRepository: UserCredentialRepository,
     private val mongoTemplate: MongoTemplate
 ) {
-    fun getUser(username: String): UserEntity? {
+    fun fetchUserEntity(username: String): UserEntity? {
         return userRepository.findByUsername(username)
     }
 
-    // 注册用户
-    fun register(
-        phoneNumber: String,
-        username: String,
-        nickName: String,
-        password: String,
-        userType: UserType
-    ): UserEntity {
-        if (userRepository.findByUsername(username) != null) {
-            throw IllegalArgumentException("用户名已存在")
-        }
-
-        // 先创建用户基础信息
-        val user = UserEntity(
-            phoneNumber = phoneNumber,
-            username = username,
-            nickName = nickName,
-            gender = 0,
-            avatarUrl = "",
-            userType = userType,
-        )
-        val savedUser = userRepository.save(user)
-
-        // 创建用户凭证
-        val salt = BCrypt.gensalt()
-        val passwordHash = BCrypt.hashpw(password, salt)
-
-        val credential = UserCredentialEntity(
-            username = savedUser.username,   // 使用用户名作为关联
-            passwordHash = passwordHash,
-            salt = salt
-        )
-        userCredentialRepository.save(credential)
-
-        return savedUser
+    fun fetchCredential(uid: String): UserCredentialEntity? {
+        return userCredentialRepository.findById(uid).orElse(null)
     }
 
-    fun validateLogin(username: String, password: String): Boolean {
-        val user = userRepository.findByUsername(username) ?: return false
-
-        val credential = userCredentialRepository.findByUsername(user.username) ?: return false
-
-        return BCrypt.checkpw(password, credential.passwordHash)
+    fun saveUserEntity(userEntity: UserEntity): UserEntity? {
+        return userRepository.save(userEntity)
     }
 
-    fun updateAvatar(username: String, newAvatarUrl: String) {
-        val query = Query(Criteria.where("username").`is`(username))
-        val update = Update()
-            .set("avatarUrl", newAvatarUrl)
-            .set("updatedAt", Instant.now())
+    fun saveUserCredential(userCredentialEntity: UserCredentialEntity): UserCredentialEntity? {
+        return userCredentialRepository.save(userCredentialEntity)
+    }
+
+    fun fetchUserEntityByUid(uid: String): UserEntity? {
+        return userRepository.findById(uid).orElse(null)
+    }
+
+    //TODO应该移动到repository
+    fun updateAvatar(uid: String, newAvatarUrl: String) {
+        val query = Query(Criteria.where("uid").`is`(uid))
+        val update = Update().set("avatarUrl", newAvatarUrl).set("updatedAt", Instant.now())
         mongoTemplate.updateFirst(query, update, UserEntity::class.java)
     }
 
-    fun updateNickName(username: String, newNickName: String) {
-        val query = Query(Criteria.where("username").`is`(username))
-        val update = Update()
-            .set("nickName", newNickName)
-            .set("updatedAt", Instant.now())
+    fun updateNickName(uid: String, newNickName: String) {
+        val query = Query(Criteria.where("uid").`is`(uid))
+        val update = Update().set("nickName", newNickName).set("updatedAt", Instant.now())
         mongoTemplate.updateFirst(query, update, UserEntity::class.java)
     }
 
-    fun updateGender(username: String, newGender: Int) {
-        val query = Query(Criteria.where("username").`is`(username))
+    fun updateGender(uid: String, newGender: Int) {
+        val query = Query(Criteria.where("uid").`is`(uid))
 
-        val update = Update()
-            .set("gender", newGender)
-            .set("updatedAt", Instant.now())
+        val update = Update().set("gender", newGender).set("updatedAt", Instant.now())
         mongoTemplate.updateFirst(query, update, UserEntity::class.java)
     }
+
 }

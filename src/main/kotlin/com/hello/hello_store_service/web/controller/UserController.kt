@@ -4,9 +4,8 @@ import com.hello.hello_store_service.config.MinioProperties
 import com.hello.hello_store_service.data.service.FileDataService
 import com.hello.hello_store_service.data.service.UserDataService
 import com.hello.hello_store_service.security.SecurityUtils
-import com.hello.hello_store_service.web.model.view.UserView
+import com.hello.hello_store_service.web.view.UserView
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -21,10 +20,9 @@ class UserController(
     // 获取当前登录用户信息
     @GetMapping("/info")
     fun getUserInfo(): ResponseEntity<UserView> {
-        val authentication = SecurityContextHolder.getContext().authentication
-        val username = authentication.name
+        val uid = SecurityUtils.fetchUid()
 
-        val user = userService.getUser(username)
+        val user = userService.fetchUserEntityByUid(uid)
             ?: return ResponseEntity.notFound().build()
 
         return ResponseEntity.ok(UserView.from(user))
@@ -33,12 +31,11 @@ class UserController(
     // 上传用户头像
     @PostMapping("/avatar")
     fun uploadAvatar(@RequestPart("file") file: MultipartFile): ResponseEntity<Map<String, String>> {
-        val authentication = SecurityContextHolder.getContext().authentication
-        val username = authentication.name
+        val uid = SecurityUtils.fetchUid()
 
         val avatarUrl = fileService.uploadFile(file, bucket = minioProperties.bucket)
 
-        userService.updateAvatar(username, avatarUrl)
+        userService.updateAvatar(uid, avatarUrl)
 
         return ResponseEntity.ok(mapOf("url" to avatarUrl))
     }
@@ -46,15 +43,15 @@ class UserController(
     //修改昵称
     @PostMapping("/nickName")
     fun updateNickName(@RequestBody nickName: String) {
-        val username = SecurityUtils.currentUsername()
-        userService.updateNickName(username, nickName)
+        val uid = SecurityUtils.fetchUid()
+        userService.updateNickName(uid, nickName)
     }
 
     //修改性别
     data class GenderRequest(val gender: Int)
     @PostMapping("/gender")
     fun updateGender(@RequestBody request: GenderRequest) {
-        val username = SecurityUtils.currentUsername()
-        userService.updateGender(username, request.gender)
+        val uid = SecurityUtils.fetchUid()
+        userService.updateGender(uid, request.gender)
     }
 }

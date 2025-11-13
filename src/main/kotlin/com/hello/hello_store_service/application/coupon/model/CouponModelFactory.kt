@@ -1,14 +1,13 @@
 package com.hello.hello_store_service.application.coupon.model
 
-import com.hello.hello_store_service.data.model.entity.coupon.CouponEntity
-import com.hello.hello_store_service.data.model.entity.coupon.CouponType
-import com.hello.hello_store_service.data.model.record.UserCouponRecord
-import org.springframework.stereotype.Component
+import com.hello.hello_store_service.data.entity.coupon.CouponEntity
+import com.hello.hello_store_service.data.entity.coupon.CouponType
+import com.hello.hello_store_service.data.model.UserCouponModel
 import java.time.LocalDateTime
 
 
 object CouponModelFactory {
-    fun build(record: UserCouponRecord): CouponModel {
+    fun build(record: UserCouponModel): CouponInstance? {
         val failureAt = record.receivedAt.plusDays(record.coupon.validDays.toLong())
 
         val status = when {
@@ -17,7 +16,7 @@ object CouponModelFactory {
             else -> CouponStatus.Default
         }
 
-        return CouponModel.build(
+        return CouponInstance.build(
             couponEntity = record.coupon,
             couponValue = getCountValue(record.coupon),
             receivedAt = record.receivedAt,

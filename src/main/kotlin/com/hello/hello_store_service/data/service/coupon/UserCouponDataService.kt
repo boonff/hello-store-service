@@ -1,6 +1,7 @@
 package com.hello.hello_store_service.data.service.coupon
 
-import com.hello.hello_store_service.data.model.record.UserCouponRecord
+import com.hello.hello_store_service.data.entity.coupon.UserCouponEntity
+import com.hello.hello_store_service.data.model.UserCouponModel
 import com.hello.hello_store_service.data.repository.coupon.CouponRepository
 import com.hello.hello_store_service.data.repository.coupon.UserCouponRepository
 import org.springframework.stereotype.Service
@@ -10,13 +11,15 @@ class UserCouponDataService(
     private val userCouponRepository: UserCouponRepository,
     private val couponRepository: CouponRepository,
 ) {
-    fun fetchByUsername(username: String): List<UserCouponRecord> {
-        return couponRepository.findUserCouponRecord(username)
+    fun fetchByUid(uid: String): List<UserCouponModel> {
+        return couponRepository.findUserCouponModel(uid)
     }
 
-    fun fetchByCouponIds(username: String, couponIds: List<String>): List<UserCouponRecord> =
-        fetchByUsername(username).filter { it.coupon.couponId in couponIds }
+    fun fetchById(uid: String, couponId: String): UserCouponModel? =
+        fetchByUid(uid).firstOrNull { it.coupon.couponId == couponId }
 
-    fun fetchByCouponId(username: String, couponId: String): UserCouponRecord? =
-        fetchByUsername(username).firstOrNull { it.coupon.couponId in couponId }
+    fun fetchByIds(uid: String, couponIds: List<String>): List<UserCouponModel> =
+        fetchByUid(uid).filter { it.coupon.couponId in couponIds }
+
+
 }

@@ -1,0 +1,25 @@
+package com.hello.hello_store_service.web.view.coupon
+
+data class CouponResultList(
+    val couponDataList: List<CouponData>,
+    val reduce: Int
+)
+
+data class CouponData(
+    val couponVO: CouponView,
+    val status: Boolean
+)
+
+data class CouponView(
+    val condition: String,
+    val couponId: String,
+    val startTime: String,
+    val endTime: String,
+    val name: String,
+    val profit: String?,
+    val promotionCode: String?,
+    val promotionSubCode: String?,
+    val scopeText: String?,
+    val value: Float,
+    val type: Int,
+)

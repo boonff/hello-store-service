@@ -1,12 +1,12 @@
 package com.hello.hello_store_service.web.controller
 
-import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
-import com.hello.hello_store_service.data.model.entity.goods.SpuTag
+import com.hello.hello_store_service.data.entity.goods.SpuEntity
+import com.hello.hello_store_service.data.entity.goods.SpuTag
 import com.hello.hello_store_service.data.service.FileDataService
 import com.hello.hello_store_service.data.service.goods.SkuDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.model.view.goods.SkuDetail
-import com.hello.hello_store_service.web.model.view.goods.SpuView
+import com.hello.hello_store_service.web.view.goods.SkuDetail
+import com.hello.hello_store_service.web.view.goods.SpuView
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -67,7 +67,6 @@ class GoodsController(
     ): SpuEntity {
         return goodsService.createSpu(
             saasId = "88888888",
-            storeId = "1000",
             title = title,
             etitle = etitle,
             primaryImage = primaryImage,

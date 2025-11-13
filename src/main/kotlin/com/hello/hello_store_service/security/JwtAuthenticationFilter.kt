@@ -23,7 +23,7 @@ class JwtAuthenticationFilter(
         val token = authHeader?.takeIf { it.startsWith("Bearer ") }?.substring(7)
 
         if (token != null && jwtService.validateToken(token)) {
-            val username = jwtService.getUsernameFromToken(token)
+            val username = jwtService.getUidFromToken(token)
             val auth = UsernamePasswordAuthenticationToken(
                 username, null, emptyList() // 可以放角色权限列表
             )

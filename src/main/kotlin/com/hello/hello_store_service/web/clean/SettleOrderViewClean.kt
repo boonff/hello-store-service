@@ -4,13 +4,13 @@ import com.hello.hello_store_service.application.goods.SkuService
 import com.hello.hello_store_service.application.goods.SpecDetail
 import com.hello.hello_store_service.application.order.OrderRule
 import com.hello.hello_store_service.application.order.OrderParam
-import com.hello.hello_store_service.data.model.entity.address.AddressEntity
+import com.hello.hello_store_service.data.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.model.request.OrderRequest
-import com.hello.hello_store_service.web.model.view.SettleOrderView
-import com.hello.hello_store_service.web.model.view.SkuOrderView
-import com.hello.hello_store_service.web.model.view.goods.SpecDetailView
+import com.hello.hello_store_service.web.request.OrderRequest
+import com.hello.hello_store_service.web.view.SettleOrderView
+import com.hello.hello_store_service.web.view.SkuOrderView
+import com.hello.hello_store_service.web.view.goods.SpecDetailView
 import org.springframework.stereotype.Service
 
 @Service

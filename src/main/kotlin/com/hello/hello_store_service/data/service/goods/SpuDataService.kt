@@ -1,12 +1,12 @@
 package com.hello.hello_store_service.data.service.goods
 
-import com.hello.hello_store_service.data.model.entity.goods.SpuEntity
-import com.hello.hello_store_service.data.model.entity.goods.SpuTag
+import com.hello.hello_store_service.data.entity.goods.SpuEntity
+import com.hello.hello_store_service.data.entity.goods.SpuTag
 import com.hello.hello_store_service.data.repository.goods.SkuRepository
 import com.hello.hello_store_service.data.repository.goods.SpecRepository
 import com.hello.hello_store_service.data.repository.goods.SpuRepository
 import com.hello.hello_store_service.data.service.FileDataService
-import com.hello.hello_store_service.web.model.view.goods.SpuView
+import com.hello.hello_store_service.web.view.goods.SpuView
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
@@ -44,7 +44,6 @@ class SpuDataService(
 
     fun createSpu(
         saasId: String,
-        storeId: String,
         title: String,
         etitle: String,
         primaryImage: MultipartFile,
@@ -66,7 +65,6 @@ class SpuDataService(
 
         val goods = SpuEntity(
             saasId = saasId,
-            storeId = storeId,
             spuId = "0", // 可在创建时生成唯一 ID
             title = title,
             etitle = etitle,

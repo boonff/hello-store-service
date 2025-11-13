@@ -1,12 +1,11 @@
 package com.hello.hello_store_service.web.controller
 
 
-import com.hello.hello_store_service.data.model.entity.CommentEntity
-import com.hello.hello_store_service.data.service.CommentDataService
+import com.hello.hello_store_service.application.CommentService
+import com.hello.hello_store_service.data.entity.CommentEntity
 import com.hello.hello_store_service.data.service.FileDataService
-import com.hello.hello_store_service.web.model.view.CommentCountView
+import com.hello.hello_store_service.web.view.CommentCountView
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -14,19 +13,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/comments")
 class CommentsController(
-    private val commentsService: CommentDataService,
+    private val commentsService: CommentService,
     private val fileService: FileDataService
 ) {
-    @GetMapping()
-    fun getAllComments(): List<CommentEntity> {
-        return commentsService.findAll()
-    }
-
-    @GetMapping("/{spuId}")
-    fun getCommentsBySpuId(@PathVariable spuId: String): List<CommentEntity> {
-        return commentsService.findBySpuId(spuId)
-    }
-
     @GetMapping("/detail")
     fun getRangeComments(
         @RequestParam("spuId") spuId: String,
@@ -35,7 +24,7 @@ class CommentsController(
         @RequestParam("hasImage") hasImage: Boolean,
         @RequestParam("commentLevel") commentLevel: Int
     ): List<CommentEntity> {
-        return commentsService.findDetail(spuId, pageIndex, pageSize, hasImage, commentLevel)
+        return commentsService.fetchDetail(spuId, pageIndex, pageSize, hasImage, commentLevel)
     }
 
     @GetMapping("/range")
@@ -44,7 +33,7 @@ class CommentsController(
         @RequestParam("pageIndex") pageIndex: Int,
         @RequestParam("pageSize") pageSize: Int
     ): List<CommentEntity> {
-        return commentsService.findByRange(spuId, pageIndex, pageSize)
+        return commentsService.fetchByRange(spuId, pageIndex, pageSize)
     }
 
     @GetMapping("/randomTopComments")

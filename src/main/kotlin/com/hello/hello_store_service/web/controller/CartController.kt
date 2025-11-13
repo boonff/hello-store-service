@@ -1,10 +1,10 @@
 package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.application.CartService
-import com.hello.hello_store_service.data.model.entity.CartItem
+import com.hello.hello_store_service.data.entity.CartItem
 import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.clean.CartViewClean
-import com.hello.hello_store_service.web.model.view.CartView
+import com.hello.hello_store_service.web.view.CartView
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,41 +16,41 @@ class CartController(
 
     @GetMapping
     fun getCartView(): CartView? {
-        val username = SecurityUtils.currentUsername()
-        return cartViewClean.getCartView(username)
+        val uid = SecurityUtils.fetchUid()
+        return cartViewClean.getCartView(uid)
     }
 
     @PutMapping("/select/{skuId}")
     fun selectCartItem(@PathVariable skuId: String) {
-        val username = SecurityUtils.currentUsername()
-        cartService.selectCartItem(username, skuId)
+        val uid = SecurityUtils.fetchUid()
+        cartService.selectCartItem(uid, skuId)
     }
 
     @PutMapping("/select/all")
     fun selectAllItems(
         @RequestParam isSelected: Boolean
     ) {
-        val username = SecurityUtils.currentUsername()
-        cartService.selectSwitch(username, isSelected)
+        val uid = SecurityUtils.fetchUid()
+        cartService.selectSwitch(uid, isSelected)
     }
 
 
     @DeleteMapping("/clear")
     fun clearCart() {
-        val username = SecurityUtils.currentUsername()
-        cartService.clearCart(username)
+        val uid = SecurityUtils.fetchUid()
+        cartService.clearCart(uid)
     }
 
     @PostMapping("/add")
     fun addCartItem(@RequestBody newItem: CartItem) {
-        val username = SecurityUtils.currentUsername()
-        cartService.addItem(username, newItem)
+        val uid = SecurityUtils.fetchUid()
+        cartService.addItem(uid, newItem)
     }
 
     @DeleteMapping("/remove/{skuId}")
     fun removeItem(@PathVariable skuId: String) {
-        val username = SecurityUtils.currentUsername()
-        cartService.removeItem(username, skuId)
+        val uid = SecurityUtils.fetchUid()
+        cartService.removeItem(uid, skuId)
     }
 
     @PutMapping("/update/{skuId}")
@@ -58,8 +58,8 @@ class CartController(
         @PathVariable skuId: String,
         @RequestParam count: Int
     ) {
-        val username = SecurityUtils.currentUsername()
-        cartService.updateItemQuantity(username, skuId, count)
+        val uid = SecurityUtils.fetchUid()
+        cartService.updateItemQuantity(uid, skuId, count)
     }
 
 

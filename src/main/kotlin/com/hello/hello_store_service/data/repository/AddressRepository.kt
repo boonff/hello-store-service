@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.data.repository
 
-import com.hello.hello_store_service.data.model.entity.address.AddressEntity
+import com.hello.hello_store_service.data.entity.address.AddressEntity
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 

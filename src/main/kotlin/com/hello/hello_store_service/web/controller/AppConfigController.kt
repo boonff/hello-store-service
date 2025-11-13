@@ -1,8 +1,8 @@
 package com.hello.hello_store_service.web.controller
 
 
-import com.hello.hello_store_service.data.model.entity.AppConfigEntity
-import com.hello.hello_store_service.data.model.entity.CustomerService
+import com.hello.hello_store_service.data.entity.AppConfigEntity
+import com.hello.hello_store_service.data.entity.CustomerService
 import com.hello.hello_store_service.data.service.AppConfigDataService
 import org.springframework.web.bind.annotation.*
 
@@ -13,7 +13,7 @@ class AppConfigController(
 ) {
     @GetMapping
     fun getConfig(): AppConfigEntity? =
-        appConfigService.getConfig()
+        appConfigService.fetchConfig()
 
     @PutMapping
     fun updateConfig(@RequestBody config: AppConfigEntity): AppConfigEntity =
@@ -26,9 +26,4 @@ class AppConfigController(
     @GetMapping("/customerService")
     fun getCustomerService(): CustomerService? =
         appConfigService.getCustomerService()
-
-
-//    @PostMapping("/customerService")
-//    fun updateCustomerService(@RequestParam config: CustomerService): AppConfigEntity =
-//        appConfigService.updateCustomerService(config)
 }

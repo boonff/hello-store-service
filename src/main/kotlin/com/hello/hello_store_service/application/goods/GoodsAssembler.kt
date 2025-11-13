@@ -1,7 +1,6 @@
 package com.hello.hello_store_service.application.goods
 
-import com.hello.hello_store_service.data.model.entity.goods.SkuEntity
-import com.hello.hello_store_service.data.service.goods.SkuDataService
+import com.hello.hello_store_service.data.entity.goods.SkuEntity
 import com.hello.hello_store_service.data.service.goods.SpecDataService
 import org.springframework.stereotype.Service
 
@@ -17,11 +16,12 @@ class GoodsAssembler(
         }
     }
 
-    fun assembleSkuModel(skuEntity: SkuEntity): SkuModel {
+    fun assembleSkuModel(skuEntity: SkuEntity): SkuModel? {
+        if (skuEntity.skuId == null) return null
+
         return SkuModel(
             skuId = skuEntity.skuId,
             spuId = skuEntity.spuId,
-            storeId = skuEntity.storeId,
             specList = assembleSpecList(skuEntity),
             stockInfo = skuEntity.stockInfo,
             skuImage = skuEntity.skuImage,

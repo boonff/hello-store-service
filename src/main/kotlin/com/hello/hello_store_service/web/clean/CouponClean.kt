@@ -1,12 +1,12 @@
 package com.hello.hello_store_service.web.clean
 
 import com.hello.hello_store_service.application.coupon.CouponService
-import com.hello.hello_store_service.application.coupon.model.CouponModel
-import com.hello.hello_store_service.data.model.entity.coupon.CouponType
-import com.hello.hello_store_service.web.model.view.coupon.CouponData
-import com.hello.hello_store_service.web.model.view.coupon.CouponResultList
-import com.hello.hello_store_service.web.model.view.coupon.CouponView
-import com.hello.hello_store_service.web.model.view.coupon.UserCouponView
+import com.hello.hello_store_service.application.coupon.model.CouponInstance
+import com.hello.hello_store_service.data.entity.coupon.CouponType
+import com.hello.hello_store_service.web.view.coupon.CouponData
+import com.hello.hello_store_service.web.view.coupon.CouponResultList
+import com.hello.hello_store_service.web.view.coupon.CouponView
+import com.hello.hello_store_service.web.view.coupon.UserCouponView
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -15,8 +15,8 @@ import java.time.format.DateTimeFormatter
 class CouponClean(
     private val userCouponService: CouponService
 ) {
-    fun fetchUserCouponViews(username: String): List<UserCouponView> {
-        return userCouponService.fetchCouponModelList(username).map { userCoupon ->
+    fun fetchUserCouponViews(uid: String): List<UserCouponView> {
+        return userCouponService.fetchCouponModelList(uid).map { userCoupon ->
             UserCouponView(
                 key = userCoupon.couponId,
                 status = userCoupon.status.typeName,
@@ -31,15 +31,15 @@ class CouponClean(
         }
     }
 
-    fun fetchCouponResultList(username: String): CouponResultList {
+    fun fetchCouponResultList(uid: String): CouponResultList {
         return CouponResultList(
-            couponDataList = userCouponService.fetchCouponModelList(username).map { userCoupon ->
+            couponDataList = userCouponService.fetchCouponModelList(uid).map { userCoupon ->
                 fetchCouponData(userCoupon)
             }, reduce = 0
         )
     }
 
-    fun fetchCouponData(userCoupon: CouponModel): CouponData {
+    fun fetchCouponData(userCoupon: CouponInstance): CouponData {
         return CouponData(
             couponVO = fetchCouponView(userCoupon), status = false
         )
@@ -52,9 +52,8 @@ class CouponClean(
         }
     }
 
-    private fun fetchCouponView(userCoupon: CouponModel): CouponView {
+    private fun fetchCouponView(userCoupon: CouponInstance): CouponView {
         return CouponView(
-            storeId = null,
             condition = userCoupon.title,
             couponId = userCoupon.couponId,
             startTime = timeFormatter(userCoupon.receivedAt),

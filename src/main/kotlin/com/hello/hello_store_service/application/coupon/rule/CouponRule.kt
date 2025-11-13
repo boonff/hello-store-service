@@ -1,30 +1,30 @@
 package com.hello.hello_store_service.application.coupon.rule
 
 import com.hello.hello_store_service.application.coupon.model.CouponStatus
-import com.hello.hello_store_service.application.coupon.model.CouponModel
-import com.hello.hello_store_service.data.model.entity.coupon.CouponType
+import com.hello.hello_store_service.application.coupon.model.CouponInstance
+import com.hello.hello_store_service.data.entity.coupon.CouponType
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 abstract class CouponRule {
-    abstract fun calculateDiscount(userCoupon: CouponModel, originalPrice: Int): Int
+    abstract fun calculateDiscount(userCoupon: CouponInstance, originalPrice: Int): Int
 
-    fun isUsable(userCoupon: CouponModel, originalPrice: Int): Boolean {
+    fun isUsable(userCoupon: CouponInstance, originalPrice: Int): Boolean {
         return checkStatus(userCoupon) &&
                 checkTime(userCoupon) &&
                 checkPrice(userCoupon, originalPrice)
     }
 
-    private fun checkStatus(userCoupon: CouponModel): Boolean {
+    private fun checkStatus(userCoupon: CouponInstance): Boolean {
         return userCoupon.status == CouponStatus.Default
     }
 
-    private fun checkTime(userCoupon: CouponModel): Boolean {
+    private fun checkTime(userCoupon: CouponInstance): Boolean {
         val now = LocalDateTime.now()
         return now.isBefore(userCoupon.failureAt)
     }
 
-    private fun checkPrice(userCoupon: CouponModel, originalPrice: Int): Boolean {
+    private fun checkPrice(userCoupon: CouponInstance, originalPrice: Int): Boolean {
         return originalPrice >= (userCoupon.threshold)
     }
 }
