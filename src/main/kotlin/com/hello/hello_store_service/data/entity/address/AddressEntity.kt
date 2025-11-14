@@ -5,8 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("address")
 data class AddressEntity(
-    @Id
-    val addressId: String? = null,
+    @Id val addressId: String? = null,
     val username: String,
     val cityCode: String,
     val cityName: String,

@@ -43,7 +43,6 @@ class SpuDataService(
     }
 
     fun createSpu(
-        saasId: String,
         title: String,
         etitle: String,
         primaryImage: MultipartFile,
@@ -64,7 +63,6 @@ class SpuDataService(
         val descUrl = desc.map { fileService.uploadFile(it) }
 
         val goods = SpuEntity(
-            saasId = saasId,
             spuId = "0", // 可在创建时生成唯一 ID
             title = title,
             etitle = etitle,

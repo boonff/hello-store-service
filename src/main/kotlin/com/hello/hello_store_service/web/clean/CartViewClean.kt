@@ -27,7 +27,6 @@ class CartViewClean(
     }
 
     private fun getCartGoodsView(cartEntity: CartEntity): List<CartGoodsView> {
-
         return cartEntity.items.mapNotNull { item ->
             val spuEntity = spuDataService.fetchById(item.spuId) ?: return@mapNotNull null
             val skuModel = skuService.fetchSkuModel(item.skuId) ?: return@mapNotNull null

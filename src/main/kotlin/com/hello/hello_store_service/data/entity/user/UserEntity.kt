@@ -36,6 +36,7 @@ enum class Gender(val code: Int) {
     Female(2)
 }
 
+//TODO 需要删除
 data class MerchantInfo(
     val shopName: String,
     val shopAddress: String,

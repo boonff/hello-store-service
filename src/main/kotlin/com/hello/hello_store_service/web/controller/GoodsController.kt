@@ -66,7 +66,6 @@ class GoodsController(
         @RequestParam(required = false, defaultValue = "1") isPutOnSale: Int
     ): SpuEntity {
         return goodsService.createSpu(
-            saasId = "88888888",
             title = title,
             etitle = etitle,
             primaryImage = primaryImage,

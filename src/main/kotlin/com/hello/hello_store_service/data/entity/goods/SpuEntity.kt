@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class SpuEntity(
     @Id val id: String? = null,
     val spuId: String,                       // SPU ID
-    val saasId: String,                      // SaaS 平台 ID
 
     val title: String,                       // 商品标题
     val etitle: String,                      // 英文标题
@@ -19,7 +18,6 @@ data class SpuEntity(
     val categoryIds: List<String>? = emptyList(), // 分类
     val groupIdList: List<String>? = emptyList(), // 分组
     val spuTagList: List<SpuTag> = emptyList(),   // 标签
-
 
     val available: Int? = null,               // 是否可售
     val minSalePrice: Int? = null,            // 最低参考售价

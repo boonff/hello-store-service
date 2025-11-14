@@ -9,7 +9,6 @@ interface SpuRepository : MongoRepository<SpuEntity, String>, SpuRepositoryCusto
     // 自定义查询方法（基于命名规则）
     fun findByTitleContaining(keyword: String): List<SpuEntity>
     fun findBySpuId(spuId: String): SpuEntity?
-    fun findBySaasIdAndSpuId(saasId: String, spuId: String): SpuEntity?
     fun findByCategoryIdsContaining(categoryId: String): List<SpuEntity>
     fun findAllBySpuIdIn(spuIds: List<String>): List<SpuEntity>
 }
