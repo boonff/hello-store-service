@@ -3,7 +3,7 @@ package com.hello.hello_store_service.web.clean
 import com.hello.hello_store_service.application.goods.SkuService
 import com.hello.hello_store_service.application.goods.SpecDetail
 import com.hello.hello_store_service.application.order.OrderRule
-import com.hello.hello_store_service.application.order.OrderParam
+import com.hello.hello_store_service.data.entity.OrderEntity
 import com.hello.hello_store_service.data.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
@@ -23,51 +23,49 @@ class SettleOrderViewClean(
     private val skuService: SkuService
 
 ) {
-    fun getOrderDetailView(request: OrderRequest, username: String): SettleOrderView {
-        val param = getOrderParam(request, username)
-        val addressEntity = fetchAddress(request.userAddressId)
+    fun getOrderDetailView(orderEntity: OrderEntity): SettleOrderView {
+        val addressEntity = fetchAddress(orderEntity.addressId)
 
         return SettleOrderView(
             settleType = orderType(addressEntity),
             userAddress = addressEntity,
-            totalGoodsCount = calculator.goodsCount(param),
-            packageCount = calculator.packageCount(param),
-            totalAmount = calculator.totalFee(param),
-            totalPayAmount = calculator.payFee(param),
-            totalDiscountAmount = calculator.discountFee(param),
+            totalGoodsCount = orderEntity.totalFee,
+            packageCount = orderEntity.deliveryFee,
+            totalAmount = orderEntity.totalFee,
+            totalPayAmount = orderEntity.paymentFee,
+            totalDiscountAmount = orderEntity.discountFee,
             totalPromotionAmount = 0,
-            totalCouponAmount = calculator.couponFee(param),
-            totalSalePrice = calculator.saleFee(param),
-            totalGoodsAmount = calculator.totalFee(param),
-            totalDeliveryFee = calculator.deliveryFee(),
+            totalCouponAmount = orderEntity.couponFee,
+            totalSalePrice = orderEntity.saleFee,
+            totalGoodsAmount = orderEntity.totalFee,
+            totalDeliveryFee = orderEntity.deliveryFee,
             invoiceRequest = false,
             skuImages = null,
             deliveryFeeList = null,
-            goodsList = getSkuOrderViews(param)
+            goodsList = getSkuOrderViews(orderEntity)
         )
     }
 
 
-    private fun getSkuOrderViews(orderParam: OrderParam): List<SkuOrderView> {
-        return orderParam.skuList.mapNotNull { skuData ->
-            val skuModel = skuService.fetchSkuModel(skuData.skuId) ?: return@mapNotNull null
-            val spuEntity = spuDataService.fetchBySpuId(skuModel.spuId) ?: return@mapNotNull null
-
+    private fun getSkuOrderViews(orderEntity: OrderEntity): List<SkuOrderView> {
+        return orderEntity.orderItems.mapNotNull { item ->
+            val skuModel = skuService.fetchSkuModel(item.skuId) ?: return@mapNotNull null
+            val spuModel = spuDataService.fetchById(skuModel.spuId) ?: return@mapNotNull null
             SkuOrderView(
-                skuId = skuModel.skuId,
+                skuId = item.skuId,
                 roomId = null,
-                egoodsName = spuEntity.etitle,
-                goodsName = spuEntity.title,
-                image = spuEntity.primaryImage,
+                egoodsName = spuModel.etitle,
+                goodsName = spuModel.title,
+                image = item.skuImage,
                 masterGoodsType = 0,
                 promotionIds = null,
-                quantity = skuData.quantity,
+                quantity = item.quantity,
                 oriPrice = 0,
                 payPrice = 0,
                 discountSettlePrice = 0,
                 realSettlePrice = 0,
                 reminderStock = skuModel.stockInfo.stockQuantity,
-                settlePrice = skuModel.salePrice,
+                settlePrice = item.saleFee,
                 skuSpecLst = getSpecDetailView(skuModel.specList)
             )
         }
@@ -77,14 +75,6 @@ class SettleOrderViewClean(
         return specDetails.map { specDetail ->
             SpecDetailView.from(specDetail)
         }
-    }
-
-    private fun getOrderParam(request: OrderRequest, username: String): OrderParam {
-        return OrderParam(
-            username = username,
-            skuList = request.skuList,
-            couponIdList = request.couponIdList
-        )
     }
 
 

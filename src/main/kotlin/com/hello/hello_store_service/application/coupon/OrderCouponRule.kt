@@ -12,11 +12,11 @@ class OrderCouponRule(
 ) {
 
     fun discountCoupons(
-        username: String,
+        uid: String,
         couponIds: List<String>,
         originalPrice: Int
     ): Int {
-        val userCoupons = fetchUserCoupons(username, couponIds)
+        val userCoupons = fetchUserCoupons(uid, couponIds)
         return calculateTotalDiscount(userCoupons, originalPrice)
     }
 
@@ -27,6 +27,6 @@ class OrderCouponRule(
         }
     }
 
-    private fun fetchUserCoupons(username: String, couponIds: List<String>): List<CouponInstance> =
-        userCouponService.fetchByCouponIds(username, couponIds)
+    private fun fetchUserCoupons(uid: String, couponIds: List<String>): List<CouponInstance> =
+        userCouponService.fetchByCouponIds(uid, couponIds)
 }
