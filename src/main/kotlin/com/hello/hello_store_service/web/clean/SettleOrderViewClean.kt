@@ -2,12 +2,10 @@ package com.hello.hello_store_service.web.clean
 
 import com.hello.hello_store_service.application.goods.SkuService
 import com.hello.hello_store_service.application.goods.SpecDetail
-import com.hello.hello_store_service.application.order.OrderRule
-import com.hello.hello_store_service.data.entity.OrderEntity
+import com.hello.hello_store_service.data.entity.order.OrderEntity
 import com.hello.hello_store_service.data.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressDataService
 import com.hello.hello_store_service.data.service.goods.SpuDataService
-import com.hello.hello_store_service.web.request.OrderRequest
 import com.hello.hello_store_service.web.view.SettleOrderView
 import com.hello.hello_store_service.web.view.SkuOrderView
 import com.hello.hello_store_service.web.view.goods.SpecDetailView
@@ -17,16 +15,16 @@ import org.springframework.stereotype.Service
 class SettleOrderViewClean(
 
     private val addressDataService: AddressDataService,
-    private val spuDataService
-    : SpuDataService,
-    private val calculator: OrderRule,
+    private val spuDataService: SpuDataService,
     private val skuService: SkuService
 
 ) {
-    fun getOrderDetailView(orderEntity: OrderEntity): SettleOrderView {
+    fun getOrderDetailView(orderEntity: OrderEntity): SettleOrderView? {
         val addressEntity = fetchAddress(orderEntity.addressId)
+        if (orderEntity.orderId == null) return null
 
         return SettleOrderView(
+            orderId = orderEntity.orderId,
             settleType = orderType(addressEntity),
             userAddress = addressEntity,
             totalGoodsCount = orderEntity.totalFee,

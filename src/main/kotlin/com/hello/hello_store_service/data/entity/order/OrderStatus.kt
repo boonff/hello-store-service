@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.web.enums.order
+package com.hello.hello_store_service.data.entity.order
 
 enum class OrderStatus(val code: Int, val desc: String) {
     PENDING_PAYMENT(5, "待支付"),

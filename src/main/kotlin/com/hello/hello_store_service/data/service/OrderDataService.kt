@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.data.service
 
-import com.hello.hello_store_service.data.entity.OrderEntity
+import com.hello.hello_store_service.data.entity.order.OrderEntity
 import com.hello.hello_store_service.data.repository.OrderRepository
 import org.springframework.stereotype.Service
 

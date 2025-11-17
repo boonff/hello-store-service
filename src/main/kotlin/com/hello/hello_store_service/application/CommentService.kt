@@ -22,7 +22,6 @@ class CommentService(
 
         return commentsList.slice(start until end)
     }
-
     fun fetchDetail(
         spuId: String,
         pageIndex: Int,

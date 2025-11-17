@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.application.order
 
-import com.hello.hello_store_service.data.entity.OrderEntity
+import com.hello.hello_store_service.data.entity.order.OrderEntity
 import com.hello.hello_store_service.data.service.OrderDataService
 import com.hello.hello_store_service.web.request.OrderRequest
 import org.springframework.stereotype.Service
@@ -12,22 +12,27 @@ class OrderService(
     private val orderDataService: OrderDataService,
     private val orderEntityAssembler: OrderEntityAssembler
 ) {
-    fun createOrder(uid: String, param: OrderRequest): OrderEntity? {
+    fun save(uid: String, request: OrderRequest): OrderEntity? {
         val orderEntity = orderEntityAssembler.genOrderEntity(
+            orderId = request.orderId,
             uid = uid,
-            totalFee = orderRule.totalFee(param),
-            discountFee = orderRule.discountFee(uid, param),
-            couponFee = orderRule.couponFee(uid, param),
-            saleFee = orderRule.saleFee(uid, param),
-            paymentFee = orderRule.paymentFee(uid, param),
-            deliveryFee = orderRule.deliveryFee(param),
+            totalFee = orderRule.totalFee(request),
+            discountFee = orderRule.discountFee(uid, request),
+            couponFee = orderRule.couponFee(uid, request),
+            saleFee = orderRule.saleFee(uid, request),
+            paymentFee = orderRule.paymentFee(uid, request),
+            deliveryFee = orderRule.deliveryFee(request),
             currentTime = LocalDateTime.now(),
-            param = param,
+            param = request,
         )
         return orderDataService.save(orderEntity)
     }
 
     fun fetchOrder(orderId: String): OrderEntity? {
         return orderDataService.fetchById(orderId)
+    }
+
+    fun fetchByUid(uid: String): List<OrderEntity> {
+        return orderDataService.fetchByUid(uid)
     }
 }

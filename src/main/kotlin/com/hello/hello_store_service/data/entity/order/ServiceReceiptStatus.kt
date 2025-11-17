@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.web.enums.order
+package com.hello.hello_store_service.data.entity.order
 
 enum class ServiceReceiptStatus(val code: Int, val desc: String) {
     RECEIPTED(1, "已收到货"),

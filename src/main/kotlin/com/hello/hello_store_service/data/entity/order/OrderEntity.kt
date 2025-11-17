@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.data.entity
+package com.hello.hello_store_service.data.entity.order
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -8,7 +8,11 @@ import java.time.LocalDateTime
 data class OrderEntity(
     @Id val orderId: String? = null,           // 商户订单号，全局唯一
     val uid: String,                           // 下单用户ID
-    val status: OrderStatus,                           // 订单状态（如：0未支付，1已支付，2已取消等）
+    val status: OrderStatus,                   // 订单状态（如：0未支付，1已支付，2已取消等）
+    val cancelType: ServiceType? = null,
+    val cancelReasonType: ServiceReceiptStatus? = null,
+    val cancelReason: String? = null,
+    val rightsType: ServiceStatus? = null,
     val totalFee: Int,                        // 订单总金额（分）
     val discountFee: Int,                     // 优惠金额（分）
     val couponFee: Int,
@@ -28,11 +32,6 @@ data class OrderEntity(
     val updateTime: LocalDateTime,                      // 订单最后更新时间，时间戳
 )
 
-enum class OrderStatus {
-    Unpaid,
-    Paid,
-    Cancelled
-}
 
 data class OrderItem(
     val skuId: String,                         // 商品SKU ID

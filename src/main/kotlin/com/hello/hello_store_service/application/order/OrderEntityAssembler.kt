@@ -2,9 +2,9 @@ package com.hello.hello_store_service.application.order
 
 import com.hello.hello_store_service.application.goods.SkuModel
 import com.hello.hello_store_service.application.goods.SkuModelAssembler
-import com.hello.hello_store_service.data.entity.OrderEntity
-import com.hello.hello_store_service.data.entity.OrderItem
-import com.hello.hello_store_service.data.entity.OrderStatus
+import com.hello.hello_store_service.data.entity.order.OrderEntity
+import com.hello.hello_store_service.data.entity.order.OrderItem
+import com.hello.hello_store_service.data.entity.order.OrderStatus
 import com.hello.hello_store_service.data.service.goods.SkuDataService
 import com.hello.hello_store_service.web.request.OrderRequest
 import org.springframework.stereotype.Service
@@ -16,6 +16,7 @@ class OrderEntityAssembler(
     private val skuModelAssembler: SkuModelAssembler
 ) {
     fun genOrderEntity(
+        orderId: String?,
         uid: String,
         totalFee: Int,
         discountFee: Int,
@@ -27,8 +28,9 @@ class OrderEntityAssembler(
         param: OrderRequest
     ): OrderEntity {
         return OrderEntity(
+            orderId = orderId,
             uid = uid,
-            status = OrderStatus.Unpaid,
+            status = OrderStatus.PENDING_PAYMENT,
             totalFee = totalFee,
             discountFee = discountFee,
             couponFee = couponFee,

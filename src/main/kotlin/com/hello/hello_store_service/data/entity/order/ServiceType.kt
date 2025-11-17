@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.web.enums.order
+package com.hello.hello_store_service.data.entity.order
 
 enum class ServiceType(val code: Int, val desc: String) {
     RETURN_GOODS(10, "退货"),
