@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.web.enums.order
+package com.hello.hello_store_service.data.entity.order
 
 enum class AfterServiceStatus(val code: Int, val desc: String) {
     TO_AUDIT(10, "待审核"),

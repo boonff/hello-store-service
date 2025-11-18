@@ -5,8 +5,9 @@ import com.hello.hello_store_service.application.goods.SkuModelAssembler
 import com.hello.hello_store_service.data.entity.order.OrderEntity
 import com.hello.hello_store_service.data.entity.order.OrderItem
 import com.hello.hello_store_service.data.entity.order.OrderStatus
+import com.hello.hello_store_service.data.entity.order.ServiceType
 import com.hello.hello_store_service.data.service.goods.SkuDataService
-import com.hello.hello_store_service.web.request.OrderRequest
+import com.hello.hello_store_service.web.request.SettleOrderRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -15,7 +16,7 @@ class OrderEntityAssembler(
     private val skuDataService: SkuDataService,
     private val skuModelAssembler: SkuModelAssembler
 ) {
-    fun genOrderEntity(
+    fun genSettleOrderEntity(
         orderId: String?,
         uid: String,
         totalFee: Int,
@@ -25,7 +26,7 @@ class OrderEntityAssembler(
         paymentFee: Int,
         deliveryFee: Int,
         currentTime: LocalDateTime,
-        param: OrderRequest
+        request: SettleOrderRequest
     ): OrderEntity {
         return OrderEntity(
             orderId = orderId,
@@ -37,17 +38,17 @@ class OrderEntityAssembler(
             saleFee = saleFee,
             paymentFee = paymentFee,
             deliveryFee = deliveryFee,
-            remark = param.remark,
+            remark = request.remark,
             logisticsId = null,
-            addressId = param.userAddressId,
-            orderItems = genOrderItems(param),
+            addressId = request.userAddressId,
+            orderItems = genOrderItems(request),
             autoCancelTime = null,
             createTime = currentTime,
             updateTime = currentTime,
         )
     }
 
-    private fun genOrderItems(param: OrderRequest): List<OrderItem> {
+    private fun genOrderItems(param: SettleOrderRequest): List<OrderItem> {
         return param.skuList.mapNotNull { (skuId, quantity) ->
             val skuModel = fetchSkuModel(skuId) ?: return@mapNotNull null
             OrderItem(

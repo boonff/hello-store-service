@@ -1,14 +1,7 @@
 package com.hello.hello_store_service.web.request
 
 data class OrderRequest(
-    val orderId: String? = null,
-    val skuList: List<SkuData>,
-    val couponIdList: List<String>? = null,
-    val userAddressId: String? = null,
-    val remark: String? = null
-)
-
-data class SkuData(
-    val skuId: String,
-    val quantity: Int
+    val pageSize: Int,
+    val pageNum: Int,
+    val orderStatus: Int?,
 )

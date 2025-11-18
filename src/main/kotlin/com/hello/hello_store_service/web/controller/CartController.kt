@@ -1,9 +1,9 @@
 package com.hello.hello_store_service.web.controller
 
 import com.hello.hello_store_service.application.CartService
-import com.hello.hello_store_service.data.entity.CartItem
 import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.clean.CartViewClean
+import com.hello.hello_store_service.web.request.CartRequest
 import com.hello.hello_store_service.web.view.CartView
 import org.springframework.web.bind.annotation.*
 
@@ -17,7 +17,7 @@ class CartController(
     @GetMapping
     fun getCartView(): CartView? {
         val uid = SecurityUtils.fetchUid()
-        return cartViewClean.getCartView(uid)
+        return cartViewClean.fetchCartView(uid)
     }
 
     @PutMapping("/select/{skuId}")
@@ -42,15 +42,15 @@ class CartController(
     }
 
     @PostMapping("/add")
-    fun addCartItem(@RequestBody newItem: CartItem) {
+    fun addCartItem(@RequestBody request: CartRequest) {
         val uid = SecurityUtils.fetchUid()
-        cartService.addItem(uid, newItem)
+        cartService.addItem(uid, request)
     }
 
     @DeleteMapping("/remove/{skuId}")
-    fun removeItem(@PathVariable skuId: String) {
+    fun removeItem(@PathVariable skuId: String): Boolean {
         val uid = SecurityUtils.fetchUid()
-        cartService.removeItem(uid, skuId)
+        return cartService.removeItem(uid, skuId) != null
     }
 
     @PutMapping("/update/{skuId}")

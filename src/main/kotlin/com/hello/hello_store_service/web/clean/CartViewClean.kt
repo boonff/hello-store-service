@@ -15,18 +15,18 @@ class CartViewClean(
     private val cartService: CartService,
     private val skuService: SkuService
 ) {
-    fun getCartView(uid: String): CartView? {
+    fun fetchCartView(uid: String): CartView? {
         val cartEntity = fetchCartEntity(uid) ?: return null
         return CartView(
             isAllSelected = isAllSelected(cartEntity),
             selectedGoodsCount = getSelectedGoodsCount(cartEntity),
             totalAmount = totalFee(cartEntity),
             totalDiscountAmount = 0,
-            goodsList = getCartGoodsView(cartEntity)
+            goodsList = fetchCartGoodsView(cartEntity)
         )
     }
 
-    private fun getCartGoodsView(cartEntity: CartEntity): List<CartGoodsView> {
+    private fun fetchCartGoodsView(cartEntity: CartEntity): List<CartGoodsView> {
         return cartEntity.items.mapNotNull { item ->
             val spuEntity = spuDataService.fetchById(item.spuId) ?: return@mapNotNull null
             val skuModel = skuService.fetchSkuModel(item.skuId) ?: return@mapNotNull null

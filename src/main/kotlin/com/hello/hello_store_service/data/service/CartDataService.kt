@@ -12,8 +12,8 @@ class CartDataService(
         return cartRepository.findByUid(uid)
     }
 
-    fun save(cartEntity: CartEntity) {
-        cartRepository.save(cartEntity)
+    fun save(cartEntity: CartEntity): CartEntity? {
+        return cartRepository.save(cartEntity)
     }
 
     fun create(cartEntity: CartEntity) {

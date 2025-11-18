@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class OrderEntity(
     @Id val orderId: String? = null,           // 商户订单号，全局唯一
     val uid: String,                           // 下单用户ID
-    val status: OrderStatus,                   // 订单状态（如：0未支付，1已支付，2已取消等）
+    val status: OrderStatus,
     val cancelType: ServiceType? = null,
     val cancelReasonType: ServiceReceiptStatus? = null,
     val cancelReason: String? = null,

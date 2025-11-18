@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.web.enums.order
+package com.hello.hello_store_service.data.entity.order
 
 enum class LogisticsNodeTypes(val code: Int, val desc: String) {
     SUBMITTED(200001, "已提交订单"),

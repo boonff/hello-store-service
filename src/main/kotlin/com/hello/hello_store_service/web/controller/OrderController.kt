@@ -4,11 +4,11 @@ import com.hello.hello_store_service.application.order.OrderService
 import com.hello.hello_store_service.security.SecurityUtils
 import com.hello.hello_store_service.web.clean.OrderDetailViewClean
 import com.hello.hello_store_service.web.clean.SettleOrderViewClean
+import com.hello.hello_store_service.web.request.SettleOrderRequest
 import com.hello.hello_store_service.web.request.OrderRequest
-import com.hello.hello_store_service.web.request.PageRequest
+import com.hello.hello_store_service.web.request.PayRequest
 import com.hello.hello_store_service.web.view.SettleOrderView
 import com.hello.hello_store_service.web.view.order.OrderDetailView
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,10 +23,10 @@ class OrderController(
 ) {
     @PostMapping("/settle")
     fun fetchSettleDetail(
-        @RequestBody request: OrderRequest
+        @RequestBody request: SettleOrderRequest
     ): SettleOrderView {
         val uid = SecurityUtils.fetchUid()
-        val orderEntity = orderService.save(uid, request)
+        val orderEntity = orderService.saveSettleOrder(uid, request)
             ?: throw IllegalArgumentException("订单创建失败")
         return settleOrderViewClean.getOrderDetailView(orderEntity)
             ?: throw IllegalArgumentException("订单创建失败")
@@ -34,9 +34,16 @@ class OrderController(
 
     @PostMapping("/list")
     fun fetchOrderList(
-        @RequestBody pageRequest: PageRequest
+        @RequestBody request: OrderRequest
     ): List<OrderDetailView> {
         val uid = SecurityUtils.fetchUid()
-        return orderDetailViewClean.fetchOrderDetailViews(uid)
+        return orderDetailViewClean.fetchOrderDetailViews(uid, request)
+    }
+
+    @PostMapping("pay")
+    fun pay(
+        @RequestBody payRequest: PayRequest
+    ): Boolean {
+        return orderService.payOrder(payRequest.orderId)
     }
 }

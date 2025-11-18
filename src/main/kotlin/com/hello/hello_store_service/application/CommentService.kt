@@ -22,13 +22,14 @@ class CommentService(
 
         return commentsList.slice(start until end)
     }
+
     fun fetchDetail(
         spuId: String,
         pageIndex: Int,
         pageSize: Int,
         hasImage: Boolean,
         commentLevel: Int
-    ):List<CommentEntity> {
+    ): List<CommentEntity> {
         val commentsList = fetchByRange(spuId, pageIndex, pageSize).toMutableList()
 
         if (hasImage) commentsList.removeIf { it.commentResources.isEmpty() }
@@ -80,7 +81,6 @@ class CommentService(
             uidCount = uidCount
         )
     }
-
 
 
     private fun fetchCommentsBySpuId(spuId: String): List<CommentEntity> {

@@ -2,7 +2,7 @@ package com.hello.hello_store_service.application.order
 
 import com.hello.hello_store_service.application.coupon.OrderCouponRule
 import com.hello.hello_store_service.data.service.goods.SkuDataService
-import com.hello.hello_store_service.web.request.OrderRequest
+import com.hello.hello_store_service.web.request.SettleOrderRequest
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,9 +10,9 @@ class OrderRule(
     private val skuService: SkuDataService,
     private val orderCouponRule: OrderCouponRule
 ) {
-    fun goodsCount(param: OrderRequest): Int = param.skuList.size
+    fun goodsCount(param: SettleOrderRequest): Int = param.skuList.size
 
-    fun totalFee(param: OrderRequest): Int {
+    fun totalFee(param: SettleOrderRequest): Int {
         return param.skuList.sumOf { (skuId, quantity) ->
             fetchSkuById(skuId)?.let { skuEntity ->
                 skuEntity.salePrice * quantity
@@ -20,9 +20,9 @@ class OrderRule(
         }
     }
 
-    fun discountFee(uid: String, param: OrderRequest): Int = couponFee(uid, param)
+    fun discountFee(uid: String, param: SettleOrderRequest): Int = couponFee(uid, param)
 
-    fun couponFee(uid: String, param: OrderRequest): Int {
+    fun couponFee(uid: String, param: SettleOrderRequest): Int {
         if (param.couponIdList.isNullOrEmpty()) return 0
 
         return discountCoupons(
@@ -32,15 +32,15 @@ class OrderRule(
         )
     }
 
-    fun saleFee(uid: String, param: OrderRequest): Int =
+    fun saleFee(uid: String, param: SettleOrderRequest): Int =
         totalFee(param) - couponFee(uid, param)
 
-    fun paymentFee(uid: String, param: OrderRequest): Int =
+    fun paymentFee(uid: String, param: SettleOrderRequest): Int =
         saleFee(uid, param) + deliveryFee(param)
 
-    fun packageCount(param: OrderRequest): Int = 0 //TODO 计算包裹数量
+    fun packageCount(param: SettleOrderRequest): Int = 0 //TODO 计算包裹数量
 
-    fun deliveryFee(param: OrderRequest): Int = 0 //TODO 计算运费
+    fun deliveryFee(param: SettleOrderRequest): Int = 0 //TODO 计算运费
 
 
     private fun discountCoupons(

@@ -5,7 +5,7 @@ import com.hello.hello_store_service.web.view.goods.SpecDetailView
 
 data class SettleOrderView(
     val orderId: String,
-    val settleType: Int,                // 结算类型（如立即购买、购物车结算等）
+    val settleType: Int,                // 订单是否有效
     val userAddress: AddressEntity?,     // 用户收货地址信息
     val totalGoodsCount: Int,           // 商品总数量
     val packageCount: Int,              // 包裹总数量

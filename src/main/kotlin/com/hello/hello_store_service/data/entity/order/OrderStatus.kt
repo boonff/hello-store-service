@@ -8,5 +8,11 @@ enum class OrderStatus(val code: Int, val desc: String) {
     PAYMENT_TIMEOUT(80, "已取消，支付超时"),
     CANCELED_NOT_PAYMENT(80, "已取消，未支付主动取消"),
     CANCELED_PAYMENT(80, "已取消，已支付主动取消"),
-    CANCELED_REJECTION(80, "已取消，拒收")
+    CANCELED_REJECTION(80, "已取消，拒收");
+
+    companion object {
+        fun fromCode(code: Int?): OrderStatus? {
+            return OrderStatus.entries.firstOrNull { it.code == code }
+        }
+    }
 }

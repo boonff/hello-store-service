@@ -4,15 +4,20 @@ import com.hello.hello_store_service.application.goods.SkuService
 import com.hello.hello_store_service.application.goods.SpecDetail
 import com.hello.hello_store_service.application.order.OrderService
 import com.hello.hello_store_service.data.entity.order.OrderItem
+import com.hello.hello_store_service.data.entity.order.OrderStatus
 import com.hello.hello_store_service.data.service.goods.SpuDataService
 import com.hello.hello_store_service.utils.TimeUtil
+import com.hello.hello_store_service.web.request.OrderRequest
 import com.hello.hello_store_service.web.view.order.ButtonView
 import com.hello.hello_store_service.web.view.order.LogisticsView
+import com.hello.hello_store_service.web.view.order.OrderButtonTypes
 import com.hello.hello_store_service.web.view.order.OrderDetailView
 import com.hello.hello_store_service.web.view.order.OrderItemView
 import com.hello.hello_store_service.web.view.order.PaymentView
 import com.hello.hello_store_service.web.view.order.Specification
+import org.simpleframework.xml.Order
 import org.springframework.stereotype.Service
+import java.awt.Button
 
 @Service
 class OrderDetailViewClean(
@@ -20,35 +25,42 @@ class OrderDetailViewClean(
     private val spuDataService: SpuDataService,
     private val skuDataService: SkuService
 ) {
-    fun fetchOrderDetailViews(uid: String): List<OrderDetailView> {
-        return orderService.fetchByUid(uid).mapNotNull { item ->
+    fun fetchOrderDetailViews(uid: String, orderRequest: OrderRequest): List<OrderDetailView> {
+        return orderService.fetchOrder(
+            uid,
+            orderRequest.pageSize,
+            orderRequest.pageNum,
+            OrderStatus.fromCode(orderRequest.orderStatus)
+        ).mapNotNull { item ->
             if (item.orderId == null) return@mapNotNull null
-            OrderDetailView(
-                uid = item.uid,
-                orderId = item.orderId,
-                orderStatus = item.status.code,
-                orderStatusName = item.status.name,
-                totalAmount = item.totalFee,
-                goodsAmountApp = item.saleFee,
-                goodsAmount = item.saleFee,
-                paymentAmount = item.paymentFee,
-                freightFee = item.discountFee,
-                discountAmount = item.discountFee,
-                remark = item.remark ?: "无",
-                cancelType = item.cancelType?.code,
-                cancelReasonType = item.cancelReasonType?.code,
-                cancelReason = item.cancelReason,
-                rightsType = item.rightsType?.code,
-                createTime = TimeUtil.toMillis(item.createTime),
-                orderItemVOs = fetchOrderItemViews(item.orderId, item.orderItems),
-                logisticsVO = fetchLogisticsView(),
-                paymentVO = fetchPaymentView(item.paymentFee),
-                buttonVOs = fetchButtonViews(),
-                labelVOs = null,
-                invoiceVO = null,
-                couponAmount = item.couponFee,
-                autoCancelTime = TimeUtil.minutesAfterMillis(600),
-            )
+            if (orderRequest.orderStatus == null || orderRequest.orderStatus == item.status.code)
+                OrderDetailView(
+                    uid = item.uid,
+                    orderId = item.orderId,
+                    orderStatus = item.status.code,
+                    orderStatusName = item.orderId,
+                    totalAmount = item.totalFee,
+                    goodsAmountApp = item.saleFee,
+                    goodsAmount = item.saleFee,
+                    paymentAmount = item.paymentFee,
+                    freightFee = item.discountFee,
+                    discountAmount = item.discountFee,
+                    remark = item.remark ?: "无",
+                    cancelType = item.cancelType?.code,
+                    cancelReasonType = item.cancelReasonType?.code,
+                    cancelReason = item.cancelReason,
+                    rightsType = item.rightsType?.code,
+                    createTime = TimeUtil.toMillis(item.createTime),
+                    orderItemVOs = fetchOrderItemViews(item.orderId, item.orderItems),
+                    logisticsVO = fetchLogisticsView(),
+                    paymentVO = fetchPaymentView(item.paymentFee),
+                    buttonVOs = fetchButtonViews(item.status),
+                    labelVOs = null,
+                    invoiceVO = null,
+                    couponAmount = item.couponFee,
+                    autoCancelTime = TimeUtil.minutesAfterMillis(600),
+                )
+            else null
         }
     }
 
@@ -128,8 +140,47 @@ class OrderDetailViewClean(
         )
     }
 
-    private fun fetchButtonViews(): List<ButtonView>? {
-        return null
+    private fun fetchButtonViews(orderStatus: OrderStatus): List<ButtonView>? {
+        return when (orderStatus) {
+            OrderStatus.PENDING_PAYMENT -> listOf(
+                ButtonView(true, OrderButtonTypes.PAY.code, OrderButtonTypes.PAY.desc),
+                ButtonView(false, OrderButtonTypes.CANCEL.code, OrderButtonTypes.CANCEL.desc)
+            )
+
+            OrderStatus.PENDING_DELIVERY -> listOf(
+                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
+                ButtonView(false, OrderButtonTypes.CANCEL.code, OrderButtonTypes.CANCEL.desc)
+            )
+
+            OrderStatus.PENDING_RECEIPT -> listOf(
+                ButtonView(true, OrderButtonTypes.CONFIRM.code, OrderButtonTypes.CONFIRM.desc)
+            )
+
+            OrderStatus.COMPLETE -> listOf(
+                ButtonView(true, OrderButtonTypes.COMMENT.code, OrderButtonTypes.COMMENT.desc),
+                ButtonView(false, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
+            )
+
+            OrderStatus.PAYMENT_TIMEOUT -> listOf(
+                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
+                ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
+            )
+
+            OrderStatus.CANCELED_NOT_PAYMENT -> listOf(
+                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
+                ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
+            )
+
+            OrderStatus.CANCELED_PAYMENT -> listOf(
+                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
+                ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
+            )
+
+            OrderStatus.CANCELED_REJECTION -> listOf(
+                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
+                ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
+            )
+        }
     }
 
     private fun transSpecifications(specList: List<SpecDetail>): List<Specification> {

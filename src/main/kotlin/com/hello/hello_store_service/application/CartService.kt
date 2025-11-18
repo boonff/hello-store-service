@@ -3,33 +3,55 @@ package com.hello.hello_store_service.application
 import com.hello.hello_store_service.data.entity.CartEntity
 import com.hello.hello_store_service.data.entity.CartItem
 import com.hello.hello_store_service.data.service.CartDataService
+import com.hello.hello_store_service.web.request.CartRequest
 import org.springframework.stereotype.Service
 
 @Service
 class CartService(
     private val cartDataService: CartDataService
 ) {
-    fun addItem(uid: String, newItem: CartItem) {
+    fun addItem(uid: String, request: CartRequest) {
         val cartEntity = fetchCartEntity(uid)
 
         val newCart = if (cartEntity == null) {
             // 用户没有购物车，直接创建
-            CartEntity(uid = uid, items = listOf(newItem))
+            genCartEntity(uid, request)
         } else {
             // 如果购物车里已有该商品，更新数量，否则添加新商品
-            val exists = cartEntity.items.any { it.skuId == newItem.skuId }
+            val exists = cartEntity.items.any { it.skuId == request.skuId }
 
-            if (exists) updateQuantity(cartEntity, newItem)
-            else cartEntity.copy(items = cartEntity.items + newItem)
+            if (exists) updateQuantity(cartEntity, request)
+            else cartEntity.copy(
+                items = cartEntity.items + CartItem(
+                    spuId = request.spuId,
+                    skuId = request.skuId,
+                    isSelected = true,
+                    quantity = request.count
+                )
+            )
         }
 
         cartDataService.save(newCart)
     }
 
-    private fun updateQuantity(cartEntity: CartEntity, newItem: CartItem): CartEntity {
+    private fun genCartEntity(uid: String, request: CartRequest): CartEntity {
+        return CartEntity(
+            uid = uid,
+            items = listOf(
+                CartItem(
+                    spuId = request.spuId,
+                    skuId = request.skuId,
+                    isSelected = true,
+                    quantity = request.count
+                )
+            )
+        )
+    }
+
+    private fun updateQuantity(cartEntity: CartEntity, request: CartRequest): CartEntity {
         return cartEntity.copy(
             items = cartEntity.items.map { item ->
-                if (item.skuId == newItem.skuId) item.copy(quantity = item.quantity + newItem.quantity)
+                if (item.skuId == request.skuId) item.copy(quantity = item.quantity + request.count)
                 else item
             }
         )
@@ -66,10 +88,10 @@ class CartService(
         cartDataService.save(cart.copy(items = updatedItems))
     }
 
-    fun removeItem(uid: String, skuId: String) {
-        val cart = fetchCartEntity(uid) ?: return
+    fun removeItem(uid: String, skuId: String): CartEntity? {
+        val cart = fetchCartEntity(uid) ?: return null
         val updatedItems = cart.items.filter { it.skuId != skuId }
-        cartDataService.save(cart.copy(items = updatedItems))
+        return cartDataService.save(cart.copy(items = updatedItems))
     }
 
     fun fetchCartEntity(uid: String): CartEntity? {
