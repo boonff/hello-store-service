@@ -1,0 +1,30 @@
+package com.hello.hello_store_service.web.view.aftersales
+
+data class RightsView(
+    val bizRightsStatus: Int,
+    val bizRightsStatusName: String,
+    val createTime: String,
+    val orderNo: String,
+    val refundAmount: Long,
+    val refundRequestAmount: Long,
+    val rightsMethod: Int,
+    val rightsNo: String,
+    val rightsParentNo: String,
+    val rightsReasonDesc: String,
+    val rightsReasonType: Int,
+    val rightsStatus: Int,
+    val rightsStatusName: String,
+    val rightsType: Int,
+    val saasId: Int,
+    val shippingFee: Int,
+    val shippingFeeBear: Int,
+    val storeId: Int,
+    val storeName: String,
+    val uid: String,
+    val updateTime: String,
+    val userRightsStatus: Int,
+    val userRightsStatusDesc: String,
+    val userRightsStatusName: String,
+    val afterSaleRequireType: String,
+    val rightsImageUrls: List<String>
+)

@@ -6,8 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("history_search")
 data class HistoryEntity(
-    @Id val historyId: String,
-    @Indexed(unique = true)
-    val uid: String,
-    val historySearch: List<String>
+    @Id val historyId: String? = null,
+    @Indexed(unique = true) val uid: String,
+    val historySearch: List<String> = emptyList()
 )

@@ -12,10 +12,16 @@ class HistoryDataService(
         return historyRepository.findByUid(uid)
     }
 
+
     fun updateHistorySearch(uid: String, historySearch: List<String>): HistoryEntity? {
-        val historyEntity = fetchByUid(uid) ?: return null
+        val historyEntity = fetchOrCreate(uid) ?: return null
         return historyRepository.save(
             historyEntity.copy(historySearch = historySearch)
         )
+    }
+
+    fun fetchOrCreate(uid: String): HistoryEntity? {
+        return fetchByUid(uid)
+            ?: return historyRepository.save(HistoryEntity(uid = uid))
     }
 }

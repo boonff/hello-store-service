@@ -13,9 +13,7 @@ class HistorySearchService(
     }
 
     fun addHistorySearch(uid: String, searchKey: String): Boolean {
-        val historySearch = historyDataService.fetchByUid(uid)?.let { historyEntity ->
-            historyEntity.historySearch
-        } ?: return false
+        val historySearch = historyDataService.fetchByUid(uid)?.historySearch ?: emptyList()
 
         return historyDataService.updateHistorySearch(
             uid,

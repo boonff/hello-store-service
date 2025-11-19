@@ -8,13 +8,13 @@ import com.hello.hello_store_service.data.entity.order.OrderStatus
 import com.hello.hello_store_service.data.service.goods.SpuDataService
 import com.hello.hello_store_service.utils.TimeUtil
 import com.hello.hello_store_service.web.request.OrderRequest
+import com.hello.hello_store_service.web.view.SpecInfo
 import com.hello.hello_store_service.web.view.order.ButtonView
 import com.hello.hello_store_service.web.view.order.LogisticsView
 import com.hello.hello_store_service.web.view.order.OrderButtonTypes
 import com.hello.hello_store_service.web.view.order.OrderDetailView
 import com.hello.hello_store_service.web.view.order.OrderItemView
 import com.hello.hello_store_service.web.view.order.PaymentView
-import com.hello.hello_store_service.web.view.order.Specification
 import org.springframework.stereotype.Service
 
 @Service
@@ -213,9 +213,9 @@ class OrderDetailViewClean(
         }
     }
 
-    private fun transSpecifications(specList: List<SpecDetail>): List<Specification> {
+    private fun transSpecifications(specList: List<SpecDetail>): List<SpecInfo> {
         return specList.map { specDetail ->
-            Specification.from(specDetail)
+            SpecInfo.from(specDetail)
         }
     }
 }

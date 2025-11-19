@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.web.view.order
 
-import com.hello.hello_store_service.application.sku.SpecDetail
+import com.hello.hello_store_service.web.view.SpecInfo
 
 data class OrderItemView(
     val id: String,                      // 订单号
@@ -11,7 +11,7 @@ data class OrderItemView(
     val goodsPictureUrl: String?,        // 商品图片URL
     val originPrice: Int,                // 商品原价（分为单位）
     val actualPrice: Int,                // 商品实际价格（分为单位）
-    val specifications: List<Specification>, // 商品规格列表（颜色、尺寸等）
+    val specifications: List<SpecInfo>, // 商品规格列表（颜色、尺寸等）
     val buyQuantity: Int,                // 购买数量
     val itemTotalAmount: Int,            // 商品总金额（分为单位）
     val itemDiscountAmount: Int,         // 商品折扣金额（分为单位）
@@ -24,16 +24,3 @@ data class OrderItemView(
     val buttonVOs: List<ButtonView>?     // 商品操作按钮列表
 )
 
-data class Specification(
-    val specTitle: String,               // 规格名称（如颜色、尺寸）
-    val specValue: String                // 规格值（如米色、S码）
-) {
-    companion object {
-        fun from(specDetail: SpecDetail): Specification {
-            return Specification(
-                specTitle = specDetail.specTitle,
-                specValue = specDetail.specValue
-            )
-        }
-    }
-}
