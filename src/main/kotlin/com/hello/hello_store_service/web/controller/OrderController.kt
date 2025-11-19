@@ -12,6 +12,7 @@ import com.hello.hello_store_service.web.view.order.OrderDetailView
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -41,9 +42,23 @@ class OrderController(
     }
 
     @PostMapping("pay")
-    fun pay(
+    fun payOrder(
         @RequestBody payRequest: PayRequest
     ): Boolean {
         return orderService.payOrder(payRequest.orderId)
+    }
+
+    @PostMapping("cancel")
+    fun cancelOrder(
+        @RequestParam("orderId") orderId: String
+    ): Boolean {
+        return orderService.deleteOrder(orderId)
+    }
+
+    @PostMapping("delete")
+    fun deleteOrder(
+        @RequestParam("orderId") orderId: String
+    ): Boolean {
+        return orderService.deleteOrder(orderId)
     }
 }

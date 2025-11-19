@@ -10,7 +10,9 @@ class OrderRule(
     private val skuService: SkuDataService,
     private val orderCouponRule: OrderCouponRule
 ) {
-    fun goodsCount(param: SettleOrderRequest): Int = param.skuList.size
+    fun goodsCount(param: SettleOrderRequest): Int {
+        return param.skuList.sumOf { (_, quantity) -> quantity }
+    }
 
     fun totalFee(param: SettleOrderRequest): Int {
         return param.skuList.sumOf { (skuId, quantity) ->

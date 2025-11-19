@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.application.goods
+package com.hello.hello_store_service.application.sku
 
 import com.hello.hello_store_service.data.entity.goods.StockInfo
 import com.hello.hello_store_service.data.entity.goods.Weight

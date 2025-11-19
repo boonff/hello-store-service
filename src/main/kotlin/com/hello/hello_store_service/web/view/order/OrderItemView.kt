@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.web.view.order
 
-import com.hello.hello_store_service.application.goods.SpecDetail
+import com.hello.hello_store_service.application.sku.SpecDetail
 
 data class OrderItemView(
     val id: String,                      // 订单号

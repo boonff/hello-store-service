@@ -22,6 +22,7 @@ class OrderService(
         val orderEntity = orderEntityAssembler.genSettleOrderEntity(
             orderId = request.orderId,
             uid = uid,
+            goodsQuantity = orderRule.goodsCount(request),
             totalFee = orderRule.totalFee(request),
             discountFee = orderRule.discountFee(uid, request),
             couponFee = orderRule.couponFee(uid, request),
@@ -32,6 +33,10 @@ class OrderService(
             request = request,
         )
         return orderDataService.save(orderEntity)
+    }
+
+    fun deleteOrder(orderId: String): Boolean {
+        return orderDataService.deleteById(orderId)
     }
 
     fun payOrder(orderId: String): Boolean {

@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.web.clean
 
-import com.hello.hello_store_service.application.goods.SkuService
-import com.hello.hello_store_service.application.goods.SpecDetail
+import com.hello.hello_store_service.application.sku.SkuService
+import com.hello.hello_store_service.application.sku.SpecDetail
 import com.hello.hello_store_service.application.order.OrderService
 import com.hello.hello_store_service.data.entity.order.OrderItem
 import com.hello.hello_store_service.data.entity.order.OrderStatus
@@ -15,9 +15,7 @@ import com.hello.hello_store_service.web.view.order.OrderDetailView
 import com.hello.hello_store_service.web.view.order.OrderItemView
 import com.hello.hello_store_service.web.view.order.PaymentView
 import com.hello.hello_store_service.web.view.order.Specification
-import org.simpleframework.xml.Order
 import org.springframework.stereotype.Service
-import java.awt.Button
 
 @Service
 class OrderDetailViewClean(
@@ -43,7 +41,7 @@ class OrderDetailViewClean(
                     goodsAmountApp = item.saleFee,
                     goodsAmount = item.saleFee,
                     paymentAmount = item.paymentFee,
-                    freightFee = item.discountFee,
+                    freightFee = item.deliveryFee,
                     discountAmount = item.discountFee,
                     remark = item.remark ?: "无",
                     cancelType = item.cancelType?.code,
@@ -149,11 +147,12 @@ class OrderDetailViewClean(
 
             OrderStatus.PENDING_DELIVERY -> listOf(
                 ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
-                ButtonView(false, OrderButtonTypes.CANCEL.code, OrderButtonTypes.CANCEL.desc)
+                ButtonView(false, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
             )
 
             OrderStatus.PENDING_RECEIPT -> listOf(
-                ButtonView(true, OrderButtonTypes.CONFIRM.code, OrderButtonTypes.CONFIRM.desc)
+                ButtonView(true, OrderButtonTypes.DELIVERY.code, OrderButtonTypes.DELIVERY.desc),
+                ButtonView(false, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
             )
 
             OrderStatus.COMPLETE -> listOf(

@@ -1,6 +1,6 @@
 package com.hello.hello_store_service.web.view.goods
 
-import com.hello.hello_store_service.application.goods.SpecDetail
+import com.hello.hello_store_service.application.sku.SpecDetail
 
 
 data class SpecDetailView(

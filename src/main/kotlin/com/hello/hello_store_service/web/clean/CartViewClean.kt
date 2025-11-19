@@ -1,8 +1,8 @@
 package com.hello.hello_store_service.web.clean
 
 import com.hello.hello_store_service.application.CartService
-import com.hello.hello_store_service.application.goods.SkuModel
-import com.hello.hello_store_service.application.goods.SkuService
+import com.hello.hello_store_service.application.sku.SkuModel
+import com.hello.hello_store_service.application.sku.SkuService
 import com.hello.hello_store_service.data.entity.CartEntity
 import com.hello.hello_store_service.data.service.goods.SpuDataService
 import com.hello.hello_store_service.web.view.CartGoodsView

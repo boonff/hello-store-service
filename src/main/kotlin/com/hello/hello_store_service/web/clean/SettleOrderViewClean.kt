@@ -1,7 +1,7 @@
 package com.hello.hello_store_service.web.clean
 
-import com.hello.hello_store_service.application.goods.SkuService
-import com.hello.hello_store_service.application.goods.SpecDetail
+import com.hello.hello_store_service.application.sku.SkuService
+import com.hello.hello_store_service.application.sku.SpecDetail
 import com.hello.hello_store_service.data.entity.order.OrderEntity
 import com.hello.hello_store_service.data.entity.address.AddressEntity
 import com.hello.hello_store_service.data.service.AddressDataService
@@ -27,7 +27,7 @@ class SettleOrderViewClean(
             orderId = orderEntity.orderId,
             settleType = orderType(addressEntity),
             userAddress = addressEntity,
-            totalGoodsCount = orderEntity.totalFee,
+            totalGoodsCount = orderEntity.goodsQuantity,
             packageCount = orderEntity.deliveryFee,
             totalAmount = orderEntity.totalFee,
             totalPayAmount = orderEntity.paymentFee,

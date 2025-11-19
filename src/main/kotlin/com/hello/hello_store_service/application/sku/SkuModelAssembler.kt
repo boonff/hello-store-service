@@ -1,4 +1,4 @@
-package com.hello.hello_store_service.application.goods
+package com.hello.hello_store_service.application.sku
 
 import com.hello.hello_store_service.data.entity.goods.SkuEntity
 import com.hello.hello_store_service.data.service.goods.SpecDataService

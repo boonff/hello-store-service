@@ -25,6 +25,10 @@ class OrderDataService(
         return orderRepository.save(orderEntity)
     }
 
+    fun deleteById(orderId: String): Boolean {
+        return orderRepository.deleteById(orderId).equals(false)
+    }
+
     // 更新订单状态
     fun updateStatus(orderId: String, newStatus: OrderStatus): OrderEntity? {
         val order = fetchById(orderId)

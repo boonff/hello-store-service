@@ -1,18 +1,21 @@
 package com.hello.hello_store_service.data.entity.order
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document("orders")
 data class OrderEntity(
     @Id val orderId: String? = null,           // 商户订单号，全局唯一
+    @Indexed(unique = true)
     val uid: String,                           // 下单用户ID
     val status: OrderStatus,
     val cancelType: ServiceType? = null,
     val cancelReasonType: ServiceReceiptStatus? = null,
     val cancelReason: String? = null,
     val rightsType: ServiceStatus? = null,
+    val goodsQuantity:Int,
     val totalFee: Int,                        // 订单总金额（分）
     val discountFee: Int,                     // 优惠金额（分）
     val couponFee: Int,
