@@ -9,6 +9,7 @@ import com.hello.hello_store_service.web.request.OrderRequest
 import com.hello.hello_store_service.web.request.PayRequest
 import com.hello.hello_store_service.web.view.SettleOrderView
 import com.hello.hello_store_service.web.view.order.OrderDetailView
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -31,6 +32,15 @@ class OrderController(
             ?: throw IllegalArgumentException("订单创建失败")
         return settleOrderViewClean.getOrderDetailView(orderEntity)
             ?: throw IllegalArgumentException("订单创建失败")
+    }
+
+
+    @GetMapping("detail")
+    fun fetchOrderDetail(
+        @RequestParam("orderId") orderId: String
+    ): OrderDetailView {
+        return orderDetailViewClean.fetchOrderDetailView(orderId)
+            ?: throw IllegalArgumentException("订单详情获取失败")
     }
 
     @PostMapping("/list")

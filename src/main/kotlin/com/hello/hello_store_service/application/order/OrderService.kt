@@ -47,7 +47,7 @@ class OrderService(
     }
 
 
-    fun fetchOrder(
+    fun fetchOrderByRange(
         uid: String,
         pageSize: Int?,
         pageIndex: Int?,
@@ -60,7 +60,7 @@ class OrderService(
         return PageUtil.sliceList(filter, pageSize, pageIndex)
     }
 
-    private fun fetchById(orderId: String): OrderEntity? {
+    fun fetchById(orderId: String): OrderEntity? {
         return orderDataService.fetchById(orderId)
     }
 

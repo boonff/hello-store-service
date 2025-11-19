@@ -23,8 +23,39 @@ class OrderDetailViewClean(
     private val spuDataService: SpuDataService,
     private val skuDataService: SkuService
 ) {
+    fun fetchOrderDetailView(orderId: String): OrderDetailView? {
+        val item = orderService.fetchById(orderId) ?: return null
+        if (item.orderId == null) return null
+        return OrderDetailView(
+            uid = item.uid,
+            orderId = item.orderId,
+            orderStatus = item.status.code,
+            orderStatusName = item.orderId,
+            totalAmount = item.totalFee,
+            goodsAmountApp = item.saleFee,
+            goodsAmount = item.saleFee,
+            paymentAmount = item.paymentFee,
+            freightFee = item.deliveryFee,
+            discountAmount = item.discountFee,
+            remark = item.remark ?: "无",
+            cancelType = item.cancelType?.code,
+            cancelReasonType = item.cancelReasonType?.code,
+            cancelReason = item.cancelReason,
+            rightsType = item.rightsType?.code,
+            createTime = TimeUtil.toMillis(item.createTime),
+            orderItemVOs = fetchOrderItemViews(item.orderId, item.orderItems),
+            logisticsVO = fetchLogisticsView(),
+            paymentVO = fetchPaymentView(item.paymentFee),
+            buttonVOs = fetchButtonViews(item.status),
+            labelVOs = null,
+            invoiceVO = null,
+            couponAmount = item.couponFee,
+            autoCancelTime = TimeUtil.minutesAfterMillis(600),
+        )
+    }
+
     fun fetchOrderDetailViews(uid: String, orderRequest: OrderRequest): List<OrderDetailView> {
-        return orderService.fetchOrder(
+        return orderService.fetchOrderByRange(
             uid,
             orderRequest.pageSize,
             orderRequest.pageNum,
