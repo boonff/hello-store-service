@@ -1,25 +1,20 @@
 package com.hello.hello_store_service.web.clean
 
+import com.hello.hello_store_service.application.order.OrderCreateService
 import com.hello.hello_store_service.application.sku.SkuService
 import com.hello.hello_store_service.application.sku.SpecDetail
-import com.hello.hello_store_service.application.order.OrderService
 import com.hello.hello_store_service.data.entity.order.OrderItem
 import com.hello.hello_store_service.data.entity.order.OrderStatus
 import com.hello.hello_store_service.data.service.goods.SpuDataService
 import com.hello.hello_store_service.utils.TimeUtil
 import com.hello.hello_store_service.web.request.OrderRequest
 import com.hello.hello_store_service.web.view.SpecInfo
-import com.hello.hello_store_service.web.view.order.ButtonView
-import com.hello.hello_store_service.web.view.order.LogisticsView
-import com.hello.hello_store_service.web.view.order.OrderButtonTypes
-import com.hello.hello_store_service.web.view.order.OrderDetailView
-import com.hello.hello_store_service.web.view.order.OrderItemView
-import com.hello.hello_store_service.web.view.order.PaymentView
+import com.hello.hello_store_service.web.view.order.*
 import org.springframework.stereotype.Service
 
 @Service
 class OrderDetailViewClean(
-    private val orderService: OrderService,
+    private val orderService: OrderCreateService,
     private val spuDataService: SpuDataService,
     private val skuDataService: SkuService
 ) {
@@ -171,47 +166,44 @@ class OrderDetailViewClean(
 
     private fun fetchButtonViews(orderStatus: OrderStatus): List<ButtonView>? {
         return when (orderStatus) {
+
+            // 待支付
             OrderStatus.PENDING_PAYMENT -> listOf(
                 ButtonView(true, OrderButtonTypes.PAY.code, OrderButtonTypes.PAY.desc),
                 ButtonView(false, OrderButtonTypes.CANCEL.code, OrderButtonTypes.CANCEL.desc)
             )
 
+            // 待发货（未发货可退款）
             OrderStatus.PENDING_DELIVERY -> listOf(
-                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
-                ButtonView(false, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
+                ButtonView(true, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
             )
 
-            OrderStatus.PENDING_RECEIPT -> listOf(
+            // 已发货（查看物流 + 售后）
+            OrderStatus.DELIVERED -> listOf(
                 ButtonView(true, OrderButtonTypes.DELIVERY.code, OrderButtonTypes.DELIVERY.desc),
                 ButtonView(false, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
             )
 
+            // 已完成/待评价
             OrderStatus.COMPLETE -> listOf(
                 ButtonView(true, OrderButtonTypes.COMMENT.code, OrderButtonTypes.COMMENT.desc),
-                ButtonView(false, OrderButtonTypes.APPLY_REFUND.code, OrderButtonTypes.APPLY_REFUND.desc)
+                ButtonView(false, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc)
             )
 
+            // 支付超时
             OrderStatus.PAYMENT_TIMEOUT -> listOf(
                 ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
                 ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
             )
 
-            OrderStatus.CANCELED_NOT_PAYMENT -> listOf(
-                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
-                ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
-            )
-
-            OrderStatus.CANCELED_PAYMENT -> listOf(
-                ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
-                ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
-            )
-
-            OrderStatus.CANCELED_REJECTION -> listOf(
+            // 已取消
+            OrderStatus.CANCELED -> listOf(
                 ButtonView(true, OrderButtonTypes.REBUY.code, OrderButtonTypes.REBUY.desc),
                 ButtonView(false, OrderButtonTypes.DELETE.code, OrderButtonTypes.DELETE.desc)
             )
         }
     }
+
 
     private fun transSpecifications(specList: List<SpecDetail>): List<SpecInfo> {
         return specList.map { specDetail ->

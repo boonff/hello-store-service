@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class OrderEntityAssembler(
+class OrderAssembler(
     private val skuDataService: SkuDataService,
     private val skuModelAssembler: SkuModelAssembler
 ) {
     fun genSettleOrderEntity(
         orderId: String?,
         uid: String,
-        goodsQuantity:Int,
+        goodsQuantity: Int,
         totalFee: Int,
         discountFee: Int,
         couponFee: Int,

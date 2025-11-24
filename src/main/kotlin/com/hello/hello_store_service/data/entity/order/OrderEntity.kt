@@ -8,14 +8,13 @@ import java.time.LocalDateTime
 @Document("orders")
 data class OrderEntity(
     @Id val orderId: String? = null,           // 商户订单号，全局唯一
-    @Indexed(unique = true)
-    val uid: String,                           // 下单用户ID
+    @Indexed(unique = true) val uid: String,   // 下单用户ID
     val status: OrderStatus,
     val cancelType: ServiceType? = null,
     val cancelReasonType: ServiceReceiptStatus? = null,
     val cancelReason: String? = null,
     val rightsType: ServiceStatus? = null,
-    val goodsQuantity:Int,
+    val goodsQuantity: Int,
     val totalFee: Int,                        // 订单总金额（分）
     val discountFee: Int,                     // 优惠金额（分）
     val couponFee: Int,
@@ -23,7 +22,6 @@ data class OrderEntity(
     val paymentFee: Int,                      // 实付金额（分）
     val deliveryFee: Int,                     // 运费（分）
     val remark: String? = null,                // 买家留言或备注
-
 
     val paymentId: String? = null,             // 支付流水号或支付系统返回ID
     val logisticsId: String? = null,           // 物流信息ID

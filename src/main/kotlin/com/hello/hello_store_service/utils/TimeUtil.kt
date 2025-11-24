@@ -1,6 +1,8 @@
 package com.hello.hello_store_service.utils
 
-import java.time.*
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 object TimeUtil {
 
@@ -39,4 +41,11 @@ object TimeUtil {
     /** 获取 N 分钟后的毫秒时间戳 */
     fun minutesAfterMillis(minutes: Long): Long =
         toMillis(LocalDateTime.now().plusMinutes(minutes))
+
+    /** 判断某个时间是否已经过去 N 天 */
+    fun isWithinNDays(time: LocalDateTime, days: Long): Boolean {
+        val nDaysAfter = time.plusDays(days)
+        return LocalDateTime.now().isAfter(nDaysAfter)
+    }
+
 }
