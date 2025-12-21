@@ -1,8 +1,8 @@
-version: '3.8'
-
 services:
   mongodb:
     image: 'mongo:latest'
+    container_name: mongodb 
+    restart: always
     environment:
       MONGO_INITDB_DATABASE: helloStore
       MONGO_INITDB_ROOT_USERNAME: root
@@ -11,10 +11,24 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+  minio:
+    image: minio/minio
+    container_name: local-minio
+    restart: always
+    ports:
+      - "9000:9000"   # 数据访问端口
+      - "9001:9001"   # Web 控制台端口
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: qxxpdada
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
 
   mongo-express:
     image: mongo-express
-    container_name: mongo-express
+    container_name: mongo-express  
+    restart: always
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: secret
@@ -26,3 +40,4 @@ services:
 
 volumes:
   mongodb_data:
+  minio_data:
